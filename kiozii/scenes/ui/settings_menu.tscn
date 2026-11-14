@@ -21,23 +21,23 @@ grow_vertical = 2
 color = Color(0.02, 0.04, 0.08, 0.75)
 
 [node name="CenterBox" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(480, 420)
+custom_minimum_size = Vector2(500, 440)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -210.0
-offset_right = 240.0
-offset_bottom = 210.0
+offset_left = -250.0
+offset_top = -220.0
+offset_right = 250.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CenterBox"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="CenterBox/VBox"]
 layout_mode = 2
@@ -181,6 +181,36 @@ text = "Bloom Glow"
 [node name="BloomCheck" type="CheckBox" parent="CenterBox/VBox/TabContainer/Graphics/Grid"]
 layout_mode = 2
 
+[node name="Controls" type="MarginContainer" parent="CenterBox/VBox/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxInner" type="VBoxContainer" parent="CenterBox/VBox/TabContainer/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GridControls" type="GridContainer" parent="CenterBox/VBox/TabContainer/Controls/VBoxInner"]
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="StatusLabel" type="Label" parent="CenterBox/VBox/TabContainer/Controls/VBoxInner"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "Click REBIND to assign a new key or mouse button."
+horizontal_alignment = 1
+
+[node name="RestoreBtn" type="Button" parent="CenterBox/VBox/TabContainer/Controls/VBoxInner"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+text = "RESTORE DEFAULT CONTROLS"
+
 [node name="HBoxAction" type="HBoxContainer" parent="CenterBox/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 12
@@ -189,7 +219,7 @@ theme_override_constants/separation = 12
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "↺ RESET DEFAULTS"
+text = "↺ RESET ALL DEFAULTS"
 
 [node name="CloseBtn" type="Button" parent="CenterBox/VBox/HBoxAction"]
 custom_minimum_size = Vector2(0, 36)
@@ -208,5 +238,6 @@ text = "✔ APPLY & CLOSE"
 [connection signal="item_selected" from="CenterBox/VBox/TabContainer/Graphics/Grid/MSAAOption" to="." method="_on_msaa_option_item_selected"]
 [connection signal="toggled" from="CenterBox/VBox/TabContainer/Graphics/Grid/FogCheck" to="." method="_on_fog_check_toggled"]
 [connection signal="toggled" from="CenterBox/VBox/TabContainer/Graphics/Grid/BloomCheck" to="." method="_on_bloom_check_toggled"]
+[connection signal="pressed" from="CenterBox/VBox/TabContainer/Controls/VBoxInner/RestoreBtn" to="." method="_on_restore_controls_pressed"]
 [connection signal="pressed" from="CenterBox/VBox/HBoxAction/ResetBtn" to="." method="_on_reset_btn_pressed"]
 [connection signal="pressed" from="CenterBox/VBox/HBoxAction/CloseBtn" to="." method="_on_close_btn_pressed"]

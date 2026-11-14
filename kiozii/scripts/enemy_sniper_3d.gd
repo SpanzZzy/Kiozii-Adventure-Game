@@ -1,8 +1,10 @@
 extends CharacterBody3D
 
+# RIDGE SNIPER CONTROLLER
 @export var max_health: int = 3
 @export var attack_range: float = 24.0
 @export var fire_interval: float = 2.1
+@export var bullet_speed: float = 12.0
 
 var current_health: int
 var shoot_timer: float = 1.3
@@ -15,7 +17,23 @@ var player_node: Node3D = null
 
 func _ready() -> void:
 	add_to_group("enemies")
+	apply_level_scaling()
 	current_health = max_health
+
+func apply_level_scaling() -> void:
+	var lvl = GameManager.current_level_idx + 1
+	if lvl <= 2:
+		max_health = 3
+		fire_interval = 2.1
+		bullet_speed = 12.0
+	elif lvl <= 4:
+		max_health = 4
+		fire_interval = 1.7
+		bullet_speed = 14.5
+	elif lvl <= 6:
+		max_health = 5
+		fire_interval = 1.35
+		bullet_speed = 17.0
 
 func _physics_process(delta: float) -> void:
 	global_position.z = 0.0
@@ -51,7 +69,7 @@ func fire_at_player(dir: float) -> void:
 	if bullet_scene:
 		var bullet = bullet_scene.instantiate()
 		bullet.global_position = muzzle.global_position
-		bullet.set_velocity_3d(Vector3(dir * 12.0, 0, 0))
+		bullet.set_velocity_3d(Vector3(dir * bullet_speed, 0, 0))
 		AudioManager.play_shoot()
 		get_parent().add_child(bullet)
 

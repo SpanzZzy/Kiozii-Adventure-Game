@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+# RIDGE SCOUT CONTROLLER
 @export var max_health: int = 2
 @export var speed: float = 3.8
 @export var min_x: float = 0.0
@@ -8,12 +9,27 @@ extends CharacterBody3D
 var current_health: int
 var dir: float = 1.0
 var hit_flash: float = 0.0
+var base_speed: float = 3.8
 
 @onready var visual_root: Node3D = $Visuals
 
 func _ready() -> void:
 	add_to_group("enemies")
+	apply_level_scaling()
 	current_health = max_health
+
+func apply_level_scaling() -> void:
+	var lvl = GameManager.current_level_idx + 1
+	if lvl <= 2:
+		max_health = 2
+		base_speed = 3.8
+	elif lvl <= 4:
+		max_health = 3
+		base_speed = 4.6
+	elif lvl <= 6:
+		max_health = 4
+		base_speed = 5.4
+	speed = base_speed
 
 func _physics_process(delta: float) -> void:
 	global_position.z = 0.0

@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+# FINAL BOSS OVERLORD CONTROLLER
 @export var max_health: int = 65
 var current_health: int
 
@@ -8,6 +9,14 @@ var attack_index: int = 0
 var hit_flash: float = 0.0
 var facing: float = -1.0
 var is_dead: bool = false
+
+# ARENA SAFETY BOUNDARIES
+const ARENA_MIN_X: float = 4.5
+const ARENA_MAX_X: float = 41.5
+const ARENA_FLOOR_Y: float = 0.0
+const VOID_Y_THRESHOLD: float = -4.0
+
+var spawn_pos: Vector3 = Vector3(34.0, 0.0, 0.0)
 
 var bullet_scene = preload("res://scenes/weapons/enemy_bullet_3d.tscn")
 @onready var visual_root: Node3D = $Visuals
@@ -18,31 +27,53 @@ var player_node: Node3D = null
 func _ready() -> void:
 	add_to_group("enemies")
 	current_health = max_health
+	spawn_pos = global_position
 	GameManager.emit_signal("boss_health_changed", current_health, max_health)
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
 
+	# LOCK Z AXIS
 	global_position.z = 0.0
 	velocity.z = 0.0
 
-	if not is_on_floor():
-		velocity.y -= 44.0 * delta
-	else:
+	# IMMUNITY TO EXTERNAL HORIZONTAL KNOCKBACK
+	if is_on_floor():
 		velocity.x = 0.0
+	else:
+		velocity.y -= 44.0 * delta
 
 	move_and_slide()
 
-	if is_on_floor() and velocity.y == 0.0 and global_position.y <= 0.1:
-		global_position.y = 0.0
+	# VOID RECOVERY SAFETY
+	if global_position.y < VOID_Y_THRESHOLD:
+		global_position = spawn_pos
+		velocity = Vector3.ZERO
+		state_timer = 1.5
 
+	# ARENA HORIZONTAL CLAMP
+	if global_position.x < ARENA_MIN_X:
+		global_position.x = ARENA_MIN_X
+		if velocity.x < 0.0:
+			velocity.x = 0.0
+	elif global_position.x > ARENA_MAX_X:
+		global_position.x = ARENA_MAX_X
+		if velocity.x > 0.0:
+			velocity.x = 0.0
+
+	# GROUND SNAP
+	if is_on_floor() and velocity.y == 0.0 and global_position.y < ARENA_FLOOR_Y:
+		global_position.y = ARENA_FLOOR_Y
+
+	# HIT FLASH
 	if hit_flash > 0.0:
 		hit_flash -= delta
 		visual_root.scale = Vector3(1.06, 1.06, 1.06)
 	else:
 		visual_root.scale = Vector3.ONE
 
+	# PLAYER TRACKING
 	if not player_node:
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
@@ -52,6 +83,7 @@ func _physics_process(delta: float) -> void:
 	facing = -1.0 if player_node.global_position.x < global_position.x else 1.0
 	visual_root.rotation.y = 0.0 if facing > 0 else PI
 
+	# STATE MACHINE TIMER
 	state_timer -= delta
 	if state_timer <= 0.0 and is_on_floor():
 		execute_boss_attack()
@@ -66,8 +98,8 @@ func execute_boss_attack() -> void:
 	elif attack_index == 1:
 		state_timer = 2.4
 		velocity.y = 23.0
-		var target_x = clampf(player_node.global_position.x, 4.0, 42.0)
-		velocity.x = (target_x - global_position.x) * 1.05
+		var target_x = clampf(player_node.global_position.x, ARENA_MIN_X + 2.0, ARENA_MAX_X - 2.0)
+		velocity.x = clampf((target_x - global_position.x) * 1.05, -16.0, 16.0)
 		AudioManager.play_boss_slam()
 		spawn_bullet(-13.0, 0.0)
 		spawn_bullet(13.0, 0.0)

@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+# ARMORED RIDGE GOLEM CONTROLLER
 @export var max_health: int = 5
 @export var speed: float = 4.5
 @export var min_x: float = 0.0
@@ -8,12 +9,27 @@ extends CharacterBody3D
 var current_health: int
 var dir: float = 1.0
 var hit_flash: float = 0.0
+var base_speed: float = 4.5
 
 @onready var visual_root: Node3D = $Visuals
 
 func _ready() -> void:
 	add_to_group("enemies")
+	apply_level_scaling()
 	current_health = max_health
+
+func apply_level_scaling() -> void:
+	var lvl = GameManager.current_level_idx + 1
+	if lvl <= 2:
+		max_health = 5
+		base_speed = 4.5
+	elif lvl <= 4:
+		max_health = 6
+		base_speed = 5.2
+	elif lvl <= 6:
+		max_health = 7
+		base_speed = 5.8
+	speed = base_speed
 
 func _physics_process(delta: float) -> void:
 	global_position.z = 0.0
