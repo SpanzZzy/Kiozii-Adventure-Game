@@ -10,7 +10,7 @@ func _on_play_pressed() -> void:
 	if AudioManager:
 		AudioManager.play_jump()
 	GameManager.total_kills_session = 0
-	GameManager.start_level(GameManager.current_level_index)
+	GameManager.start_level(GameManager.current_level_idx)
 
 func _on_levels_pressed() -> void:
 	if AudioManager:

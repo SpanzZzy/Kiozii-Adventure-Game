@@ -8,6 +8,9 @@ signal level_completed(clear_time, kills, total)
 signal game_over(reason)
 
 var current_level_idx: int = 0
+var current_level_index: int:
+	get: return current_level_idx
+	set(val): current_level_idx = val
 var unlocked_level: int = 1
 var completed_levels: Array = []
 var total_levels: int = 7
