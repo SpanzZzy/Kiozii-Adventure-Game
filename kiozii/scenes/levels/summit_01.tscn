@@ -453,28 +453,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99, 12, 0)
 [node name="Enemies" type="Node3D" parent="."]
 
 [node name="Enemy_0" parent="Enemies" instance=ExtResource("6_scout")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 3, 0)
-min_x = 23.0
-max_x = 36.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 4.2, 0)
+min_x = 24.8
+max_x = 28.2
 speed = 3.4
 max_health = 2
 
 [node name="Enemy_1" parent="Enemies" instance=ExtResource("6_scout")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 6.2, 0)
 min_x = 36.0
 max_x = 48.0
 speed = 3.8
 max_health = 2
 
 [node name="Enemy_2" parent="Enemies" instance=ExtResource("6_scout")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73, 8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73, 8.2, 0)
 min_x = 69.0
 max_x = 80.0
 speed = 4.0
 max_health = 2
 
 [node name="Enemy_3" parent="Enemies" instance=ExtResource("6_scout")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91, 12, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91, 12.2, 0)
 min_x = 86.0
 max_x = 96.0
 speed = 4.2

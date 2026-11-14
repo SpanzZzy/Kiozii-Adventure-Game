@@ -181,7 +181,9 @@ func respawn_player_at_shrine() -> void:
 		hud.show_toast("BOUNCED BACK AT ACTIVE SHRINE! HEALTH RESTORED!", Color(0.2, 0.95, 0.55, 1.0))
 
 func _on_victory_portal_entered(body: Node3D) -> void:
-	if is_victory_triggered:
+	if not is_inside_tree() or is_victory_triggered:
+		return
+	if not is_instance_valid(body) or not body.is_inside_tree():
 		return
 	if not is_boss_defeated:
 		if hud and hud.has_method("show_toast"):
@@ -189,7 +191,7 @@ func _on_victory_portal_entered(body: Node3D) -> void:
 		return
 	if body.is_in_group("player"):
 		is_victory_triggered = true
-		if victory_portal:
+		if victory_portal and is_instance_valid(victory_portal) and victory_portal.is_inside_tree():
 			victory_portal.set_deferred("monitoring", false)
 		if AudioManager:
 			AudioManager.play_victory()

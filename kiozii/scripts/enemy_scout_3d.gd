@@ -55,6 +55,13 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	# reverse 2d patrol direction if colliding with a wall or obstacle
+	if not is_open_world and is_on_wall():
+		if dir > 0.0:
+			dir = -1.0
+		elif dir < 0.0:
+			dir = 1.0
+
 	if hit_flash > 0.0:
 		hit_flash -= delta
 		visual_root.scale = Vector3(1.15, 1.15, 1.15)
@@ -93,6 +100,9 @@ func process_3d_ai(delta: float) -> void:
 
 	# patrol wander when player not in detection range
 	wander_timer -= delta
+	if is_on_wall():
+		wander_timer = 0.0
+
 	if wander_timer <= 0.0:
 		wander_timer = randf_range(2.0, 4.5)
 		var angle = randf() * TAU
@@ -113,6 +123,13 @@ func process_3d_ai(delta: float) -> void:
 func process_2d_ai(_delta: float) -> void:
 	global_position.z = 0.0
 	velocity.z = 0.0
+
+	# turn around if hitting obstacle or wall
+	if is_on_wall():
+		if dir > 0.0:
+			dir = -1.0
+		elif dir < 0.0:
+			dir = 1.0
 
 	if global_position.x <= min_x:
 		global_position.x = min_x
