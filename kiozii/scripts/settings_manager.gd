@@ -1,9 +1,9 @@
 extends Node
 
-# GRAPHICS PRESET SIGNAL
+# graphics preset signal
 signal graphics_preset_changed(preset_idx)
 
-# SETTINGS DATA MODEL - DEFAULT LOW PRESET
+# settings data model - default low preset
 var master_volume: float = 1.0
 var music_volume: float = 0.8
 var sfx_volume: float = 1.0
@@ -13,7 +13,7 @@ var vsync: bool = false
 var window_mode: int = 0
 var resolution_idx: int = 2 # 1280x720 Windowed Default
 
-# GRAPHICS CONFIG (DEFAULT LOW PRESET)
+# graphics config (default low preset)
 var graphics_preset: int = 0 # 0=LOW, 1=MEDIUM, 2=HIGH
 var shadow_quality: int = 0 # 0=OFF, 1=LOW, 2=HIGH
 var fog_enabled: bool = false
@@ -21,7 +21,7 @@ var bloom_enabled: bool = false
 var msaa_quality: int = 0 # 0=DISABLED, 1=2X, 2=4X
 var fps_cap: int = 60
 
-# REBINDABLE ACTIONS AND DEFAULTS FOR FULL 3D MOVEMENT
+# rebindable actions and defaults for full 3d movement
 const ACTIONS = [
 	"move_forward",
 	"move_backward",
@@ -35,7 +35,7 @@ const ACTIONS = [
 	"toggle_camera"
 ]
 
-# ACTION DISPLAY METADATA
+# action display metadata
 const ACTION_NAMES = {
 	"move_forward": "Move Forward",
 	"move_backward": "Move Backward",
@@ -49,7 +49,7 @@ const ACTION_NAMES = {
 	"toggle_camera": "Toggle Camera"
 }
 
-# DEFAULT BINDING CODES
+# default binding codes
 const DEFAULT_KEY_BINDINGS = {
 	"move_forward": {"type": "key", "code": 87, "second": 4194320},
 	"move_backward": {"type": "key", "code": 83, "second": 4194322},
@@ -147,7 +147,7 @@ func apply_preset(preset_idx: int) -> void:
 	emit_signal("graphics_preset_changed", preset_idx)
 	save_settings()
 
-# INPUT REBINDING SYSTEM
+# input rebinding system
 func get_action_event_string(action: String) -> String:
 	if not InputMap.has_action(action):
 		return "Unbound"
@@ -336,7 +336,7 @@ func load_settings() -> void:
 		msaa_quality = cfg.get_value("graphics", "msaa", 0)
 		custom_bindings = cfg.get_value("controls", "bindings", {})
 	else:
-		# FIRST LAUNCH DEFAULTS TO LOW PRESET
+		# first launch defaults to low preset
 		apply_preset(0)
 		save_settings()
 

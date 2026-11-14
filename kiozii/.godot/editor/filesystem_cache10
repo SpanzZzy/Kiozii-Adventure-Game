@@ -1,5 +1,5 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1794652064
+::res://::1794655639
 CREDITS.md::TextFile::-1::1794653977::0::1::::<><><>0<>0<><>::
 ::res://audio/::1794651811
 ambience_autumn.wav::AudioStreamWAV::6923958489920800552::1794651805::1794651811::1::::<><><>0<>0<>77047fd0388abfd60a42c0a62245c5aa<>res://.godot/imported/ambience_autumn.wav-693b37693da924074dc13cb720afc428.sample::
@@ -57,15 +57,15 @@ player_bullet_3d.tscn::PackedScene::-1::1794645650::0::1::::<><><>0<>0<><>::res:
 open_world_mountain.tscn::PackedScene::-1::1794655612::0::1::::<><><>0<>0<><>::res://scripts/open_world_mountain.gd<>res://scenes/player/player_3d.tscn<>res://scenes/ui/hud_openworld_3d.tscn<>res://scenes/levels/level_ambience_3d.tscn<>res://scenes/levels/resolve_crystal_3d.tscn<>res://scenes/levels/checkpoint_altar_3d.tscn<>res://scenes/levels/summit_portal_3d.tscn<>res://scenes/enemies/enemy_scout_3d.tscn<>res://scenes/enemies/enemy_sniper_3d.tscn<>res://scenes/enemies/enemy_golem_3d.tscn<>res://scenes/enemies/boss_overlord_3d.tscn<>res://textures/pixel_grass.png<>res://textures/pixel_rock.png<>res://textures/pixel_autumn.png<>res://textures/pixel_canyon.png<>res://textures/pixel_snow.png<>res://textures/pixel_crystal.png<>res://textures/pixel_ember.png<>res://textures/pixel_summit.png
 ::res://scripts/::1794654770
 audio_manager.gd::GDScript::2594811517101792239::1794651850::0::1::::<>Node<><>0<>0<><>::
-boss_overlord_3d.gd::GDScript::8077373808553172933::1794654626::0::1::::<>CharacterBody3D<><>0<>0<><>::
+boss_overlord_3d.gd::GDScript::8077373808553172933::1794655940::0::1::::<>CharacterBody3D<><>0<>0<><>::
 camera_3d_controller.gd::GDScript::6973501753460390322::1794646175::0::1::::<>Camera3D<><>0<>0<><>::
 checkpoint_altar_3d.gd::GDScript::3400312758929537117::1794648393::0::1::::<>Area3D<><>0<>0<><>::
 enemy_bullet_3d.gd::GDScript::3158603593846344437::1794653977::0::1::::<>Area3D<><>0<>0<><>::
 enemy_golem_3d.gd::GDScript::3085507452477697208::1794653977::0::1::::<>CharacterBody3D<><>0<>0<><>::
 enemy_health_bar_3d.gd::GDScript::5363444120797563919::1794651702::0::1::::<>Node3D<><>0<>0<><>::
 enemy_scout_3d.gd::GDScript::792232621537338354::1794653977::0::1::::<>CharacterBody3D<><>0<>0<><>::
-enemy_sniper_3d.gd::GDScript::1610514576749338917::1794653977::0::1::::<>CharacterBody3D<><>0<>0<><>::
-game_manager.gd::GDScript::5673633799582463710::1794655117::0::1::::<>Node<><>0<>0<><>::
+enemy_sniper_3d.gd::GDScript::1610514576749338917::1794655947::0::1::::<>CharacterBody3D<><>0<>0<><>::
+game_manager.gd::GDScript::5673633799582463710::1794656048::0::1::::<>Node<><>0<>0<><>::
 hud_3d.gd::GDScript::5869166519061692925::1794655179::0::1::::<>CanvasLayer<><>0<>0<><>::
 hud_openworld_3d.gd::GDScript::7571020356106545883::1794655159::0::1::::<>CanvasLayer<><>0<>0<><>::
 level_ambience_3d.gd::GDScript::3819486283445712076::1794651903::0::1::::<>Node3D<><>0<>0<><>::
@@ -73,7 +73,7 @@ level_completed.gd::GDScript::2525695457963125738::1794648928::0::1::::<>Control
 level_select.gd::GDScript::5593021864453375599::1794646175::0::1::::<>Control<><>0<>0<><>::
 main_menu.gd::GDScript::1316415929737668969::1794653151::0::1::::<>Control<><>0<>0<><>::
 open_world_mountain.gd::GDScript::537291870781620907::1794654651::0::1::::<>Node3D<><>0<>0<><>::
-player_3d.gd::GDScript::2338520860122271191::1794655238::0::1::::<>CharacterBody3D<><>0<>0<><>::
+player_3d.gd::GDScript::2338520860122271191::1794655966::0::1::::<>CharacterBody3D<><>0<>0<><>::
 player_bullet_3d.gd::GDScript::7770496268227477692::1794653978::0::1::::<>Area3D<><>0<>0<><>::
 resolve_crystal_3d.gd::GDScript::6139914793098488727::1794655132::0::1::::<>Area3D<><>0<>0<><>::
 settings_manager.gd::GDScript::9052091847447566645::1794653978::0::1::::<>Node<><>0<>0<><>::
@@ -87,6 +87,11 @@ summit_06.gd::GDScript::1368879164086076694::1794645341::0::1::::<>Node3D<><>0<>
 summit_07.gd::GDScript::3721626372651064489::1794654646::0::1::::<>Node3D<><>0<>0<><>::
 summit_portal_3d.gd::GDScript::2560604477723451971::1794654504::0::1::::<>Area3D<><>0<>0<><>::
 victory_screen.gd::GDScript::5369973980110451403::1794646175::0::1::::<>Control<><>0<>0<><>::
+::res://tests/::1794655883
+test_open_world_traversal.gd::GDScript::3123587180655196852::1794655980::0::1::::<>Node<><>0<>0<><>::
+test_qa_runner.tscn::PackedScene::-1::1794655711::0::1::::<><><>0<>0<><>::res://tests/test_qa_suite.gd
+test_qa_suite.gd::GDScript::8744304137456980869::1794655845::0::1::::<>Node<><>0<>0<><>::
+test_traversal_runner.tscn::PackedScene::-1::1794655883::0::1::::<><><>0<>0<><>::res://tests/test_open_world_traversal.gd
 ::res://textures/::1794652836
 menu_backdrop.png::CompressedTexture2D::2338311802365336515::1794646036::1794646182::1::::<><><>0<>0<>bea9dfe52cd1aa19fc7d9f7e14cf2e52<>res://.godot/imported/menu_backdrop.png-da60a34fd80660844fd64030a2ab7c37.ctex::
 pixel_autumn.png::CompressedTexture2D::541079623258380730::1794652569::1794652836::1::::<><><>0<>0<>0e4c5b842193a60815f2c6239a78f55a<>res://.godot/imported/pixel_autumn.png-85b24e60073e5d9791f90d22181b70cd.ctex::

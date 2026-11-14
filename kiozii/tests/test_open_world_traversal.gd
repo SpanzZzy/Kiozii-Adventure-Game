@@ -1,6 +1,6 @@
 extends Node
 
-# CONTINUOUS OPEN WORLD TRAVERSAL PHYSICS TEST
+# continuous open world traversal physics test
 func _ready() -> void:
 	call_deferred("_run_traversal_test")
 
@@ -34,11 +34,11 @@ func _run_traversal_test() -> void:
 
 	var all_stages_passed = true
 	for cp in checkpoints:
-		# TELEPORT SLIGHTLY ABOVE TARGET X AND LET GRAVITY SNAP TO SURFACE
+		# teleport slightly above target x and let gravity snap to surface
 		player.global_position = Vector3(cp["target_x"], cp["expected_min_y"] + 2.0, 0.0)
 		player.velocity = Vector3.ZERO
 		
-		# AWAIT 20 REAL PHYSICS FRAMES FOR ENGINE COLLISION SOLVER
+		# await 20 real physics frames for engine collision solver
 		for frame in range(20):
 			await get_tree().physics_frame
 			
@@ -46,8 +46,8 @@ func _run_traversal_test() -> void:
 		var exp_y = cp["expected_min_y"]
 		var diff = ground_y - exp_y
 		
-		# PLAYER ORIGIN IS AT FEET (COLLISION CAPSULE EXTENDS FROM Y=0 TO Y=1.65)
-		# SO PLAYER FEET SHOULD REST AT SURFACE EXP_Y (DIFF IN [-0.2, +0.8])
+		# player origin is at feet (collision capsule extends from y=0 to y=1.65)
+		# so player feet should rest at surface exp_y (diff in [-0.2, +0.8])
 		if diff >= -0.2 and diff <= 0.8:
 			print("  [PASS] %s (X=%.1f) -> Grounded cleanly at Y=%.2f (Expected %.1f, diff=%.2f)" % [cp["name"], cp["target_x"], ground_y, exp_y, diff])
 		else:

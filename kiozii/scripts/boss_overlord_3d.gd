@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# FINAL BOSS OVERLORD CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
+# final boss overlord controller (supports 2.5d and open-world 3d)
 signal boss_health_changed(current_health: int, max_health: int)
 
 @export var is_open_world: bool = false
@@ -16,7 +16,7 @@ var facing: float = -1.0
 var is_dead: bool = false
 var is_enraged: bool = false
 
-# 2.5D ARENA SAFETY BOUNDARIES
+# 2.5d arena safety boundaries
 const ARENA_MIN_X: float = 4.5
 const ARENA_MAX_X: float = 41.5
 const ARENA_FLOOR_Y: float = 0.0
@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
 
-	# IMMUNITY TO EXTERNAL PHYSICAL KNOCKBACK
+	# immunity to external physical knockback
 	if is_on_floor():
 		velocity.x = 0.0
 		if is_open_world:
@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		process_2d_boss(delta)
 
-	# ENRAGE CHECK AND VISUAL FEEDBACK
+	# enrage check and visual feedback
 	if is_enraged:
 		var enrage_pulse = 1.0 + absf(sin(Time.get_ticks_msec() * 0.008)) * 0.08
 		visual_root.scale = Vector3(enrage_pulse, enrage_pulse, enrage_pulse)
@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		visual_root.scale = Vector3.ONE
 
-	# PLAYER TRACKING
+	# player tracking
 	if not player_node:
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
@@ -85,7 +85,7 @@ func _physics_process(delta: float) -> void:
 		facing = -1.0 if player_node.global_position.x < global_position.x else 1.0
 		visual_root.rotation.y = 0.0 if facing > 0 else PI
 
-	# STATE MACHINE ATTACK TIMER
+	# state machine attack timer
 	state_timer -= delta
 	if state_timer <= 0.0 and is_on_floor():
 		if is_open_world:
@@ -94,13 +94,13 @@ func _physics_process(delta: float) -> void:
 			execute_boss_attack_2d()
 
 func process_3d_boss(_delta: float) -> void:
-	# VOID RECOVERY PRESERVING HEALTH
+	# void recovery preserving health
 	if global_position.y < arena_center_3d.y - 12.0:
 		global_position = spawn_pos
 		velocity = Vector3.ZERO
 		state_timer = 1.5
 
-	# CIRCULAR ARENA HORIZONTAL CLAMP
+	# circular arena horizontal clamp
 	var flat_offset = Vector2(global_position.x - arena_center_3d.x, global_position.z - arena_center_3d.z)
 	if flat_offset.length() > arena_radius_3d:
 		var clamped = flat_offset.normalized() * arena_radius_3d
@@ -111,13 +111,13 @@ func process_2d_boss(_delta: float) -> void:
 	global_position.z = 0.0
 	velocity.z = 0.0
 
-	# VOID RECOVERY SAFETY
+	# void recovery safety
 	if global_position.y < VOID_Y_THRESHOLD:
 		global_position = spawn_pos
 		velocity = Vector3.ZERO
 		state_timer = 1.5
 
-	# ARENA HORIZONTAL CLAMP
+	# arena horizontal clamp
 	if global_position.x < ARENA_MIN_X:
 		global_position.x = ARENA_MIN_X
 		if velocity.x < 0.0:
@@ -167,7 +167,7 @@ func execute_boss_attack_3d() -> void:
 	if attack_index == 0:
 		state_timer = 2.2 * timer_mult
 		AudioManager.play_shoot()
-		# TRI-SHOT SPREAD IN 3D
+		# tri-shot spread in 3d
 		var base_yaw = visual_root.rotation.y
 		for deg in [-18.0, 0.0, 18.0]:
 			var dir_3d = Vector3(-sin(base_yaw + deg_to_rad(deg)), to_player.y * 0.4, -cos(base_yaw + deg_to_rad(deg))).normalized()
@@ -181,7 +181,7 @@ func execute_boss_attack_3d() -> void:
 		velocity.x = leap_vel.x
 		velocity.z = leap_vel.z
 		AudioManager.play_boss_slam()
-		# GROUND SHOCKWAVE SPREAD
+		# ground shockwave spread
 		for i in range(4):
 			var a = i * (PI * 0.5)
 			spawn_bullet_3d(Vector3(cos(a), 0, sin(a)) * 13.0 * speed_mult)
@@ -219,7 +219,7 @@ func take_damage(amount: int) -> void:
 	hit_flash = 0.1
 	AudioManager.play_enemy_hit()
 
-	# ENRAGE TRIGGER UNDER 25% (<= 16 HP)
+	# enrage trigger under 25% (<= 16 hp)
 	if not is_enraged and current_health <= 16 and current_health > 0:
 		is_enraged = true
 		AudioManager.play_boss_slam()

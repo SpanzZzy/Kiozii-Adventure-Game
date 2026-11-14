@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# RIDGE SNIPER CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
+# ridge sniper controller (supports 2.5d and open-world 3d)
 @export var is_open_world: bool = false
 @export var max_health: int = 3
 @export var attack_range: float = 24.0

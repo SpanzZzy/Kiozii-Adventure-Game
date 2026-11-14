@@ -1,6 +1,6 @@
 extends Node3D
 
-# OPEN-WORLD MOUNTAIN MASTER CONTROLLER
+# open-world mountain master controller
 @onready var player: CharacterBody3D = $Player3D
 @onready var hud: CanvasLayer = $HUDOpenWorld3D
 @onready var ambience = $LevelAmbience3D
@@ -19,7 +19,7 @@ const REGION_NAMES = {
 var current_region: int = 1
 
 func _ready() -> void:
-	# INITIALIZE PLAYER IN OPEN-WORLD 3D MODE
+	# initialize player in open-world 3d mode
 	if player:
 		player.is_open_world = true
 		player.spawn_position = Vector3(0.0, 2.5, 0.0)
@@ -88,7 +88,7 @@ func get_all_crystals() -> Array:
 	for reg_idx in range(1, 8):
 		var reg_node = get_node_or_null("Region0%d" % reg_idx if reg_idx < 10 else "Region%d" % reg_idx)
 		if not reg_node:
-			# SEARCH BY REGION NAME PREFIX
+			# search by region name prefix
 			for child in get_children():
 				if child.name.begins_with("Region0%d" % reg_idx):
 					reg_node = child

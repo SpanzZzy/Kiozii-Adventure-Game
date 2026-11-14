@@ -1,6 +1,6 @@
 extends Node3D
 
-# ENEMY FLOATING 3D HEALTH BAR
+# enemy floating 3d health bar
 
 @onready var fill_mesh: MeshInstance3D = $FillPivot/Fill
 @onready var fill_pivot: Node3D = $FillPivot
@@ -9,7 +9,7 @@ var fill_mat: StandardMaterial3D
 var current_ratio: float = 1.0
 
 func _ready() -> void:
-	# DUPLICATE MATERIAL FOR UNIQUE INSTANCE PER ENEMY
+	# duplicate material for unique instance per enemy
 	if fill_mesh and fill_mesh.material_override:
 		fill_mat = fill_mesh.material_override.duplicate()
 		fill_mesh.material_override = fill_mat
@@ -22,7 +22,7 @@ func _ready() -> void:
 			fill_mesh.material_override = fill_mat
 
 func _process(_delta: float) -> void:
-	# ALWAYS FACE ACTIVE CAMERA
+	# always face active camera
 	var cam = get_viewport().get_camera_3d()
 	if cam:
 		global_transform.basis = cam.global_transform.basis
@@ -34,11 +34,11 @@ func set_health(current: int, max_hp: int) -> void:
 	var target_ratio = clampf(float(clamped_hp) / float(max_hp), 0.0, 1.0)
 	current_ratio = target_ratio
 	
-	# UPDATE FILL SCALE
+	# update fill scale
 	if fill_pivot:
 		fill_pivot.scale.x = target_ratio
 		
-	# UPDATE HEALTH COLOR BASED ON THRESHOLDS
+	# update health color based on thresholds
 	if fill_mat:
 		if target_ratio > 0.60:
 			fill_mat.albedo_color = Color(0.2, 0.88, 0.38, 1.0) # GREEN (HIGH)

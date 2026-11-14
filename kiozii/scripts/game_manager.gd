@@ -1,6 +1,6 @@
 extends Node
 
-# GAME MANAGER & COMEBACK PROGRESSION
+# game manager & comeback progression
 signal health_changed(new_health, max_health)
 signal enemy_count_changed(remaining, total)
 signal boss_health_changed(current_hp, max_hp)
@@ -32,22 +32,22 @@ var level_time: float = 0.0
 var is_level_active: bool = false
 var portal_is_open: bool = false
 
-# BOUNCE BACK STATS
+# bounce back stats
 var has_respawned_this_level: bool = false
 var damage_taken_this_level: int = 0
 var crystals_collected_level: int = 0
 var crystals_total_level: int = 3
 
-# CRYSTAL PERSISTENCE PER LEVEL: ARRAY OF BOOLS [C0, C1, C2]
+# crystal persistence per level: array of bools [c0, c1, c2]
 var saved_crystals: Dictionary = {}
 var saved_open_world_crystals: Dictionary = {}
 var collected_crystal_uids: Dictionary = {}
 
-# ACTIVE CHECKPOINT POSITION
+# active checkpoint position
 var current_checkpoint_pos: Vector3 = Vector3.ZERO
 var has_custom_checkpoint: bool = false
 
-# ACHIEVEMENTS PERSISTENCE
+# achievements persistence
 var unlocked_achievements: Dictionary = {}
 const ACHIEVEMENTS_DATA = {
 	"never_give_up": {
@@ -95,7 +95,7 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 	has_custom_checkpoint = false
 	current_checkpoint_pos = Vector3.ZERO
 	
-	# INITIALIZE CRYSTALS FOR CURRENT LEVEL (3 PER LEVEL FOR ALL 7 SUMMITS)
+	# initialize crystals for current level (3 per level for all 7 summits)
 	crystals_total_level = 3
 	var lvl_key = str(current_level_idx + 1)
 	var lvl_saved = saved_crystals.get(lvl_key, [false, false, false])
@@ -118,7 +118,7 @@ func is_crystal_collected(c_id: int) -> bool:
 		return lvl_saved[c_id] == true
 	return false
 
-# OPEN WORLD REGION CRYSTAL RESOLUTION & TRACKING
+# open world region crystal resolution & tracking
 func is_crystal_unique_collected(uid: String, reg_num: int, c_id: int) -> bool:
 	if collected_crystal_uids.get(uid, false) == true:
 		return true
@@ -171,7 +171,7 @@ func get_region_crystal_count(reg_num: int) -> int:
 			count += 1
 	return count
 
-# OPEN WORLD REGION SWITCH AND TOTAL STATS
+# open world region switch and total stats
 func get_total_crystals_collected() -> int:
 	var total = 0
 	for lvl in range(1, 8):
@@ -191,7 +191,7 @@ func set_current_region(region_num: int) -> void:
 		if c == true:
 			count += 1
 	crystals_collected_level = count
-	# NOTE: DO NOT EMIT PICKUP TOAST WHEN SWITCHING REGIONS
+	# note: do not emit pickup toast when switching regions
 
 func on_crystal_collected(c_id: int) -> void:
 	var uid = "summit_%02d_crystal_%02d" % [current_level_idx + 1, c_id + 1]
@@ -247,7 +247,7 @@ func complete_level() -> void:
 	if lvl_id >= unlocked_level and lvl_id < total_levels:
 		unlocked_level = lvl_id + 1
 
-	# CHECK ACHIEVEMENTS
+	# check achievements
 	if has_respawned_this_level:
 		unlock_achievement("never_give_up")
 	if damage_taken_this_level == 0:

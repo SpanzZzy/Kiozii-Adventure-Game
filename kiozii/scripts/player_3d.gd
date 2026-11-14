@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# PLAYER CONTROLLER PROPERTIES
+# player controller properties
 @export var is_open_world: bool = false
 @export var speed: float = 12.0
 @export var accel: float = 95.0
@@ -18,11 +18,11 @@ var jump_buffer_timer: float = 0.0
 var anim_timer: float = 0.0
 var idle_timer: float = 0.0
 
-# THIRD-PERSON CAMERA ROTATION
+# third-person camera rotation
 var cam_yaw: float = 0.0
 var cam_pitch: float = -0.15
 
-# SECOND WIND BOUNCE BACK PROPERTIES
+# second wind bounce back properties
 var second_wind_timer: float = 0.0
 const SECOND_WIND_DURATION: float = 2.4
 const SECOND_WIND_SPEED_BOOST: float = 3.5
@@ -48,13 +48,13 @@ func _ready() -> void:
 	spawn_position = global_position
 	muzzle_flash.visible = false
 
-	# CONFIGURE FLOOR & SLOPE PHYSICS
+	# configure floor & slope physics
 	floor_stop_on_slope = true
 	floor_constant_speed = true
 	floor_max_angle = deg_to_rad(50.0)
 	floor_snap_length = 0.45
 	
-	# CONFIGURE CAMERA MODE
+	# configure camera mode
 	if is_open_world:
 		if tp_camera:
 			tp_camera.current = true
@@ -67,7 +67,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_open_world:
 		return
 		
-	# MOUSE LOOK FOR THIRD-PERSON CAMERA
+	# mouse look for third-person camera
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		cam_yaw -= event.relative.x * mouse_sensitivity
 		cam_pitch = clampf(cam_pitch - event.relative.y * mouse_sensitivity, deg_to_rad(-60.0), deg_to_rad(45.0))
@@ -75,12 +75,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			camera_arm.rotation.y = cam_yaw
 			camera_arm.rotation.x = cam_pitch
 			
-	# MOUSE CAPTURE TOGGLE
+	# mouse capture toggle
 	if event is InputEventMouseButton and event.pressed and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta: float) -> void:
-	# TIMERS UPDATE
+	# timers update
 	if invuln_timer > 0.0:
 		invuln_timer -= delta
 		visual_root.visible = int(invuln_timer * 18.0) % 2 == 0
@@ -99,13 +99,13 @@ func _physics_process(delta: float) -> void:
 	else:
 		muzzle_flash.visible = false
 
-	# JUMP INPUT BUFFERING
+	# jump input buffering
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = 0.12
 	else:
 		jump_buffer_timer = maxf(0.0, jump_buffer_timer - delta)
 
-	# GROUND DETECTION & COYOTE TIME
+	# ground detection & coyote time
 	if is_on_floor():
 		coyote_timer = 0.12
 	else:
@@ -114,14 +114,14 @@ func _physics_process(delta: float) -> void:
 		if velocity.y < -36.0:
 			velocity.y = -36.0
 
-	# EXECUTE BUFFERED JUMP WITH COYOTE TIME
+	# execute buffered jump with coyote time
 	if jump_buffer_timer > 0.0 and coyote_timer > 0.0:
 		velocity.y = jump_force
 		jump_buffer_timer = 0.0
 		coyote_timer = 0.0
 		AudioManager.play_jump()
 
-	# BRANCH: FULL 3D OPEN WORLD VS 2.5D CLASSIC SUMMITS
+	# branch: full 3d open world vs 2.5d classic summits
 	if is_open_world:
 		process_3d_movement(delta)
 	else:
@@ -129,17 +129,17 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	# ANIMATIONS
+	# animations
 	process_character_animations(delta)
 
-	# SHOOTING
+	# shooting
 	if Input.is_action_pressed("shoot") and shoot_cooldown <= 0.0:
 		if is_open_world:
 			shoot_3d()
 		else:
 			shoot_2d()
 
-	# HAZARD FALL RESET - BOUNCE BACK CHECKPOINT RECOVERY
+	# hazard fall reset - bounce back checkpoint recovery
 	var fall_threshold = -15.0 if is_open_world else -7.0
 	if global_position.y < fall_threshold:
 		var target_spawn = GameManager.current_checkpoint_pos if GameManager.has_custom_checkpoint else spawn_position
@@ -154,7 +154,7 @@ func process_3d_movement(delta: float) -> void:
 	var is_sprint = Input.is_action_pressed("sprint")
 	var cur_speed = (speed * sprint_multiplier if is_sprint else speed) + (SECOND_WIND_SPEED_BOOST if second_wind_timer > 0.0 else 0.0)
 	
-	# CAMERA-RELATIVE MOVEMENT VECTORS
+	# camera-relative movement vectors
 	var arm_rot_y = camera_arm.rotation.y if camera_arm else 0.0
 	var forward = -Vector3(sin(arm_rot_y), 0, cos(arm_rot_y))
 	var right = Vector3(cos(arm_rot_y), 0, -sin(arm_rot_y))
@@ -242,7 +242,7 @@ func shoot_3d() -> void:
 	var spawn_pos = muzzle.global_position
 	var bullet = bullet_scene.instantiate()
 	
-	# RAYCAST TARGET FROM ACTIVE CAMERA
+	# raycast target from active camera
 	var target_point: Vector3
 	if tp_camera:
 		var ray_origin = tp_camera.global_position

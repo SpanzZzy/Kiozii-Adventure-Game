@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-# OPEN-WORLD 3D HUD & MAP CONTROLLER
+# open-world 3d hud & map controller
 
 @onready var health_hearts: HBoxContainer = $HUD/MarginTop/HBoxLeft/BoxHP/HeartsContainer
 @onready var region_banner: Control = $HUD/MarginTop/Center/RegionBanner
@@ -78,12 +78,12 @@ func update_compass() -> void:
 	if angle_deg < 0:
 		angle_deg += 360.0
 		
-	# COMPASS CARDINAL DIRECTIONS
+	# compass cardinal directions
 	var dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 	var idx = int(round(angle_deg / 45.0)) % 8
 	var heading = dirs[idx]
 	
-	# SUMMIT INDICATOR TOWARDS EAST (+X)
+	# summit indicator towards east (+x)
 	var summit_dir = "▲ SUMMIT EAST"
 	compass_label.text = "[ %s ]  %d°  %s" % [heading, int(angle_deg), summit_dir]
 

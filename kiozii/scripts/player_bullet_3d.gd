@@ -1,6 +1,6 @@
 extends Area3D
 
-# PLAYER PROJECTILE CONTROLLER
+# player projectile controller
 @export var speed: float = 26.0
 @export var damage: int = 1
 var direction: float = 1.0

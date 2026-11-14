@@ -1,6 +1,6 @@
 extends Area3D
 
-# MOUNTAIN CHECKPOINT ALTAR
+# mountain checkpoint altar
 @export var checkpoint_name: String = "Highland Altar"
 var is_activated: bool = false
 

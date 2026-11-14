@@ -1,6 +1,6 @@
 extends Node3D
 
-# LEVEL-SPECIFIC AMBIENT ENVIRONMENT CONTROLLER
+# level-specific ambient environment controller
 @export var level_number: int = 1
 
 @onready var particles: CPUParticles3D = $AmbientParticles
@@ -93,7 +93,7 @@ func setup_theme(lvl: int) -> void:
 			particles.initial_velocity_max = 4.8
 
 func _physics_process(_delta: float) -> void:
-	# TRACK ACTIVE CAMERA TO IMMERSE VIEWPORT
+	# track active camera to immerse viewport
 	var cam = get_viewport().get_camera_3d()
 	if cam:
 		global_position.x = cam.global_position.x

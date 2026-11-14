@@ -1,6 +1,6 @@
 extends Area3D
 
-# ENEMY PROJECTILE CONTROLLER
+# enemy projectile controller
 @export var speed: float = 14.0
 @export var damage: int = 1
 var velocity: Vector3 = Vector3.ZERO

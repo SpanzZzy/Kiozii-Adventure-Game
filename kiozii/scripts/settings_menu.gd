@@ -1,6 +1,6 @@
 extends Control
 
-# SETTINGS MENU CONTROLLER
+# settings menu controller
 @onready var master_slider = $CenterBox/VBox/TabContainer/Audio/Grid/MasterSlider
 @onready var music_slider = $CenterBox/VBox/TabContainer/Audio/Grid/MusicSlider
 @onready var sfx_slider = $CenterBox/VBox/TabContainer/Audio/Grid/SFXSlider
@@ -15,7 +15,7 @@ extends Control
 @onready var fog_check = $CenterBox/VBox/TabContainer/Graphics/Grid/FogCheck
 @onready var bloom_check = $CenterBox/VBox/TabContainer/Graphics/Grid/BloomCheck
 
-# CONTROLS NODES
+# controls nodes
 @onready var controls_grid = $CenterBox/VBox/TabContainer/Controls/VBoxInner/GridControls
 @onready var controls_status = $CenterBox/VBox/TabContainer/Controls/VBoxInner/StatusLabel
 
@@ -90,7 +90,7 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if (event is InputEventKey and event.pressed and not event.echo) or (event is InputEventMouseButton and event.pressed):
-		# ESCAPE CANCELLATION
+		# escape cancellation
 		if event is InputEventKey and event.keycode == KEY_ESCAPE and awaiting_action != "pause":
 			awaiting_action = ""
 			controls_status.text = "Rebinding cancelled."

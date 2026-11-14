@@ -1,6 +1,6 @@
 extends Node
 
-# RETRO AUDIO MANAGER
+# retro audio manager
 var shoot_sfx = preload("res://audio/shoot.wav")
 var jump_sfx = preload("res://audio/jump.wav")
 var enemy_hit_sfx = preload("res://audio/enemy_hit.wav")
@@ -13,7 +13,7 @@ var crystal_sfx = preload("res://audio/crystal.wav")
 var checkpoint_sfx = preload("res://audio/checkpoint.wav")
 var second_wind_sfx = preload("res://audio/second_wind.wav")
 
-# LEVEL AMBIENCE STREAMS
+# level ambience streams
 var ambient_streams = {
 	1: preload("res://audio/ambience_highlands.wav"),
 	2: preload("res://audio/ambience_autumn.wav"),
@@ -41,7 +41,7 @@ func _ready() -> void:
 		add_child(p)
 		audio_players.append(p)
 		
-	# DEDICATED AMBIENCE LOOP PLAYER
+	# dedicated ambience loop player
 	ambient_player = AudioStreamPlayer.new()
 	add_child(ambient_player)
 	ambient_player.finished.connect(Callable(self, "_on_ambient_finished"))

@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# ARMORED RIDGE GOLEM CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
+# armored ridge golem controller (supports 2.5d and open-world 3d)
 @export var is_open_world: bool = false
 @export var max_health: int = 5
 @export var speed: float = 4.5

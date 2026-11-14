@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# RIDGE SCOUT CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
+# ridge scout controller (supports 2.5d and open-world 3d)
 @export var is_open_world: bool = false
 @export var max_health: int = 2
 @export var speed: float = 3.8
@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		visual_root.scale = Vector3.ONE
 
-	# PLAYER CONTACT ATTACK
+	# player contact attack
 	for i in range(get_slide_collision_count()):
 		var coll = get_slide_collision(i)
 		var collider = coll.get_collider()
@@ -87,7 +87,7 @@ func process_3d_ai(delta: float) -> void:
 				velocity.z = 0.0
 			return
 
-	# PATROL WANDER WHEN PLAYER NOT IN DETECTION RANGE
+	# patrol wander when player not in detection range
 	wander_timer -= delta
 	if wander_timer <= 0.0:
 		wander_timer = randf_range(2.0, 4.5)
