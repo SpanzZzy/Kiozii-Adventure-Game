@@ -3,9 +3,19 @@
 
 > **"Fall. Learn. Rise. Reach the Summit."**
 
+![Kiozii: Bounce Back cover art](imagesforreadme/thumbnail.png)
+
 **KIOZII** is a fantasy-inspired 3D mountain action-adventure game developed in Godot 4. Players embark on an ascent across seven connected, seamless mountain biomes—overcoming hostile mountain sentries, perilous cliffs, and the multi-phase Summit Overlord to claim victory.
 
 The central theme is resilience: setbacks, falls, and damage are not failures, but learning steps. With the **Second Wind** comeback mechanic, players bounce back from adversity stronger and faster.
+
+---
+
+## Screenshots
+
+| Classic 2.5D | 3D Open World |
+| :---: | :---: |
+| ![Classic 2.5D gameplay in Autumn Peaks](imagesforreadme/gameplay-2d.png) | ![Open-world mountain gameplay](imagesforreadme/gameplay-3d.png) |
 
 ---
 
@@ -115,4 +125,4 @@ godot --path kiozii --headless res://tests/test_traversal_runner.tscn
 ## Asset Credits & Attributions
 
 All art, audio, textures, and code in **KIOZII** are CC0, MIT, or custom-authored open-source assets.  
-For full attribution details, please see [CREDITS.md](file:///Users/spandankothalkar/Desktop/HavenGame/Kiozii%20Adventure%20Game/kiozii/CREDITS.md).
+For full attribution details, please see [CREDITS.md](CREDITS.md).
