@@ -35,11 +35,10 @@ var portal_is_open: bool = false
 var has_respawned_this_level: bool = false
 var damage_taken_this_level: int = 0
 var crystals_collected_level: int = 0
-var crystals_total_level: int = 0
+var crystals_total_level: int = 3
 
 # CRYSTAL PERSISTENCE PER LEVEL: Array of bools [c0, c1, c2]
 var saved_crystals: Dictionary = {}
-var active_crystals_registered: Array = []
 
 # ACTIVE CHECKPOINT POSITION
 var current_checkpoint_pos: Vector3 = Vector3.ZERO
@@ -90,33 +89,46 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 	portal_is_open = (enemy_count == 0 and not is_boss)
 	has_respawned_this_level = false
 	damage_taken_this_level = 0
-	crystals_total_level = 0
-	crystals_collected_level = 0
-	active_crystals_registered.clear()
 	has_custom_checkpoint = false
 	current_checkpoint_pos = Vector3.ZERO
 	
+	# INITIALIZE CRYSTALS FOR CURRENT LEVEL
+	if is_boss:
+		crystals_total_level = 0
+		crystals_collected_level = 0
+	else:
+		crystals_total_level = 3
+		var lvl_key = str(current_level_idx + 1)
+		var lvl_saved = saved_crystals.get(lvl_key, [false, false, false])
+		var count = 0
+		for c in lvl_saved:
+			if c == true:
+				count += 1
+		crystals_collected_level = count
+	
 	emit_signal("health_changed", player_current_health, player_max_health)
 	emit_signal("enemy_count_changed", enemies_remaining, enemies_total)
+	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
 	if portal_is_open:
 		emit_signal("portal_unlocked")
 
-func register_crystal(crystal_node: Node3D, c_id: int) -> void:
-	crystals_total_level += 1
+func is_crystal_collected(c_id: int) -> bool:
 	var lvl_key = str(current_level_idx + 1)
 	var lvl_saved = saved_crystals.get(lvl_key, [false, false, false])
-	if c_id >= 0 and c_id < lvl_saved.size() and lvl_saved[c_id] == true:
-		crystals_collected_level += 1
-		crystal_node.queue_free()
-	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+	if c_id >= 0 and c_id < lvl_saved.size():
+		return lvl_saved[c_id] == true
+	return false
 
 func on_crystal_collected(c_id: int) -> void:
-	crystals_collected_level += 1
 	var lvl_key = str(current_level_idx + 1)
 	if not saved_crystals.has(lvl_key):
 		saved_crystals[lvl_key] = [false, false, false]
 	if c_id >= 0 and c_id < saved_crystals[lvl_key].size():
+		if saved_crystals[lvl_key][c_id] == true:
+			return
 		saved_crystals[lvl_key][c_id] = true
+	
+	crystals_collected_level = mini(crystals_collected_level + 1, crystals_total_level)
 	save_progress()
 
 	if AudioManager:

@@ -10,13 +10,16 @@ var start_y: float = 0.0
 
 func _ready() -> void:
 	collision_layer = 0
-	collision_mask = 2 # Detect Player CharacterBody3D on Layer 2
+	collision_mask = 2 # Player CharacterBody3D is on layer 2
 	monitoring = true
 	monitorable = false
 
 	connect("body_entered", Callable(self, "_on_body_entered"))
 	start_y = global_position.y
-	GameManager.register_crystal(self, crystal_id)
+	
+	# AUTO-CHECK IF ALREADY COLLECTED
+	if GameManager.is_crystal_collected(crystal_id):
+		queue_free()
 
 func _physics_process(delta: float) -> void:
 	if is_collected:
