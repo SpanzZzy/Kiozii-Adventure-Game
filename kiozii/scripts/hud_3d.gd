@@ -31,6 +31,7 @@ func _ready() -> void:
 	GameManager.connect("portal_unlocked", Callable(self, "_on_portal_unlocked"))
 	GameManager.connect("game_over", Callable(self, "_on_game_over"))
 	GameManager.connect("crystal_collected", Callable(self, "_on_crystal_collected"))
+	GameManager.connect("crystal_pickup_notified", Callable(self, "_on_crystal_pickup_notified"))
 	GameManager.connect("checkpoint_reached", Callable(self, "_on_checkpoint_reached"))
 	GameManager.connect("second_wind_activated", Callable(self, "_on_second_wind_activated"))
 	GameManager.connect("achievement_unlocked", Callable(self, "_on_achievement_unlocked"))
@@ -83,8 +84,11 @@ func update_crystal_display(current: int, total: int) -> void:
 
 func _on_crystal_collected(current: int, total: int) -> void:
 	update_crystal_display(current, total)
-	if prev_crystal_count >= 0 and current > prev_crystal_count:
-		show_toast("+1 RESOLVE CRYSTAL! (%d/%d)" % [current, total], Color(0.96, 0.95, 0.90, 1.0))
+	prev_crystal_count = current
+
+func _on_crystal_pickup_notified(_uid: String, current: int, total: int) -> void:
+	update_crystal_display(current, total)
+	show_toast("+1 RESOLVE CRYSTAL! (%d/%d)" % [current, total], Color(0.96, 0.95, 0.90, 1.0))
 	prev_crystal_count = current
 
 func _on_achievement_unlocked(_id: String, title: String, desc: String) -> void:

@@ -8,6 +8,7 @@ signal portal_unlocked
 signal level_completed(clear_time, kills, total, crystals_collected, crystals_total)
 signal game_over(reason)
 signal crystal_collected(current_count, total_count)
+signal crystal_pickup_notified(crystal_uid, region_count, total_count)
 signal checkpoint_reached(pos_name)
 signal second_wind_activated
 signal achievement_unlocked(ach_id, ach_title, ach_desc)
@@ -37,9 +38,10 @@ var damage_taken_this_level: int = 0
 var crystals_collected_level: int = 0
 var crystals_total_level: int = 3
 
-# CRYSTAL PERSISTENCE PER LEVEL: Array of bools [c0, c1, c2]
+# CRYSTAL PERSISTENCE PER LEVEL: ARRAY OF BOOLS [C0, C1, C2]
 var saved_crystals: Dictionary = {}
 var saved_open_world_crystals: Dictionary = {}
+var collected_crystal_uids: Dictionary = {}
 
 # ACTIVE CHECKPOINT POSITION
 var current_checkpoint_pos: Vector3 = Vector3.ZERO
@@ -117,6 +119,39 @@ func is_crystal_collected(c_id: int) -> bool:
 	return false
 
 # OPEN WORLD REGION CRYSTAL RESOLUTION & TRACKING
+func is_crystal_unique_collected(uid: String, reg_num: int, c_id: int) -> bool:
+	if collected_crystal_uids.get(uid, false) == true:
+		return true
+	if reg_num > 0:
+		return is_region_crystal_collected(reg_num, c_id)
+	return is_crystal_collected(c_id)
+
+func register_crystal_collected(uid: String, reg_num: int, c_id: int) -> void:
+	if is_crystal_unique_collected(uid, reg_num, c_id):
+		return
+	collected_crystal_uids[uid] = true
+
+	if reg_num > 0:
+		var lvl_key = str(reg_num)
+		if not saved_open_world_crystals.has(lvl_key):
+			saved_open_world_crystals[lvl_key] = [false, false, false]
+		if c_id >= 0 and c_id < saved_open_world_crystals[lvl_key].size():
+			saved_open_world_crystals[lvl_key][c_id] = true
+	else:
+		var lvl_key = str(current_level_idx + 1)
+		if not saved_crystals.has(lvl_key):
+			saved_crystals[lvl_key] = [false, false, false]
+		if c_id >= 0 and c_id < saved_crystals[lvl_key].size():
+			saved_crystals[lvl_key][c_id] = true
+		crystals_collected_level = mini(crystals_collected_level + 1, crystals_total_level)
+
+	save_progress()
+	if AudioManager:
+		AudioManager.play_crystal()
+
+	emit_signal("crystal_pickup_notified", uid, get_region_crystal_count(reg_num), get_total_crystals_collected())
+	emit_signal("crystal_collected", get_region_crystal_count(reg_num), 3)
+
 func is_region_crystal_collected(reg_num: int, c_id: int) -> bool:
 	var lvl_key = str(reg_num)
 	var lvl_saved = saved_open_world_crystals.get(lvl_key, [false, false, false])
@@ -125,17 +160,8 @@ func is_region_crystal_collected(reg_num: int, c_id: int) -> bool:
 	return false
 
 func on_region_crystal_collected(reg_num: int, c_id: int) -> void:
-	var lvl_key = str(reg_num)
-	if not saved_open_world_crystals.has(lvl_key):
-		saved_open_world_crystals[lvl_key] = [false, false, false]
-	if c_id >= 0 and c_id < saved_open_world_crystals[lvl_key].size():
-		if saved_open_world_crystals[lvl_key][c_id] == true:
-			return
-		saved_open_world_crystals[lvl_key][c_id] = true
-	save_progress()
-	if AudioManager:
-		AudioManager.play_crystal()
-	emit_signal("crystal_collected", get_region_crystal_count(reg_num), 3)
+	var uid = "summit_%02d_crystal_%02d" % [reg_num, c_id + 1]
+	register_crystal_collected(uid, reg_num, c_id)
 
 func get_region_crystal_count(reg_num: int) -> int:
 	var list = saved_open_world_crystals.get(str(reg_num), [false, false, false])
@@ -165,23 +191,11 @@ func set_current_region(region_num: int) -> void:
 		if c == true:
 			count += 1
 	crystals_collected_level = count
-	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+	# NOTE: DO NOT EMIT PICKUP TOAST WHEN SWITCHING REGIONS
 
 func on_crystal_collected(c_id: int) -> void:
-	var lvl_key = str(current_level_idx + 1)
-	if not saved_crystals.has(lvl_key):
-		saved_crystals[lvl_key] = [false, false, false]
-	if c_id >= 0 and c_id < saved_crystals[lvl_key].size():
-		if saved_crystals[lvl_key][c_id] == true:
-			return
-		saved_crystals[lvl_key][c_id] = true
-	
-	crystals_collected_level = mini(crystals_collected_level + 1, crystals_total_level)
-	save_progress()
-
-	if AudioManager:
-		AudioManager.play_crystal()
-	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+	var uid = "summit_%02d_crystal_%02d" % [current_level_idx + 1, c_id + 1]
+	register_crystal_collected(uid, 0, c_id)
 
 func set_checkpoint(pos: Vector3, checkpoint_name: String = "Summit Altar") -> void:
 	current_checkpoint_pos = pos
@@ -292,6 +306,7 @@ func save_progress() -> void:
 	cfg.set_value("progression", "achievements", unlocked_achievements)
 	cfg.set_value("progression", "saved_crystals", saved_crystals)
 	cfg.set_value("progression", "saved_open_world_crystals", saved_open_world_crystals)
+	cfg.set_value("progression", "collected_crystal_uids", collected_crystal_uids)
 	cfg.save(SAVE_PATH)
 
 func load_progress() -> void:
@@ -302,3 +317,4 @@ func load_progress() -> void:
 		unlocked_achievements = cfg.get_value("progression", "achievements", {})
 		saved_crystals = cfg.get_value("progression", "saved_crystals", {})
 		saved_open_world_crystals = cfg.get_value("progression", "saved_open_world_crystals", {})
+		collected_crystal_uids = cfg.get_value("progression", "collected_crystal_uids", {})

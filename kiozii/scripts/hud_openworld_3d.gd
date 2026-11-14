@@ -47,6 +47,7 @@ func _ready() -> void:
 	GameManager.connect("boss_health_changed", Callable(self, "_on_boss_health_changed"))
 	GameManager.connect("game_over", Callable(self, "_on_game_over"))
 	GameManager.connect("crystal_collected", Callable(self, "_on_crystal_collected"))
+	GameManager.connect("crystal_pickup_notified", Callable(self, "_on_crystal_pickup_notified"))
 	GameManager.connect("checkpoint_reached", Callable(self, "_on_checkpoint_reached"))
 	GameManager.connect("second_wind_activated", Callable(self, "_on_second_wind_activated"))
 	
@@ -131,18 +132,17 @@ func show_region_banner(region_num: int) -> void:
 	update_crystal_display()
 
 func update_crystal_display() -> void:
-	var cur_saved = GameManager.saved_crystals.get(str(current_region_idx), [false, false, false])
-	var reg_count = 0
-	for c in cur_saved:
-		if c == true:
-			reg_count += 1
+	var reg_count = GameManager.get_region_crystal_count(current_region_idx)
 	var total_count = GameManager.get_total_crystals_collected()
 	crystal_label.text = "◆ CRYSTALS: %d/3" % reg_count
 	total_crystal_label.text = "★ MOUNTAIN: %d/21" % total_count
 
 func _on_crystal_collected(_cur: int, _total: int) -> void:
 	update_crystal_display()
-	show_toast("+1 RESOLVE CRYSTAL ACQUIRED!", Color(0.96, 0.95, 0.90, 1.0))
+
+func _on_crystal_pickup_notified(uid: String, _reg_count: int, _total: int) -> void:
+	update_crystal_display()
+	show_toast("+1 RESOLVE CRYSTAL! [%s]" % uid.to_upper(), Color(0.96, 0.95, 0.90, 1.0))
 
 func show_toast(msg: String, color: Color = Color(0.2, 0.9, 0.5, 1.0)) -> void:
 	toast_text.text = msg

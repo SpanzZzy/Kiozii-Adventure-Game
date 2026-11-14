@@ -14,6 +14,7 @@ var facing: float = 1.0
 var shoot_cooldown: float = 0.0
 var invuln_timer: float = 0.0
 var coyote_timer: float = 0.0
+var jump_buffer_timer: float = 0.0
 var anim_timer: float = 0.0
 var idle_timer: float = 0.0
 
@@ -46,6 +47,12 @@ func _ready() -> void:
 	add_to_group("player")
 	spawn_position = global_position
 	muzzle_flash.visible = false
+
+	# CONFIGURE FLOOR & SLOPE PHYSICS
+	floor_stop_on_slope = true
+	floor_constant_speed = true
+	floor_max_angle = deg_to_rad(50.0)
+	floor_snap_length = 0.45
 	
 	# CONFIGURE CAMERA MODE
 	if is_open_world:
@@ -92,6 +99,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		muzzle_flash.visible = false
 
+	# JUMP INPUT BUFFERING
+	if Input.is_action_just_pressed("jump"):
+		jump_buffer_timer = 0.12
+	else:
+		jump_buffer_timer = maxf(0.0, jump_buffer_timer - delta)
+
 	# GROUND DETECTION & COYOTE TIME
 	if is_on_floor():
 		coyote_timer = 0.12
@@ -101,9 +114,10 @@ func _physics_process(delta: float) -> void:
 		if velocity.y < -36.0:
 			velocity.y = -36.0
 
-	# JUMP
-	if Input.is_action_just_pressed("jump") and coyote_timer > 0.0:
+	# EXECUTE BUFFERED JUMP WITH COYOTE TIME
+	if jump_buffer_timer > 0.0 and coyote_timer > 0.0:
 		velocity.y = jump_force
+		jump_buffer_timer = 0.0
 		coyote_timer = 0.0
 		AudioManager.play_jump()
 
@@ -212,10 +226,11 @@ func shoot_2d() -> void:
 	muzzle_flash.visible = true
 	AudioManager.play_shoot()
 	if bullet_scene:
+		var spawn_pos = muzzle.global_position
 		var bullet = bullet_scene.instantiate()
-		bullet.global_position = muzzle.global_position
-		bullet.set_direction(facing)
 		get_parent().add_child(bullet)
+		bullet.global_position = spawn_pos
+		bullet.set_direction(facing)
 
 func shoot_3d() -> void:
 	shoot_cooldown = 0.20
@@ -224,8 +239,8 @@ func shoot_3d() -> void:
 	if not bullet_scene:
 		return
 		
-	var bullet = bullet_scene.instantiate()
 	var spawn_pos = muzzle.global_position
+	var bullet = bullet_scene.instantiate()
 	
 	# RAYCAST TARGET FROM ACTIVE CAMERA
 	var target_point: Vector3
@@ -243,9 +258,9 @@ func shoot_3d() -> void:
 		target_point = spawn_pos + -visual_root.global_transform.basis.z * 50.0
 		
 	var bullet_vel = (target_point - spawn_pos).normalized() * 34.0
+	get_parent().add_child(bullet)
 	bullet.global_position = spawn_pos
 	bullet.set_velocity_3d(bullet_vel)
-	get_parent().add_child(bullet)
 
 func take_damage(amount: int = 1, knockback_dir: float = 0.0, reason: String = "Defeated on the ridge.") -> void:
 	if invuln_timer > 0.0:

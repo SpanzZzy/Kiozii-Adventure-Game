@@ -87,21 +87,23 @@ func process_2d_sniping(delta: float) -> void:
 
 func fire_at_player_2d(dir: float) -> void:
 	if bullet_scene:
+		var spawn_pos = muzzle.global_position
 		var bullet = bullet_scene.instantiate()
-		bullet.global_position = muzzle.global_position
+		get_parent().add_child(bullet)
+		bullet.global_position = spawn_pos
 		bullet.set_velocity_3d(Vector3(dir * bullet_speed, 0, 0), false)
 		AudioManager.play_shoot()
-		get_parent().add_child(bullet)
 
 func fire_at_player_3d() -> void:
 	if bullet_scene:
-		var bullet = bullet_scene.instantiate()
+		var spawn_pos = muzzle.global_position
 		var target = player_node.global_position + Vector3(0, 0.8, 0)
-		var dir_3d = (target - muzzle.global_position).normalized()
-		bullet.global_position = muzzle.global_position
+		var dir_3d = (target - spawn_pos).normalized()
+		var bullet = bullet_scene.instantiate()
+		get_parent().add_child(bullet)
+		bullet.global_position = spawn_pos
 		bullet.set_velocity_3d(dir_3d * bullet_speed, true)
 		AudioManager.play_shoot()
-		get_parent().add_child(bullet)
 
 func take_damage(amount: int) -> void:
 	current_health = clampi(current_health - amount, 0, max_health)

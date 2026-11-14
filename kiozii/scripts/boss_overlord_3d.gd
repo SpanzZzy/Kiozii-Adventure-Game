@@ -198,17 +198,19 @@ func execute_boss_attack_3d() -> void:
 
 func spawn_bullet_2d(vx: float, vy: float) -> void:
 	if bullet_scene:
+		var spawn_pos = muzzle_left.global_position
 		var bullet = bullet_scene.instantiate()
-		bullet.global_position = muzzle_left.global_position
-		bullet.set_velocity_3d(Vector3(vx, vy, 0), false)
 		get_parent().add_child(bullet)
+		bullet.global_position = spawn_pos
+		bullet.set_velocity_3d(Vector3(vx, vy, 0), false)
 
 func spawn_bullet_3d(vel: Vector3) -> void:
 	if bullet_scene:
+		var spawn_pos = muzzle_left.global_position
 		var bullet = bullet_scene.instantiate()
-		bullet.global_position = muzzle_left.global_position
-		bullet.set_velocity_3d(vel, true)
 		get_parent().add_child(bullet)
+		bullet.global_position = spawn_pos
+		bullet.set_velocity_3d(vel, true)
 
 func take_damage(amount: int) -> void:
 	if is_dead:
