@@ -6,6 +6,7 @@ extends Area3D
 var velocity: Vector3 = Vector3.ZERO
 var lifetime: float = 2.6
 var is_3d: bool = false
+var ignore_terrain: bool = false
 
 func _ready() -> void:
 	connect("body_entered", Callable(self, "_on_body_entered"))
@@ -13,6 +14,11 @@ func _ready() -> void:
 func set_velocity_3d(vel: Vector3, full_3d: bool = false) -> void:
 	velocity = vel
 	is_3d = full_3d
+
+func set_ignore_terrain(val: bool) -> void:
+	ignore_terrain = val
+	if ignore_terrain:
+		collision_mask = 2
 
 func _physics_process(delta: float) -> void:
 	global_position += velocity * delta
@@ -29,4 +35,5 @@ func _on_body_entered(body: Node3D) -> void:
 		body.take_damage(damage, knock_dir, "Struck by an enemy energy blast!")
 		queue_free()
 	elif not body.is_in_group("enemies"):
-		queue_free()
+		if not ignore_terrain:
+			queue_free()

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dnc0fwqol7n2l" path="res://scripts/boss_overlord_3d.gd" id="1_boss"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_boss"]
-size = Vector3(3.2, 4.2, 2.8)
+size = Vector3(3.6, 4.4, 3.4)
 
 [sub_resource type="StandardMaterial3D" id="Mat_BossArmor"]
 albedo_color = Color(0.2314, 0.0275, 0.3922, 1)
@@ -37,7 +37,7 @@ collision_mask = 3
 script = ExtResource("1_boss")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1171421044]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_boss")
 
 [node name="Visuals" type="Node3D" parent="." unique_id=494567578]
@@ -77,3 +77,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.75, -1.65)
 
 [node name="MuzzleRight" type="Marker3D" parent="Visuals" unique_id=847925131]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.75, 1.65)
+
+[node name="MuzzleChest" type="Marker3D" parent="Visuals" unique_id=987123456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1.35, 0)
