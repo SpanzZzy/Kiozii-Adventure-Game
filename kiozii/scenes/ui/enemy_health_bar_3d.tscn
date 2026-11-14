@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy_health_bar_3d.gd" id="1_bar"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Bg"]
+shading_mode = 0
+albedo_color = Color(0.1, 0.12, 0.15, 0.85)
+render_priority = 1
+
+[sub_resource type="QuadMesh" id="Mesh_Bg"]
+size = Vector2(1.15, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Fill"]
+shading_mode = 0
+albedo_color = Color(0.2, 0.88, 0.38, 1)
+render_priority = 2
+
+[sub_resource type="QuadMesh" id="Mesh_Fill"]
+size = Vector2(1.1, 0.11)
+
+[node name="EnemyHealthBar3D" type="Node3D"]
+script = ExtResource("1_bar")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+material_override = SubResource("Mat_Bg")
+mesh = SubResource("Mesh_Bg")
+
+[node name="FillPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0, 0.01)
+
+[node name="Fill" type="MeshInstance3D" parent="FillPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0, 0)
+material_override = SubResource("Mat_Fill")
+mesh = SubResource("Mesh_Fill")

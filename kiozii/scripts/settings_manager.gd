@@ -1,5 +1,8 @@
 extends Node
 
+# GRAPHICS PRESET SIGNAL
+signal graphics_preset_changed(preset_idx)
+
 # SETTINGS DATA MODEL - DEFAULT LOW PRESET
 var master_volume: float = 1.0
 var music_volume: float = 0.8
@@ -106,7 +109,7 @@ func apply_preset(preset_idx: int) -> void:
 		bloom_enabled = false
 		msaa_quality = 0
 		vsync = false
-		fps_cap = 120
+		fps_cap = 60
 	elif preset_idx == 1: # MEDIUM
 		shadow_quality = 1
 		fog_enabled = true
@@ -120,8 +123,9 @@ func apply_preset(preset_idx: int) -> void:
 		bloom_enabled = true
 		msaa_quality = 2
 		vsync = true
-		fps_cap = 0
+		fps_cap = 60
 	apply_graphics_settings()
+	emit_signal("graphics_preset_changed", preset_idx)
 	save_settings()
 
 # INPUT REBINDING SYSTEM

@@ -13,12 +13,15 @@ var hit_flash: float = 0.0
 var bullet_scene = preload("res://scenes/weapons/enemy_bullet_3d.tscn")
 @onready var visual_root: Node3D = $Visuals
 @onready var muzzle: Marker3D = $Visuals/Muzzle
+@onready var health_bar: Node3D = $EnemyHealthBar3D
 var player_node: Node3D = null
 
 func _ready() -> void:
 	add_to_group("enemies")
 	apply_level_scaling()
 	current_health = max_health
+	if health_bar:
+		health_bar.set_health(current_health, max_health)
 
 func apply_level_scaling() -> void:
 	var lvl = GameManager.current_level_idx + 1
@@ -74,9 +77,11 @@ func fire_at_player(dir: float) -> void:
 		get_parent().add_child(bullet)
 
 func take_damage(amount: int) -> void:
-	current_health -= amount
+	current_health = clampi(current_health - amount, 0, max_health)
 	hit_flash = 0.12
 	AudioManager.play_enemy_hit()
+	if health_bar:
+		health_bar.set_health(current_health, max_health)
 	if current_health <= 0:
 		die()
 

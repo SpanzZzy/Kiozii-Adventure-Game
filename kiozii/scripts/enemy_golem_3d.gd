@@ -12,11 +12,14 @@ var hit_flash: float = 0.0
 var base_speed: float = 4.5
 
 @onready var visual_root: Node3D = $Visuals
+@onready var health_bar: Node3D = $EnemyHealthBar3D
 
 func _ready() -> void:
 	add_to_group("enemies")
 	apply_level_scaling()
 	current_health = max_health
+	if health_bar:
+		health_bar.set_health(current_health, max_health)
 
 func apply_level_scaling() -> void:
 	var lvl = GameManager.current_level_idx + 1
@@ -63,9 +66,11 @@ func _physics_process(delta: float) -> void:
 			collider.take_damage(1, dir, "Crushed by an armored ridge golem!")
 
 func take_damage(amount: int) -> void:
-	current_health -= amount
+	current_health = clampi(current_health - amount, 0, max_health)
 	hit_flash = 0.12
 	AudioManager.play_enemy_hit()
+	if health_bar:
+		health_bar.set_health(current_health, max_health)
 	if current_health <= 0:
 		die()
 

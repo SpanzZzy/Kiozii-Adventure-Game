@@ -1,16 +1,17 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemy_scout_3d.gd" id="1_scout"]
+[ext_resource type="PackedScene" path="res://scenes/ui/enemy_health_bar_3d.tscn" id="2_health"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_scout"]
 size = Vector3(1.15, 1.2, 1.15)
 
 [sub_resource type="StandardMaterial3D" id="Mat_ScoutBody"]
-albedo_color = Color(0.8824, 0.1137, 0.2824, 1.0)
+albedo_color = Color(0.8824, 0.1137, 0.2824, 1)
 roughness = 0.35
 
 [sub_resource type="StandardMaterial3D" id="Mat_ScoutCrest"]
-albedo_color = Color(0.9843, 0.4431, 0.5216, 1.0)
+albedo_color = Color(0.9843, 0.4431, 0.5216, 1)
 roughness = 0.3
 
 [sub_resource type="StandardMaterial3D" id="Mat_ScoutEye"]
@@ -42,3 +43,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.55, 0)
 size = Vector3(0.1, 0.22, 0.65)
 material = SubResource("Mat_ScoutEye")
 
+[node name="EnemyHealthBar3D" parent="." instance=ExtResource("2_health")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
