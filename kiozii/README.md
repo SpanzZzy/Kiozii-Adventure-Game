@@ -1,7 +1,13 @@
 # KIOZII — BOUNCE BACK
 ### 3D Open-World Mountain Adventure
 
+[![Play on itch.io](https://img.shields.io/badge/Play%20on-itch.io-FA5C5C?style=for-the-badge&logo=itch.io&logoColor=white)](https://spanzzzy.itch.io/kiozii)
+[![Engine](https://img.shields.io/badge/Godot-4.7.2--stable-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-brightgreen?style=for-the-badge)](https://spanzzzy.itch.io/kiozii)
+
 > **"Fall. Learn. Rise. Reach the Summit."**
+
+🎮 **Play Online / Download on itch.io**: [https://spanzzzy.itch.io/kiozii](https://spanzzzy.itch.io/kiozii)
 
 ![Kiozii: Bounce Back cover art](imagesforreadme/thumbnail.png)
 
@@ -27,7 +33,11 @@ The central theme is resilience: setbacks, falls, and damage are not failures, b
 
 ---
 
-## How to Run the Game
+## How to Play & Run the Game
+
+### 🌐 Play in Browser (itch.io)
+Play the official web release directly in your browser:  
+👉 **[https://spanzzzy.itch.io/kiozii](https://spanzzzy.itch.io/kiozii)**
 
 ### In Godot Editor:
 1. Launch **Godot Engine 4 (v4.3 or newer)**.
