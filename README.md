@@ -1,11 +1,27 @@
 # KIOZII — BOUNCE BACK
 ### 3D Open-World Mountain Adventure
 
+[![Play on itch.io](https://img.shields.io/badge/Play%20on-itch.io-FA5C5C?style=for-the-badge&logo=itch.io&logoColor=white)](https://spanzzzy.itch.io/kiozii)
+[![Engine](https://img.shields.io/badge/Godot-4.7.2--stable-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-brightgreen?style=for-the-badge)](https://spanzzzy.itch.io/kiozii)
+
 > **"Fall. Learn. Rise. Reach the Summit."**
+
+🎮 **Play Online / Download on itch.io**: [https://spanzzzy.itch.io/kiozii](https://spanzzzy.itch.io/kiozii)
+
+![Kiozii: Bounce Back cover art](imagesforreadme/thumbnail.png)
 
 **KIOZII** is a fantasy-inspired 3D mountain action-adventure game developed in Godot 4. Players embark on an ascent across seven connected, seamless mountain biomes—overcoming hostile mountain sentries, perilous cliffs, and the multi-phase Summit Overlord to claim victory.
 
 The central theme is resilience: setbacks, falls, and damage are not failures, but learning steps. With the **Second Wind** comeback mechanic, players bounce back from adversity stronger and faster.
+
+---
+
+## Screenshots
+
+| Classic 2.5D | 3D Open World |
+| :---: | :---: |
+| ![Classic 2.5D gameplay in Autumn Peaks](imagesforreadme/gameplay-2d.png) | ![Open-world mountain gameplay](imagesforreadme/gameplay-3d.png) |
 
 ---
 
@@ -17,7 +33,11 @@ The central theme is resilience: setbacks, falls, and damage are not failures, b
 
 ---
 
-## How to Run the Game
+## How to Play & Run the Game
+
+### 🌐 Play in Browser (itch.io)
+Play the official web release directly in your browser:  
+👉 **[https://spanzzzy.itch.io/kiozii](https://spanzzzy.itch.io/kiozii)**
 
 ### In Godot Editor:
 1. Launch **Godot Engine 4 (v4.3 or newer)**.
@@ -115,4 +135,4 @@ godot --path kiozii --headless res://tests/test_traversal_runner.tscn
 ## Asset Credits & Attributions
 
 All art, audio, textures, and code in **KIOZII** are CC0, MIT, or custom-authored open-source assets.  
-For full attribution details, please see [CREDITS.md](file:///Users/spandankothalkar/Desktop/HavenGame/Kiozii%20Adventure%20Game/kiozii/CREDITS.md).
+For full attribution details, please see [CREDITS.md](CREDITS.md).
