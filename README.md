@@ -55,7 +55,6 @@ All controls are fully rebindable in the in-game **Settings** menu.
 | **Pause / Menu** | `Escape` | Pause menu |
 
 ---
-
 ## Main Gameplay Features
 
 ### 1. Interconnected 3D Mountain World (7 Distinct Regions)
