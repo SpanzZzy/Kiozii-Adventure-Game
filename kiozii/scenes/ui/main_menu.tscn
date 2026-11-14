@@ -57,7 +57,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
 theme_override_font_sizes/font_size = 11
-text = "3D ACTION MOUNTAIN SHOOTER"
+text = "BOUNCE BACK — FALL. LEARN. RISE."
 horizontal_alignment = 1
 
 [node name="Title" type="Label" parent="CenterBox/VBox"]
@@ -71,14 +71,14 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
 theme_override_font_sizes/font_size = 14
-text = "— SEVEN SUMMITS (3D) —"
+text = "— SEVEN SUMMITS: BOUNCE BACK —"
 horizontal_alignment = 1
 
 [node name="Desc" type="Label" parent="CenterBox/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
 theme_override_font_sizes/font_size = 12
-text = "Scale seven 3D mountain peaks, blast ridge guardians to ignite each 3D Summit Portal, and defeat the Summit Overlord on Peak 7!"
+text = "Scale seven mountain peaks, gather glowing Resolve Crystals, ignite mountain altars, and rise from every fall to conquer the Summit Overlord!"
 horizontal_alignment = 1
 autowrap_mode = 2
 

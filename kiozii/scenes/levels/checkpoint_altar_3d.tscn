@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/checkpoint_altar_3d.gd" id="1_altar"]
+
+[sub_resource type="BoxShape3D" id="Shape_Altar"]
+size = Vector3(2.5, 3.5, 3.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Stone"]
+albedo_color = Color(0.25, 0.28, 0.35, 1.0)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_Base"]
+material = SubResource("Mat_Stone")
+size = Vector3(1.6, 1.8, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Flame"]
+albedo_color = Color(0.2, 0.9, 0.5, 1.0)
+emission_enabled = true
+emission = Color(0.2, 0.95, 0.6, 1.0)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="PrismMesh" id="Mesh_Flame"]
+material = SubResource("Mat_Flame")
+size = Vector3(0.6, 0.9, 0.6)
+
+[node name="CheckpointAltar3D" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_altar")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("Shape_Altar")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Base" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("Mesh_Base")
+
+[node name="Flame" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+mesh = SubResource("Mesh_Flame")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+light_color = Color(0.2, 0.95, 0.6, 1.0)
+light_energy = 0.8
+omni_range = 6.0

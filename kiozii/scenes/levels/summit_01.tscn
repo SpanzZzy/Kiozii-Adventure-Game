@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy_scout_3d.tscn" id="6_scout"]
 [ext_resource type="Texture2D" path="res://textures/pixel_rock.png" id="90_rock_tex"]
 [ext_resource type="Texture2D" path="res://textures/pixel_grass.png" id="91_grass_tex"]
+[ext_resource type="PackedScene" path="res://scenes/levels/resolve_crystal_3d.tscn" id="93_crystal"]
 
 [sub_resource type="Environment" id="Env_Summit"]
 background_mode = 1
@@ -477,3 +478,12 @@ min_x = 86.0
 max_x = 96.0
 speed = 4.2
 max_health = 2
+
+[node name="ResolveCrystal_0" parent="." instance=ExtResource("93_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 5.0, 0.0)
+
+[node name="ResolveCrystal_1" parent="." instance=ExtResource("93_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.5, 2.0, 0.0)
+
+[node name="ResolveCrystal_2" parent="." instance=ExtResource("93_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.5, 8.0, 0.0)

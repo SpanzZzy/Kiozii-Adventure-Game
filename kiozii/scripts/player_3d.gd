@@ -14,6 +14,11 @@ var coyote_timer: float = 0.0
 var anim_timer: float = 0.0
 var idle_timer: float = 0.0
 
+# SECOND WIND BOUNCE BACK PROPERTIES
+var second_wind_timer: float = 0.0
+const SECOND_WIND_DURATION: float = 2.4
+const SECOND_WIND_SPEED_BOOST: float = 3.5
+
 var bullet_scene = preload("res://scenes/weapons/player_bullet_3d.tscn")
 
 @onready var visual_root: Node3D = $Visuals
@@ -43,6 +48,13 @@ func _physics_process(delta: float) -> void:
 	else:
 		visual_root.visible = true
 
+	if second_wind_timer > 0.0:
+		second_wind_timer -= delta
+		var pulse = 1.0 + absf(sin(second_wind_timer * 9.0)) * 0.12
+		visual_root.scale = Vector3(pulse, pulse, pulse)
+	else:
+		visual_root.scale = Vector3.ONE
+
 	if shoot_cooldown > 0.0:
 		shoot_cooldown -= delta
 	else:
@@ -63,14 +75,15 @@ func _physics_process(delta: float) -> void:
 		coyote_timer = 0.0
 		AudioManager.play_jump()
 
-	# HORIZONTAL MOVEMENT
+	# HORIZONTAL MOVEMENT WITH SECOND WIND SPEED BOOST
+	var cur_speed = speed + (SECOND_WIND_SPEED_BOOST if second_wind_timer > 0.0 else 0.0)
 	var dir := Input.get_axis("move_left", "move_right")
 	if dir != 0.0:
 		facing = signf(dir)
 		velocity.x += dir * accel * delta
-		if absf(velocity.x) > speed:
-			velocity.x = signf(velocity.x) * speed
-		anim_timer += delta * 13.0
+		if absf(velocity.x) > cur_speed:
+			velocity.x = signf(velocity.x) * cur_speed
+		anim_timer += delta * (15.0 if second_wind_timer > 0.0 else 13.0)
 	else:
 		var decel = friction * delta
 		if absf(velocity.x) <= decel:
@@ -110,11 +123,18 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("shoot") and shoot_cooldown <= 0.0:
 		shoot()
 
-	# HAZARD FALL RESET
+	# HAZARD FALL RESET - BOUNCE BACK CHECKPOINT RECOVERY
 	if global_position.y < -7.0:
-		global_position = spawn_position
+		var target_spawn = GameManager.current_checkpoint_pos if GameManager.has_custom_checkpoint else spawn_position
+		global_position = target_spawn
 		velocity = Vector3.ZERO
 		take_damage(1, 0.0, "You fell into a deep mountain chasm!")
+		apply_second_wind()
+
+func apply_second_wind() -> void:
+	invuln_timer = 1.8
+	second_wind_timer = SECOND_WIND_DURATION
+	GameManager.trigger_second_wind()
 
 func shoot() -> void:
 	shoot_cooldown = 0.21

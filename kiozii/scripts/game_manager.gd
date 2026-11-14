@@ -1,11 +1,16 @@
 extends Node
 
+# GAME MANAGER & COMEBACK PROGRESSION
 signal health_changed(new_health, max_health)
 signal enemy_count_changed(remaining, total)
 signal boss_health_changed(current_hp, max_hp)
 signal portal_unlocked
-signal level_completed(clear_time, kills, total)
+signal level_completed(clear_time, kills, total, crystals_collected, crystals_total)
 signal game_over(reason)
+signal crystal_collected(current_count, total_count)
+signal checkpoint_reached(pos_name)
+signal second_wind_activated
+signal achievement_unlocked(ach_id, ach_title, ach_desc)
 
 var current_level_idx: int = 0
 var current_level_index: int:
@@ -26,8 +31,46 @@ var level_time: float = 0.0
 var is_level_active: bool = false
 var portal_is_open: bool = false
 
+# BOUNCE BACK STATS
+var has_respawned_this_level: bool = false
+var damage_taken_this_level: int = 0
+var crystals_collected_level: int = 0
+var crystals_total_level: int = 0
+
+# ACTIVE CHECKPOINT POSITION
+var current_checkpoint_pos: Vector3 = Vector3.ZERO
+var has_custom_checkpoint: bool = false
+
+# ACHIEVEMENTS PERSISTENCE
+var unlocked_achievements: Dictionary = {}
+const ACHIEVEMENTS_DATA = {
+	"never_give_up": {
+		"title": "NEVER GIVE UP",
+		"desc": "Bounced back and conquered a summit after falling into the chasm!"
+	},
+	"crystal_seeker": {
+		"title": "CRYSTAL SEEKER",
+		"desc": "Gathered every glowing Resolve Crystal on the mountain!"
+	},
+	"untouchable": {
+		"title": "UNTOUCHABLE",
+		"desc": "Conquered a summit with zero damage taken!"
+	},
+	"high_altitude": {
+		"title": "HIGH ALTITUDE",
+		"desc": "Reached the treacherous heights of Summit 6!"
+	},
+	"ultimate_comeback": {
+		"title": "THE ULTIMATE COMEBACK",
+		"desc": "Overcame the Summit Overlord to claim the Seven Summits!"
+	}
+}
+
+const SAVE_PATH = "user://kiozii_progress.cfg"
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	load_progress()
 
 func _process(delta: float) -> void:
 	if is_level_active and not get_tree().paused:
@@ -41,15 +84,42 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 	level_time = 0.0
 	is_level_active = true
 	portal_is_open = (enemy_count == 0 and not is_boss)
+	has_respawned_this_level = false
+	damage_taken_this_level = 0
+	crystals_collected_level = 0
+	crystals_total_level = 0
+	has_custom_checkpoint = false
+	current_checkpoint_pos = Vector3.ZERO
 	
 	emit_signal("health_changed", player_current_health, player_max_health)
 	emit_signal("enemy_count_changed", enemies_remaining, enemies_total)
 	if portal_is_open:
 		emit_signal("portal_unlocked")
 
+func set_checkpoint(pos: Vector3, checkpoint_name: String = "Summit Altar") -> void:
+	current_checkpoint_pos = pos
+	has_custom_checkpoint = true
+	if AudioManager:
+		AudioManager.play_checkpoint()
+	emit_signal("checkpoint_reached", checkpoint_name)
+
+func on_crystal_collected() -> void:
+	crystals_collected_level += 1
+	if AudioManager:
+		AudioManager.play_crystal()
+	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+
+func trigger_second_wind() -> void:
+	has_respawned_this_level = true
+	if AudioManager:
+		AudioManager.play_second_wind()
+	emit_signal("second_wind_activated")
+
 func player_take_damage(amount: int = 1, reason: String = "Defeated on the ridge.") -> void:
+	damage_taken_this_level += amount
 	player_current_health = clampi(player_current_health - amount, 0, player_max_health)
-	AudioManager.play_player_hurt()
+	if AudioManager:
+		AudioManager.play_player_hurt()
 	emit_signal("health_changed", player_current_health, player_max_health)
 	if player_current_health <= 0:
 		is_level_active = false
@@ -59,11 +129,13 @@ func enemy_defeated() -> void:
 	enemies_remaining = maxi(enemies_remaining - 1, 0)
 	level_kills += 1
 	total_kills_session += 1
-	AudioManager.play_enemy_die()
+	if AudioManager:
+		AudioManager.play_enemy_die()
 	emit_signal("enemy_count_changed", enemies_remaining, enemies_total)
 	if enemies_remaining == 0:
 		portal_is_open = true
-		AudioManager.play_portal_unlock()
+		if AudioManager:
+			AudioManager.play_portal_unlock()
 		emit_signal("portal_unlocked")
 
 func complete_level() -> void:
@@ -73,9 +145,21 @@ func complete_level() -> void:
 		completed_levels.append(lvl_id)
 	if lvl_id >= unlocked_level and lvl_id < total_levels:
 		unlocked_level = lvl_id + 1
-	
-	AudioManager.play_portal_unlock()
-	emit_signal("level_completed", level_time, level_kills, enemies_total)
+
+	# CHECK ACHIEVEMENTS
+	if has_respawned_this_level:
+		unlock_achievement("never_give_up")
+	if damage_taken_this_level == 0:
+		unlock_achievement("untouchable")
+	if crystals_total_level > 0 and crystals_collected_level >= crystals_total_level:
+		unlock_achievement("crystal_seeker")
+	if lvl_id >= 6:
+		unlock_achievement("high_altitude")
+
+	save_progress()
+	if AudioManager:
+		AudioManager.play_portal_unlock()
+	emit_signal("level_completed", level_time, level_kills, enemies_total, crystals_collected_level, crystals_total_level)
 	get_tree().change_scene_to_file("res://scenes/ui/level_completed.tscn")
 
 func boss_defeated() -> void:
@@ -83,8 +167,18 @@ func boss_defeated() -> void:
 	total_kills_session += 1
 	if not completed_levels.has(7):
 		completed_levels.append(7)
-	AudioManager.play_victory()
+	unlock_achievement("ultimate_comeback")
+	save_progress()
+	if AudioManager:
+		AudioManager.play_victory()
 	get_tree().change_scene_to_file("res://scenes/ui/victory_screen.tscn")
+
+func unlock_achievement(ach_id: String) -> void:
+	if not unlocked_achievements.has(ach_id) and ACHIEVEMENTS_DATA.has(ach_id):
+		unlocked_achievements[ach_id] = true
+		var data = ACHIEVEMENTS_DATA[ach_id]
+		emit_signal("achievement_unlocked", ach_id, data["title"], data["desc"])
+		save_progress()
 
 func start_level(index: int) -> void:
 	current_level_idx = index
@@ -102,3 +196,18 @@ func next_level() -> void:
 
 func unlock_all_levels() -> void:
 	unlocked_level = 7
+	save_progress()
+
+func save_progress() -> void:
+	var cfg = ConfigFile.new()
+	cfg.set_value("progression", "unlocked_level", unlocked_level)
+	cfg.set_value("progression", "completed_levels", completed_levels)
+	cfg.set_value("progression", "achievements", unlocked_achievements)
+	cfg.save(SAVE_PATH)
+
+func load_progress() -> void:
+	var cfg = ConfigFile.new()
+	if cfg.load(SAVE_PATH) == OK:
+		unlocked_level = cfg.get_value("progression", "unlocked_level", 1)
+		completed_levels = cfg.get_value("progression", "completed_levels", [])
+		unlocked_achievements = cfg.get_value("progression", "achievements", {})

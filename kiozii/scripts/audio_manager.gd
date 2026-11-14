@@ -9,6 +9,9 @@ var player_hurt_sfx = preload("res://audio/player_hurt.wav")
 var portal_unlock_sfx = preload("res://audio/portal_unlock.wav")
 var boss_slam_sfx = preload("res://audio/boss_slam.wav")
 var victory_sfx = preload("res://audio/victory.wav")
+var crystal_sfx = preload("res://audio/crystal.wav")
+var checkpoint_sfx = preload("res://audio/checkpoint.wav")
+var second_wind_sfx = preload("res://audio/second_wind.wav")
 
 var audio_players: Array[AudioStreamPlayer] = []
 const POOL_SIZE = 8
@@ -48,6 +51,9 @@ func play_player_hurt() -> void: play_sfx(player_hurt_sfx, 1.0)
 func play_portal_unlock() -> void: play_sfx(portal_unlock_sfx, 0.0)
 func play_boss_slam() -> void: play_sfx(boss_slam_sfx, 2.0)
 func play_victory() -> void: play_sfx(victory_sfx, 0.0)
+func play_crystal() -> void: play_sfx(crystal_sfx, 1.0)
+func play_checkpoint() -> void: play_sfx(checkpoint_sfx, 1.0)
+func play_second_wind() -> void: play_sfx(second_wind_sfx, 1.5)
 
 func toggle_mute() -> bool:
 	muted = not muted
