@@ -92,19 +92,15 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 	has_custom_checkpoint = false
 	current_checkpoint_pos = Vector3.ZERO
 	
-	# INITIALIZE CRYSTALS FOR CURRENT LEVEL
-	if is_boss:
-		crystals_total_level = 0
-		crystals_collected_level = 0
-	else:
-		crystals_total_level = 3
-		var lvl_key = str(current_level_idx + 1)
-		var lvl_saved = saved_crystals.get(lvl_key, [false, false, false])
-		var count = 0
-		for c in lvl_saved:
-			if c == true:
-				count += 1
-		crystals_collected_level = count
+	# INITIALIZE CRYSTALS FOR CURRENT LEVEL (3 PER LEVEL FOR ALL 7 SUMMITS)
+	crystals_total_level = 3
+	var lvl_key = str(current_level_idx + 1)
+	var lvl_saved = saved_crystals.get(lvl_key, [false, false, false])
+	var count = 0
+	for c in lvl_saved:
+		if c == true:
+			count += 1
+	crystals_collected_level = count
 	
 	emit_signal("health_changed", player_current_health, player_max_health)
 	emit_signal("enemy_count_changed", enemies_remaining, enemies_total)

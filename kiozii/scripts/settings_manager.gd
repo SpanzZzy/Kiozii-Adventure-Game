@@ -16,7 +16,7 @@ var shadow_quality: int = 0 # 0=OFF, 1=LOW, 2=HIGH
 var fog_enabled: bool = false
 var bloom_enabled: bool = false
 var msaa_quality: int = 0 # 0=DISABLED, 1=2X, 2=4X
-var fps_cap: int = 120
+var fps_cap: int = 60
 
 # REBINDABLE ACTIONS AND DEFAULTS
 const ACTIONS = ["move_left", "move_right", "jump", "shoot", "pause", "toggle_camera"]
@@ -295,7 +295,7 @@ func load_settings() -> void:
 		fullscreen = cfg.get_value("display", "fullscreen", false)
 		vsync = cfg.get_value("display", "vsync", false) # DEFAULT FALSE
 		resolution_idx = cfg.get_value("display", "resolution_idx", 2) # DEFAULT 1280x720
-		fps_cap = cfg.get_value("display", "fps_cap", 120)
+		fps_cap = cfg.get_value("display", "fps_cap", 60)
 		graphics_preset = cfg.get_value("graphics", "preset", 0) # DEFAULT LOW
 		shadow_quality = cfg.get_value("graphics", "shadow", 0)
 		fog_enabled = cfg.get_value("graphics", "fog", false)
@@ -314,7 +314,7 @@ func reset_to_defaults() -> void:
 	fullscreen = false
 	vsync = false
 	resolution_idx = 2 # 1280x720 Windowed
-	fps_cap = 120
+	fps_cap = 60
 	apply_preset(0) # RESTORE LOW PRESET
 	apply_all_settings()
 	restore_default_controls()

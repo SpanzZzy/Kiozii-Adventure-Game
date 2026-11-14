@@ -16,6 +16,8 @@ extends CanvasLayer
 @onready var game_over_menu: Control = $GameOverMenu
 @onready var game_over_reason: Label = $GameOverMenu/Box/VBox/ReasonLabel
 
+var prev_crystal_count: int = -1
+
 func _ready() -> void:
 	pause_menu.visible = false
 	settings_modal.visible = false
@@ -35,7 +37,8 @@ func _ready() -> void:
 
 	_on_health_changed(GameManager.player_current_health, GameManager.player_max_health)
 	_on_enemy_count_changed(GameManager.enemies_remaining, GameManager.enemies_total)
-	_on_crystal_collected(GameManager.crystals_collected_level, GameManager.crystals_total_level)
+	prev_crystal_count = GameManager.crystals_collected_level
+	update_crystal_display(GameManager.crystals_collected_level, GameManager.crystals_total_level)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause") and not game_over_menu.visible:
@@ -48,7 +51,7 @@ func set_level_info(level_num: int, title: String, is_boss: bool = false) -> voi
 	level_title.text = "LVL %d: %s" % [level_num, title.to_upper()]
 	if is_boss:
 		$HUD/MarginTop/HBoxRight/BoxEnemies.visible = false
-		$HUD/MarginTop/HBoxRight/BoxCrystals.visible = false
+		$HUD/MarginTop/HBoxRight/BoxCrystals.visible = true
 		boss_hud.visible = true
 	else:
 		$HUD/MarginTop/HBoxRight/BoxEnemies.visible = true
@@ -75,9 +78,14 @@ func _on_checkpoint_reached(checkpoint_name: String) -> void:
 func _on_second_wind_activated() -> void:
 	show_toast("BOUNCE BACK! SECOND WIND SURGE!", Color(0.96, 0.75, 0.2, 1.0))
 
-func _on_crystal_collected(current: int, total: int) -> void:
+func update_crystal_display(current: int, total: int) -> void:
 	crystal_label.text = "◆ CRYSTALS: %d/%d" % [current, total]
-	show_toast("RESOLVE CRYSTAL ACQUIRED! (%d/%d)" % [current, total], Color(0.22, 0.75, 1.0, 1.0))
+
+func _on_crystal_collected(current: int, total: int) -> void:
+	update_crystal_display(current, total)
+	if prev_crystal_count >= 0 and current > prev_crystal_count:
+		show_toast("+1 RESOLVE CRYSTAL! (%d/%d)" % [current, total], Color(0.96, 0.95, 0.90, 1.0))
+	prev_crystal_count = current
 
 func _on_achievement_unlocked(_id: String, title: String, desc: String) -> void:
 	show_toast("★ COMEBACK MEDAL: %s!\n%s" % [title, desc], Color(0.96, 0.85, 0.3, 1.0))
