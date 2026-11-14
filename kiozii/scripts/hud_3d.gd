@@ -11,11 +11,13 @@ extends CanvasLayer
 @onready var toast_text: Label = $ToastBanner/Box/ToastText
 
 @onready var pause_menu: Control = $PauseMenu
+@onready var settings_modal: Control = $SettingsModal
 @onready var game_over_menu: Control = $GameOverMenu
 @onready var game_over_reason: Label = $GameOverMenu/Box/VBox/ReasonLabel
 
 func _ready() -> void:
 	pause_menu.visible = false
+	settings_modal.visible = false
 	game_over_menu.visible = false
 	toast_banner.visible = false
 	boss_hud.visible = false
@@ -31,7 +33,10 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause") and not game_over_menu.visible:
-		toggle_pause()
+		if settings_modal.visible:
+			settings_modal.hide()
+		else:
+			toggle_pause()
 
 func set_level_info(level_num: int, title: String, is_boss: bool = false) -> void:
 	level_title.text = "LVL %d: %s" % [level_num, title.to_upper()]
@@ -90,14 +95,21 @@ func toggle_pause() -> void:
 	var paused = not get_tree().paused
 	get_tree().paused = paused
 	pause_menu.visible = paused
+	if not paused and settings_modal.visible:
+		settings_modal.hide()
 
 func _on_resume_pressed() -> void:
 	get_tree().paused = false
 	pause_menu.visible = false
+	settings_modal.visible = false
 
 func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	GameManager.restart_current_level()
+
+func _on_settings_pressed() -> void:
+	settings_modal.show()
+	settings_modal.sync_from_manager()
 
 func _on_menu_pressed() -> void:
 	get_tree().paused = false

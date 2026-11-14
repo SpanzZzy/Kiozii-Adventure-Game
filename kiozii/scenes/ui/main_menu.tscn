@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" path="res://textures/menu_backdrop.png" id="2_backdrop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_menu.tscn" id="3_settings"]
+[ext_resource type="PackedScene" path="res://scenes/ui/credits_modal.tscn" id="4_credits"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -33,23 +35,23 @@ grow_vertical = 2
 color = Color(0.04, 0.06, 0.12, 0.6)
 
 [node name="CenterBox" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(460, 0)
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -230.0
-offset_top = -180.0
-offset_right = 230.0
-offset_bottom = 180.0
+offset_left = -240.0
+offset_top = -220.0
+offset_right = 240.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CenterBox"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 
 [node name="Badge" type="Label" parent="CenterBox/VBox"]
 layout_mode = 2
@@ -80,21 +82,43 @@ text = "Scale seven 3D mountain peaks, blast ridge guardians to ignite each 3D S
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="HBoxButtons" type="HBoxContainer" parent="CenterBox/VBox"]
+[node name="HBoxRow1" type="HBoxContainer" parent="CenterBox/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
-[node name="PlayBtn" type="Button" parent="CenterBox/VBox/HBoxButtons"]
-custom_minimum_size = Vector2(0, 44)
+[node name="PlayBtn" type="Button" parent="CenterBox/VBox/HBoxRow1"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "▶ PLAY KOizi"
+text = "▶ PLAY / CONTINUE"
 
-[node name="LevelsBtn" type="Button" parent="CenterBox/VBox/HBoxButtons"]
-custom_minimum_size = Vector2(0, 44)
+[node name="LevelsBtn" type="Button" parent="CenterBox/VBox/HBoxRow1"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "⛰ SEVEN SUMMITS"
+text = "⛰ LEVEL SELECT"
+
+[node name="HBoxRow2" type="HBoxContainer" parent="CenterBox/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SettingsBtn" type="Button" parent="CenterBox/VBox/HBoxRow2"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚙ SETTINGS"
+
+[node name="CreditsBtn" type="Button" parent="CenterBox/VBox/HBoxRow2"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "★ CREDITS"
+
+[node name="QuitBtn" type="Button" parent="CenterBox/VBox/HBoxRow2"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "✖ QUIT"
 
 [node name="ControlsPanel" type="PanelContainer" parent="CenterBox/VBox"]
 layout_mode = 2
@@ -102,7 +126,7 @@ layout_mode = 2
 [node name="Grid" type="GridContainer" parent="CenterBox/VBox/ControlsPanel"]
 layout_mode = 2
 theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 6
+theme_override_constants/v_separation = 4
 columns = 4
 
 [node name="M1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
@@ -152,5 +176,16 @@ theme_override_colors/font_color = Color(0.96, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 11
 text = "ESC / C"
 
-[connection signal="pressed" from="CenterBox/VBox/HBoxButtons/PlayBtn" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CenterBox/VBox/HBoxButtons/LevelsBtn" to="." method="_on_levels_pressed"]
+[node name="SettingsModal" parent="." instance=ExtResource("3_settings")]
+visible = false
+layout_mode = 1
+
+[node name="CreditsModal" parent="." instance=ExtResource("4_credits")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="CenterBox/VBox/HBoxRow1/PlayBtn" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterBox/VBox/HBoxRow1/LevelsBtn" to="." method="_on_levels_pressed"]
+[connection signal="pressed" from="CenterBox/VBox/HBoxRow2/SettingsBtn" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="CenterBox/VBox/HBoxRow2/CreditsBtn" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="CenterBox/VBox/HBoxRow2/QuitBtn" to="." method="_on_quit_pressed"]

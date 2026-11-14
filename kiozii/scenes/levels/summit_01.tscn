@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=50 format=3]
 
 [ext_resource type="Script" path="res://scripts/summit_01.gd" id="1_lvl"]
 [ext_resource type="PackedScene" path="res://scenes/player/player_3d.tscn" id="2_player"]
@@ -6,48 +6,190 @@
 [ext_resource type="Script" path="res://scripts/camera_3d_controller.gd" id="4_cam"]
 [ext_resource type="PackedScene" path="res://scenes/levels/summit_portal_3d.tscn" id="5_portal"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy_scout_3d.tscn" id="6_scout"]
+[ext_resource type="Texture2D" path="res://textures/pixel_rock.png" id="90_rock_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_grass.png" id="91_grass_tex"]
 
 [sub_resource type="Environment" id="Env_Summit"]
 background_mode = 1
-background_color = Color(0.23, 0.51, 0.96, 1.0)
+background_color = Color(0.25, 0.58, 0.95, 1.0)
 ambient_light_source = 2
-ambient_light_color = Color(0.23, 0.51, 0.96, 1.0)
-ambient_light_energy = 0.35
+ambient_light_color = Color(0.25, 0.58, 0.95, 1.0)
+ambient_light_energy = 0.55
 tonemap_mode = 2
+tonemap_white = 1.1
 glow_enabled = true
-glow_intensity = 0.85
-glow_bloom = 0.25
+glow_intensity = 0.65
+glow_bloom = 0.2
 fog_enabled = true
-fog_light_color = Color(0.38, 0.65, 0.98, 1.0)
-fog_density = 0.012
-fog_sky_affect = 0.5
+fog_light_color = Color(0.45, 0.7, 0.98, 1.0)
+fog_density = 0.003
+fog_sky_affect = 0.2
 
 [sub_resource type="StandardMaterial3D" id="Mat_Rock"]
-albedo_color = Color(0.36, 0.25, 0.2, 1.0)
+albedo_color = Color(0.38, 0.26, 0.18, 1.0)
+albedo_texture = ExtResource("90_rock_tex")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
 roughness = 0.85
 
 [sub_resource type="StandardMaterial3D" id="Mat_Turf"]
-albedo_color = Color(0.13, 0.77, 0.37, 1.0)
+albedo_color = Color(0.18, 0.82, 0.38, 1.0)
+albedo_texture = ExtResource("91_grass_tex")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
 roughness = 0.65
 
 [sub_resource type="StandardMaterial3D" id="Mat_Lava"]
-albedo_color = Color(0.86, 0.15, 0.15, 1.0)
+albedo_color = Color(0.95, 0.25, 0.1, 1.0)
 emission_enabled = true
-emission = Color(0.92, 0.35, 0.05, 1.0)
-emission_energy_multiplier = 3.0
+emission = Color(1.0, 0.45, 0.05, 1.0)
+emission_energy_multiplier = 3.5
 
 [sub_resource type="StandardMaterial3D" id="Mat_BgMtnFar"]
-albedo_color = Color(0.12, 0.25, 0.69, 1.0)
+albedo_color = Color(0.15, 0.32, 0.72, 1.0)
 roughness = 0.95
 
 [sub_resource type="StandardMaterial3D" id="Mat_BgMtnNear"]
-albedo_color = Color(0.08, 0.5, 0.24, 1.0)
+albedo_color = Color(0.12, 0.55, 0.26, 1.0)
 roughness = 0.9
 
 [sub_resource type="StandardMaterial3D" id="Mat_Cloud"]
-albedo_color = Color(1, 1, 1, 0.85)
+albedo_color = Color(1, 1, 1, 0.88)
 transparency = 1
 roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="Mesh_FarMtn"]
+top_radius = 0.01
+bottom_radius = 16.0
+height = 32.0
+radial_segments = 5
+rings = 1
+material = SubResource("Mat_BgMtnFar")
+
+[sub_resource type="CylinderMesh" id="Mesh_NearMtn"]
+top_radius = 0.01
+bottom_radius = 12.0
+height = 20.0
+radial_segments = 5
+rings = 1
+material = SubResource("Mat_BgMtnNear")
+
+[sub_resource type="BoxMesh" id="Mesh_Cloud"]
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_0"]
+size = Vector3(26, 4, 6)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_0"]
+size = Vector3(26, 4, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_0"]
+size = Vector3(26.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_1"]
+size = Vector3(5, 1.0, 4.5)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_1"]
+size = Vector3(5, 1.0, 4.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_1"]
+size = Vector3(5.2, 0.35, 4.7)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_2"]
+size = Vector3(16, 7, 6)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_2"]
+size = Vector3(16, 7, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_2"]
+size = Vector3(16.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_3"]
+size = Vector3(15, 10, 6)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_3"]
+size = Vector3(15, 10, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_3"]
+size = Vector3(15.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_4"]
+size = Vector3(13, 8, 6)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_4"]
+size = Vector3(13, 8, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_4"]
+size = Vector3(13.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_5"]
+size = Vector3(5, 1.0, 4.5)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_5"]
+size = Vector3(5, 1.0, 4.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_5"]
+size = Vector3(5.2, 0.35, 4.7)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_6"]
+size = Vector3(14, 12, 6)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_6"]
+size = Vector3(14, 12, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_6"]
+size = Vector3(14.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_7"]
+size = Vector3(21, 16, 6)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_7"]
+size = Vector3(21, 16, 6)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_7"]
+size = Vector3(21.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_8"]
+size = Vector3(6.5, 1.0, 4.5)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_8"]
+size = Vector3(6.5, 1.0, 4.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_8"]
+size = Vector3(6.7, 0.35, 4.7)
+material = SubResource("Mat_Turf")
+
+[sub_resource type="BoxMesh" id="Mesh_Plat_9"]
+size = Vector3(6.5, 1.0, 4.5)
+material = SubResource("Mat_Rock")
+
+[sub_resource type="BoxShape3D" id="Shape_Plat_9"]
+size = Vector3(6.5, 1.0, 4.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Turf_9"]
+size = Vector3(6.7, 0.35, 4.7)
+material = SubResource("Mat_Turf")
+
 
 [node name="Summit01" type="Node3D"]
 script = ExtResource("1_lvl")
@@ -57,15 +199,15 @@ environment = SubResource("Env_Summit")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 30, 50, 40)
-light_color = Color(1.0, 0.98, 0.92, 1.0)
-light_energy = 1.25
+light_color = Color(1.0, 0.98, 0.94, 1.0)
+light_energy = 1.35
 shadow_enabled = true
-shadow_bias = 0.04
+shadow_bias = 0.03
 
 [node name="RimLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707, 0, -0.707, 0, 1, 0, 0.707, 0, 0.707, -20, 20, -30)
-light_color = Color(0.22, 0.74, 0.97, 1.0)
-light_energy = 0.4
+light_color = Color(0.25, 0.8, 1.0, 1.0)
+light_energy = 0.45
 shadow_enabled = false
 
 [node name="HUD3D" parent="." instance=ExtResource("3_hud")]
@@ -78,293 +220,227 @@ is_boss_level = false
 
 [node name="BackgroundMountains" type="Node3D" parent="."]
 
-[node name="FarMtn_-30" type="CSGCylinder3D" parent="BackgroundMountains"]
+[node name="FarMtn_-30" type="MeshInstance3D" parent="BackgroundMountains"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 14.0, -36)
-radius = 16.0
-height = 40
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="FarMtn_-6" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 11.0, -36)
-radius = 16.0
-height = 34
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+[node name="FarMtn_-2" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 15.0, -36)
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="FarMtn_18" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 8.0, -36)
-radius = 16.0
-height = 28
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+[node name="FarMtn_26" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 9.0, -36)
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="FarMtn_42" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 11.0, -36)
-radius = 16.0
-height = 34
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+[node name="FarMtn_54" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54, 8.0, -36)
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="FarMtn_66" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, 14.0, -36)
-radius = 16.0
-height = 40
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+[node name="FarMtn_82" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82, 16.0, -36)
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="FarMtn_90" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 8.0, -36)
-radius = 16.0
-height = 28
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+[node name="FarMtn_110" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 15.0, -36)
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="FarMtn_114" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114, 11.0, -36)
-radius = 16.0
-height = 34
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
-
-[node name="FarMtn_138" type="CSGCylinder3D" parent="BackgroundMountains"]
+[node name="FarMtn_138" type="MeshInstance3D" parent="BackgroundMountains"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138, 14.0, -36)
-radius = 16.0
-height = 40
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnFar")
+mesh = SubResource("Mesh_FarMtn")
 
-[node name="NearMtn_-20" type="CSGCylinder3D" parent="BackgroundMountains"]
+[node name="NearMtn_-20" type="MeshInstance3D" parent="BackgroundMountains"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 9.0, -18)
-radius = 12.0
-height = 28
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_-2" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 8.0, -18)
-radius = 12.0
-height = 26
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_2" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 8.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_16" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 8.0, -18)
-radius = 12.0
-height = 26
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_24" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 10.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_34" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 9.0, -18)
-radius = 12.0
-height = 28
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_46" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 5.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_52" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 10.0, -18)
-radius = 12.0
-height = 30
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_68" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74, 7.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_70" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76, 4.0, -18)
-radius = 12.0
-height = 18
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_90" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, 9.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_88" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94, 5.0, -18)
-radius = 12.0
-height = 20
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_112" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 118, 4.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_106" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112, 6.0, -18)
-radius = 12.0
-height = 22
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
+[node name="NearMtn_134" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140, 6.0, -18)
+mesh = SubResource("Mesh_NearMtn")
 
-[node name="NearMtn_124" type="CSGCylinder3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 130, 7.0, -18)
-radius = 12.0
-height = 24
-sides = 5
-cone = true
-material = SubResource("Mat_BgMtnNear")
-
-[node name="Cloud_0" type="CSGBox3D" parent="BackgroundMountains"]
+[node name="Cloud_0" type="MeshInstance3D" parent="BackgroundMountains"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, -12)
-size = Vector3(6.5, 1.4, 2.8)
-material = SubResource("Mat_Cloud")
+mesh = SubResource("Mesh_Cloud")
 
-[node name="Cloud_22" type="CSGBox3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 23, -12)
-size = Vector3(6.5, 1.4, 2.8)
-material = SubResource("Mat_Cloud")
+[node name="Cloud_26" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 21, -12)
+mesh = SubResource("Mesh_Cloud")
 
-[node name="Cloud_44" type="CSGBox3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 21, -12)
-size = Vector3(6.5, 1.4, 2.8)
-material = SubResource("Mat_Cloud")
+[node name="Cloud_52" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 23, -12)
+mesh = SubResource("Mesh_Cloud")
 
-[node name="Cloud_66" type="CSGBox3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, 19, -12)
-size = Vector3(6.5, 1.4, 2.8)
-material = SubResource("Mat_Cloud")
+[node name="Cloud_78" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78, 19, -12)
+mesh = SubResource("Mesh_Cloud")
 
-[node name="Cloud_88" type="CSGBox3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88, 23, -12)
-size = Vector3(6.5, 1.4, 2.8)
-material = SubResource("Mat_Cloud")
-
-[node name="Cloud_110" type="CSGBox3D" parent="BackgroundMountains"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 21, -12)
-size = Vector3(6.5, 1.4, 2.8)
-material = SubResource("Mat_Cloud")
+[node name="Cloud_104" type="MeshInstance3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 104, 21, -12)
+mesh = SubResource("Mesh_Cloud")
 
 [node name="Platforms" type="Node3D" parent="."]
 
-[node name="Platform_0" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_0" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0, -2.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(26, 4, 6)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_0" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_0"]
+mesh = SubResource("Mesh_Plat_0")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_0"]
+shape = SubResource("Shape_Plat_0")
+
+[node name="Turf_0" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.0, 0.15, 0.0)
-size = Vector3(26.2, 0.35, 6.2)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_0")
 
-[node name="Platform_1" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_1" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 3.5, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(5, 1.0, 4.5)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_1" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_1"]
+mesh = SubResource("Mesh_Plat_1")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_1"]
+shape = SubResource("Shape_Plat_1")
+
+[node name="Turf_1" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 4.15, 0.0)
-size = Vector3(5.2, 0.35, 4.7)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_1")
 
-[node name="Platform_2" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_2" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.0, -0.5, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(16, 7, 6)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_2" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_2"]
+mesh = SubResource("Mesh_Plat_2")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_2"]
+shape = SubResource("Shape_Plat_2")
+
+[node name="Turf_2" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.0, 3.15, 0.0)
-size = Vector3(16.2, 0.35, 6.2)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_2")
 
-[node name="Platform_3" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_3" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.5, 1.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(15, 10, 6)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_3" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_3"]
+mesh = SubResource("Mesh_Plat_3")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_3"]
+shape = SubResource("Shape_Plat_3")
+
+[node name="Turf_3" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.5, 6.15, 0.0)
-size = Vector3(15.2, 0.35, 6.2)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_3")
 
-[node name="Platform_4" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_4" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.5, 0.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(13, 8, 6)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_4" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_4"]
+mesh = SubResource("Mesh_Plat_4")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_4"]
+shape = SubResource("Shape_Plat_4")
+
+[node name="Turf_4" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.5, 4.15, 0.0)
-size = Vector3(13.2, 0.35, 6.2)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_4")
 
-[node name="Platform_5" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_5" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.5, 6.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(5, 1.0, 4.5)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_5" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_5"]
+mesh = SubResource("Mesh_Plat_5")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_5"]
+shape = SubResource("Shape_Plat_5")
+
+[node name="Turf_5" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.5, 6.65, 0.0)
-size = Vector3(5.2, 0.35, 4.7)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_5")
 
-[node name="Platform_6" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_6" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75.0, 2.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(14, 12, 6)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_6" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_6"]
+mesh = SubResource("Mesh_Plat_6")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_6"]
+shape = SubResource("Shape_Plat_6")
+
+[node name="Turf_6" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75.0, 8.15, 0.0)
-size = Vector3(14.2, 0.35, 6.2)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_6")
 
-[node name="Platform_7" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_7" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.5, 4.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(21, 16, 6)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_7" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_7"]
+mesh = SubResource("Mesh_Plat_7")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_7"]
+shape = SubResource("Shape_Plat_7")
+
+[node name="Turf_7" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.5, 12.15, 0.0)
-size = Vector3(21.2, 0.35, 6.2)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_7")
 
-[node name="Platform_8" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_8" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.25, 4.5, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(6.5, 1.0, 4.5)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_8" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_8"]
+mesh = SubResource("Mesh_Plat_8")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_8"]
+shape = SubResource("Shape_Plat_8")
+
+[node name="Turf_8" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.25, 5.15, 0.0)
-size = Vector3(6.7, 0.35, 4.7)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_8")
 
-[node name="Platform_9" type="CSGBox3D" parent="Platforms"]
+[node name="Platform_9" type="StaticBody3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.25, 7.0, 0.0)
-use_collision = true
 collision_mask = 0
-size = Vector3(6.5, 1.0, 4.5)
-material = SubResource("Mat_Rock")
 
-[node name="Turf_9" type="CSGBox3D" parent="Platforms"]
+[node name="Mesh" type="MeshInstance3D" parent="Platforms/Platform_9"]
+mesh = SubResource("Mesh_Plat_9")
+
+[node name="Collision" type="CollisionShape3D" parent="Platforms/Platform_9"]
+shape = SubResource("Shape_Plat_9")
+
+[node name="Turf_9" type="MeshInstance3D" parent="Platforms"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.25, 7.65, 0.0)
-size = Vector3(6.7, 0.35, 4.7)
-material = SubResource("Mat_Turf")
+mesh = SubResource("Mesh_Turf_9")
 
 [node name="Player3D" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 0)

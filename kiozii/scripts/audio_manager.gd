@@ -1,5 +1,6 @@
 extends Node
 
+# RETRO AUDIO MANAGER
 var shoot_sfx = preload("res://audio/shoot.wav")
 var jump_sfx = preload("res://audio/jump.wav")
 var enemy_hit_sfx = preload("res://audio/enemy_hit.wav")
@@ -14,6 +15,10 @@ const POOL_SIZE = 8
 var current_player: int = 0
 var muted: bool = false
 
+var master_vol_db: float = 0.0
+var music_vol_db: float = 0.0
+var sfx_vol_db: float = 0.0
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in range(POOL_SIZE):
@@ -21,13 +26,18 @@ func _ready() -> void:
 		add_child(p)
 		audio_players.append(p)
 
-func play_sfx(stream: AudioStream, volume_db: float = 0.0) -> void:
+func set_volumes(m: float, mus: float, s: float) -> void:
+	master_vol_db = linear_to_db(clampf(m, 0.0001, 1.0))
+	music_vol_db = linear_to_db(clampf(mus, 0.0001, 1.0))
+	sfx_vol_db = linear_to_db(clampf(s, 0.0001, 1.0))
+
+func play_sfx(stream: AudioStream, base_volume_db: float = 0.0) -> void:
 	if muted or stream == null:
 		return
 	var player = audio_players[current_player]
 	current_player = (current_player + 1) % POOL_SIZE
 	player.stream = stream
-	player.volume_db = volume_db
+	player.volume_db = base_volume_db + sfx_vol_db + master_vol_db
 	player.play()
 
 func play_shoot() -> void: play_sfx(shoot_sfx, -3.0)
