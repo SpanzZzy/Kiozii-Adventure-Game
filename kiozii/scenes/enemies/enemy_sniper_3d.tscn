@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy_sniper_3d.gd" id="1_sniper"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sniper"]
+size = Vector3(1.1, 1.6, 1.1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Base"]
+albedo_color = Color(0.4863, 0.2275, 0.9294, 1.0)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_Turret"]
+albedo_color = Color(0.7686, 0.7098, 0.9922, 1.0)
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_Barrel"]
+albedo_color = Color(0.9608, 0.6196, 0.0431, 1.0)
+metallic = 0.6
+roughness = 0.2
+
+[node name="EnemySniper3D" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_sniper")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("BoxShape3D_sniper")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Base" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675, 0)
+size = Vector3(0.95, 1.35, 0.95)
+material = SubResource("Mat_Base")
+
+[node name="Turret" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+size = Vector3(1.05, 0.42, 1.05)
+material = SubResource("Mat_Turret")
+
+[node name="Barrel" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 1.35, 0)
+size = Vector3(0.75, 0.24, 0.24)
+material = SubResource("Mat_Barrel")
+
+[node name="Muzzle" type="Marker3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 1.35, 0)
+

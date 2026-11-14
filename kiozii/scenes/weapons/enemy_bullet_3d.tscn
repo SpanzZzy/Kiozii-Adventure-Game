@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy_bullet_3d.gd" id="1_ebullet"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ebullet"]
+radius = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_EBullet"]
+albedo_color = Color(0.9569, 0.2471, 0.3686, 1.0)
+emission_enabled = true
+emission = Color(0.9569, 0.2471, 0.3686, 1.0)
+emission_energy_multiplier = 2.0
+
+[node name="EnemyBullet3D" type="Area3D"]
+collision_layer = 16
+collision_mask = 3
+script = ExtResource("1_ebullet")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ebullet")
+
+[node name="Visual" type="CSGSphere3D" parent="."]
+radius = 0.35
+material = SubResource("Mat_EBullet")
+

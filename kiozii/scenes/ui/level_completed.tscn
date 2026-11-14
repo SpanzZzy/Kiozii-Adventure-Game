@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/level_completed.gd" id="1_comp"]
+
+[node name="LevelCompleted" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_comp")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.05, 0.07, 0.9)
+
+[node name="CenterBox" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -140.0
+offset_right = 200.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Tag" type="Label" parent="CenterBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "KOizi // SUMMIT REACHED!"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="CenterBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "SUMMIT CLEARED"
+horizontal_alignment = 1
+
+[node name="StatsBox" type="PanelContainer" parent="CenterBox/VBox"]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="CenterBox/VBox/StatsBox"]
+layout_mode = 2
+
+[node name="VBoxKills" type="VBoxContainer" parent="CenterBox/VBox/StatsBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterBox/VBox/StatsBox/HBox/VBoxKills"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
+theme_override_font_sizes/font_size = 11
+text = "FOES DEFEATED"
+horizontal_alignment = 1
+
+[node name="KillsVal" type="Label" parent="CenterBox/VBox/StatsBox/HBox/VBoxKills"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 15
+text = "0 / 0"
+horizontal_alignment = 1
+
+[node name="VBoxTime" type="VBoxContainer" parent="CenterBox/VBox/StatsBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterBox/VBox/StatsBox/HBox/VBoxTime"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
+theme_override_font_sizes/font_size = 11
+text = "CLEAR TIME"
+horizontal_alignment = 1
+
+[node name="TimeVal" type="Label" parent="CenterBox/VBox/StatsBox/HBox/VBoxTime"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
+theme_override_font_sizes/font_size = 15
+text = "00.0s"
+horizontal_alignment = 1
+
+[node name="NextBtn" type="Button" parent="CenterBox/VBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "NEXT SUMMIT ▶"
+
+[node name="LevelsBtn" type="Button" parent="CenterBox/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "⛰ LEVEL SELECT"
+
+[connection signal="pressed" from="CenterBox/VBox/NextBtn" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="CenterBox/VBox/LevelsBtn" to="." method="_on_levels_pressed"]
+

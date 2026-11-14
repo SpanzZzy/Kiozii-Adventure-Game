@@ -1,0 +1,10 @@
+res://scripts/enemy_bullet_3d.gd
+res://scripts/hud_3d.gd
+res://scripts/audio_manager.gd
+res://scripts/game_manager.gd
+res://scripts/level_completed.gd
+res://scripts/level_select.gd
+res://scripts/main_menu.gd
+res://scripts/player_bullet_3d.gd
+res://scripts/summit_portal_3d.gd
+res://scripts/victory_screen.gd

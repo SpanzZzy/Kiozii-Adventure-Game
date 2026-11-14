@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy_scout_3d.gd" id="1_scout"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_scout"]
+size = Vector3(1.15, 1.2, 1.15)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ScoutBody"]
+albedo_color = Color(0.8824, 0.1137, 0.2824, 1.0)
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_ScoutCrest"]
+albedo_color = Color(0.9843, 0.4431, 0.5216, 1.0)
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_ScoutEye"]
+albedo_color = Color(1, 1, 1, 1)
+
+[node name="EnemyScout3D" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_scout")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("BoxShape3D_scout")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+size = Vector3(1.15, 0.9, 1.15)
+material = SubResource("Mat_ScoutBody")
+
+[node name="Crest" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02, 0)
+size = Vector3(0.85, 0.3, 0.85)
+material = SubResource("Mat_ScoutCrest")
+
+[node name="Eye" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.55, 0)
+size = Vector3(0.1, 0.22, 0.65)
+material = SubResource("Mat_ScoutEye")
+

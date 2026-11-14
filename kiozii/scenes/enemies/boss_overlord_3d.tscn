@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/boss_overlord_3d.gd" id="1_boss"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boss"]
+size = Vector3(3.2, 4.2, 2.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_BossArmor"]
+albedo_color = Color(0.2314, 0.0275, 0.3922, 1.0)
+metallic = 0.35
+roughness = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat_BossGold"]
+albedo_color = Color(0.9608, 0.6196, 0.0431, 1.0)
+metallic = 0.7
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_BossCore"]
+albedo_color = Color(0.9569, 0.2471, 0.3686, 1.0)
+emission_enabled = true
+emission = Color(0.9569, 0.2471, 0.3686, 1.0)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_BossVisor"]
+albedo_color = Color(0.2196, 0.7412, 0.9725, 1.0)
+emission_enabled = true
+emission = Color(0.2196, 0.7412, 0.9725, 1.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_BossCannon"]
+albedo_color = Color(0.3922, 0.4549, 0.5451, 1.0)
+metallic = 0.6
+roughness = 0.3
+
+[node name="BossOverlord3D" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_boss")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+shape = SubResource("BoxShape3D_boss")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+size = Vector3(3.2, 3.8, 2.8)
+material = SubResource("Mat_BossArmor")
+
+[node name="Crown" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.05, 0)
+size = Vector3(2.6, 0.65, 2.5)
+material = SubResource("Mat_BossGold")
+
+[node name="Core" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 2.0, 0)
+size = Vector3(0.3, 1.1, 1.2)
+material = SubResource("Mat_BossCore")
+
+[node name="Visor" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58, 3.25, 0)
+size = Vector3(0.25, 0.35, 1.8)
+material = SubResource("Mat_BossVisor")
+
+[node name="CannonLeft" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 2.75, -1.65)
+size = Vector3(2.2, 0.75, 0.75)
+material = SubResource("Mat_BossCannon")
+
+[node name="CannonRight" type="CSGBox3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 2.75, 1.65)
+size = Vector3(2.2, 0.75, 0.75)
+material = SubResource("Mat_BossCannon")
+
+[node name="MuzzleLeft" type="Marker3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.75, -1.65)
+
+[node name="MuzzleRight" type="Marker3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.75, 1.65)
+

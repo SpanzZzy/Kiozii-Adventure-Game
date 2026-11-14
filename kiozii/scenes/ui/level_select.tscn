@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/level_select.gd" id="1_sel"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sel")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 1)
+
+[node name="CenterBox" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -180.0
+offset_right = 310.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxHeader" type="HBoxContainer" parent="CenterBox/VBox"]
+layout_mode = 2
+
+[node name="VBoxTitles" type="VBoxContainer" parent="CenterBox/VBox/HBoxHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sub" type="Label" parent="CenterBox/VBox/HBoxHeader/VBoxTitles"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 11
+text = "KOizi EXPEDITION MAP"
+
+[node name="Title" type="Label" parent="CenterBox/VBox/HBoxHeader/VBoxTitles"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
+theme_override_font_sizes/font_size = 20
+text = "SELECT MOUNTAIN SUMMIT"
+
+[node name="UnlockBtn" type="Button" parent="CenterBox/VBox/HBoxHeader"]
+layout_mode = 2
+text = "🔓 UNLOCK ALL (DEV)"
+
+[node name="Grid" type="GridContainer" parent="CenterBox/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="HBoxFooter" type="HBoxContainer" parent="CenterBox/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="BackBtn" type="Button" parent="CenterBox/VBox/HBoxFooter"]
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+text = "◀ BACK TO MENU"
+
+[connection signal="pressed" from="CenterBox/VBox/HBoxHeader/UnlockBtn" to="." method="_on_unlock_all_pressed"]
+[connection signal="pressed" from="CenterBox/VBox/HBoxFooter/BackBtn" to="." method="_on_back_pressed"]
+

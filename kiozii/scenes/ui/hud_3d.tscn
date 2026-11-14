@@ -1,0 +1,247 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/hud_3d.gd" id="1_hud"]
+
+[node name="HUD3D" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hud")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginTop" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+
+[node name="HBoxLeft" type="HBoxContainer" parent="HUD/MarginTop"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBox" type="VBoxContainer" parent="HUD/MarginTop/HBoxLeft"]
+layout_mode = 2
+
+[node name="BoxHP" type="PanelContainer" parent="HUD/MarginTop/HBoxLeft/VBox"]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="HUD/MarginTop/HBoxLeft/VBox/BoxHP"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Brand" type="Label" parent="HUD/MarginTop/HBoxLeft/VBox/BoxHP/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+text = "KOizi"
+
+[node name="HPLabel" type="Label" parent="HUD/MarginTop/HBoxLeft/VBox/BoxHP/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.25, 0.37, 1)
+text = "HP"
+
+[node name="HeartsContainer" type="HBoxContainer" parent="HUD/MarginTop/HBoxLeft/VBox/BoxHP/HBox"]
+layout_mode = 2
+
+[node name="BoxLevel" type="PanelContainer" parent="HUD/MarginTop/HBoxLeft/VBox"]
+layout_mode = 2
+
+[node name="LevelTitle" type="Label" parent="HUD/MarginTop/HBoxLeft/VBox/BoxLevel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
+theme_override_font_sizes/font_size = 13
+text = "LVL 1: GREEN HIGHLANDS"
+
+[node name="BossHUD" type="PanelContainer" parent="HUD/MarginTop"]
+visible = false
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBox" type="VBoxContainer" parent="HUD/MarginTop/BossHUD"]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="HUD/MarginTop/BossHUD/VBox"]
+layout_mode = 2
+
+[node name="BossName" type="Label" parent="HUD/MarginTop/BossHUD/VBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "SUMMIT OVERLORD"
+
+[node name="BossHpText" type="Label" parent="HUD/MarginTop/BossHUD/VBox/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "65/65"
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/MarginTop/BossHUD/VBox"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="HBoxRight" type="HBoxContainer" parent="HUD/MarginTop"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 10
+
+[node name="BoxEnemies" type="PanelContainer" parent="HUD/MarginTop/HBoxRight"]
+layout_mode = 2
+
+[node name="EnemyLabel" type="Label" parent="HUD/MarginTop/HBoxRight/BoxEnemies"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
+text = "FOES: 0/0"
+
+[node name="BtnPause" type="Button" parent="HUD/MarginTop/HBoxRight"]
+custom_minimum_size = Vector2(36, 32)
+layout_mode = 2
+text = "II"
+
+[node name="ToastBanner" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 80.0
+offset_right = 160.0
+offset_bottom = 120.0
+grow_horizontal = 2
+
+[node name="Box" type="PanelContainer" parent="ToastBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ToastText" type="Label" parent="ToastBanner/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 0.5, 1)
+text = "SUMMIT PORTAL UNLOCKED!"
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.85)
+
+[node name="Box" type="PanelContainer" parent="PauseMenu"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -120.0
+offset_right = 150.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PauseMenu/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="PauseMenu/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
+theme_override_font_sizes/font_size = 24
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="PauseMenu/Box/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "▶ Resume"
+
+[node name="RestartBtn" type="Button" parent="PauseMenu/Box/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "↻ Restart Summit"
+
+[node name="MenuBtn" type="Button" parent="PauseMenu/Box/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "🏠 Main Menu"
+
+[node name="GameOverMenu" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.03, 0.05, 0.9)
+
+[node name="Box" type="PanelContainer" parent="GameOverMenu"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -120.0
+offset_right = 170.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="GameOverMenu/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="GameOverMenu/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 24
+text = "FALLEN ON THE RIDGE"
+horizontal_alignment = 1
+
+[node name="ReasonLabel" type="Label" parent="GameOverMenu/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 13
+text = "Your climber ran out of health before reaching the summit."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RetryBtn" type="Button" parent="GameOverMenu/Box/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "↻ Retry Summit"
+
+[node name="MenuBtn" type="Button" parent="GameOverMenu/Box/VBox"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "🏠 Main Menu"
+
+[connection signal="pressed" from="HUD/MarginTop/HBoxRight/BtnPause" to="." method="toggle_pause"]
+[connection signal="pressed" from="PauseMenu/Box/VBox/ResumeBtn" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/Box/VBox/RestartBtn" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseMenu/Box/VBox/MenuBtn" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="GameOverMenu/Box/VBox/RetryBtn" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="GameOverMenu/Box/VBox/MenuBtn" to="." method="_on_menu_pressed"]

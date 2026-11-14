@@ -1,0 +1,407 @@
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="Script" path="res://scripts/summit_05.gd" id="1_lvl"]
+[ext_resource type="PackedScene" path="res://scenes/player/player_3d.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud_3d.tscn" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/camera_3d_controller.gd" id="4_cam"]
+[ext_resource type="PackedScene" path="res://scenes/levels/summit_portal_3d.tscn" id="5_portal"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_golem_3d.tscn" id="6_golem"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_scout_3d.tscn" id="7_scout"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_sniper_3d.tscn" id="8_sniper"]
+
+[sub_resource type="Environment" id="Env_Summit"]
+background_mode = 1
+background_color = Color(0.12, 0.11, 0.29, 1.0)
+ambient_light_source = 2
+ambient_light_color = Color(0.12, 0.11, 0.29, 1.0)
+ambient_light_energy = 0.35
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.85
+glow_bloom = 0.25
+fog_enabled = true
+fog_light_color = Color(0.19, 0.06, 0.26, 1.0)
+fog_density = 0.012
+fog_sky_affect = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Rock"]
+albedo_color = Color(0.09, 0.06, 0.18, 1.0)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_Turf"]
+albedo_color = Color(0.66, 0.33, 0.97, 1.0)
+roughness = 0.65
+
+[sub_resource type="StandardMaterial3D" id="Mat_Lava"]
+albedo_color = Color(0.86, 0.15, 0.15, 1.0)
+emission_enabled = true
+emission = Color(0.92, 0.35, 0.05, 1.0)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_BgMtnFar"]
+albedo_color = Color(0.18, 0.06, 0.4, 1.0)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Mat_BgMtnNear"]
+albedo_color = Color(0.35, 0.11, 0.53, 1.0)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_Cloud"]
+albedo_color = Color(1, 1, 1, 0.85)
+transparency = 1
+roughness = 0.85
+
+[node name="Summit05" type="Node3D"]
+script = ExtResource("1_lvl")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_Summit")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 30, 50, 40)
+light_color = Color(0.91, 0.47, 0.98, 1.0)
+light_energy = 1.25
+shadow_enabled = true
+shadow_bias = 0.04
+
+[node name="RimLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707, 0, -0.707, 0, 1, 0, 0.707, 0, 0.707, -20, 20, -30)
+light_color = Color(0.22, 0.74, 0.97, 1.0)
+light_energy = 0.4
+shadow_enabled = false
+
+[node name="HUD3D" parent="." instance=ExtResource("3_hud")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.966, 0.259, 0, -0.259, 0.966, 12, 10, 24.5)
+script = ExtResource("4_cam")
+max_x = 112.0
+is_boss_level = false
+
+[node name="BackgroundMountains" type="Node3D" parent="."]
+
+[node name="FarMtn_-30" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 14.0, -36)
+radius = 16.0
+height = 40
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_-6" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 11.0, -36)
+radius = 16.0
+height = 34
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_18" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 8.0, -36)
+radius = 16.0
+height = 28
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_42" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 11.0, -36)
+radius = 16.0
+height = 34
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_66" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, 14.0, -36)
+radius = 16.0
+height = 40
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_90" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 8.0, -36)
+radius = 16.0
+height = 28
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_114" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114, 11.0, -36)
+radius = 16.0
+height = 34
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_138" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138, 14.0, -36)
+radius = 16.0
+height = 40
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="FarMtn_162" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 162, 8.0, -36)
+radius = 16.0
+height = 28
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnFar")
+
+[node name="NearMtn_-20" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 9.0, -18)
+radius = 12.0
+height = 28
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_-2" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 8.0, -18)
+radius = 12.0
+height = 26
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_16" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 8.0, -18)
+radius = 12.0
+height = 26
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_34" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 9.0, -18)
+radius = 12.0
+height = 28
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_52" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 10.0, -18)
+radius = 12.0
+height = 30
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_70" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76, 4.0, -18)
+radius = 12.0
+height = 18
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_88" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94, 5.0, -18)
+radius = 12.0
+height = 20
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_106" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112, 6.0, -18)
+radius = 12.0
+height = 22
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_124" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 130, 7.0, -18)
+radius = 12.0
+height = 24
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="NearMtn_142" type="CSGCylinder3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148, 8.0, -18)
+radius = 12.0
+height = 26
+sides = 5
+cone = true
+material = SubResource("Mat_BgMtnNear")
+
+[node name="Cloud_0" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Cloud_22" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 23, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Cloud_44" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 21, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Cloud_66" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, 19, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Cloud_88" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88, 23, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Cloud_110" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 21, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Cloud_132" type="CSGBox3D" parent="BackgroundMountains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132, 19, -12)
+size = Vector3(6.5, 1.4, 2.8)
+material = SubResource("Mat_Cloud")
+
+[node name="Platforms" type="Node3D" parent="."]
+
+[node name="Platform_0" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, -2.0, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(18, 4, 6)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_0" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0.15, 0.0)
+size = Vector3(18.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_1" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 3.4, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(10, 1.2, 4.8)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_1" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 4.15, 0.0)
+size = Vector3(10.2, 0.35, 5.0)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_2" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0, 7.4, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(10, 1.2, 4.8)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_2" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.0, 8.15, 0.0)
+size = Vector3(10.2, 0.35, 5.0)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_3" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.5, -0.5, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(17, 7, 6)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_3" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.5, 3.15, 0.0)
+size = Vector3(17.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_4" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.0, 7.0, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(8, 1.2, 4.5)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_4" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.0, 7.75, 0.0)
+size = Vector3(8.2, 0.35, 4.7)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_5" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.0, 1.25, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(14, 10.5, 6)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_5" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.0, 6.65, 0.0)
+size = Vector3(14.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_6" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.5, 8.5, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(11, 1.2, 4.8)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_6" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.5, 9.25, 0.0)
+size = Vector3(11.2, 0.35, 5.0)
+material = SubResource("Mat_Turf")
+
+[node name="Platform_7" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.0, 5.0, 0.0)
+use_collision = true
+collision_mask = 0
+size = Vector3(26, 18, 6)
+material = SubResource("Mat_Rock")
+
+[node name="Turf_7" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.0, 14.15, 0.0)
+size = Vector3(26.2, 0.35, 6.2)
+material = SubResource("Mat_Turf")
+
+[node name="Player3D" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 0)
+
+[node name="SummitPortal3D" parent="." instance=ExtResource("5_portal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 118, 14, 0)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Enemy_0" parent="Enemies" instance=ExtResource("8_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 8, 0)
+max_health = 5
+
+[node name="Enemy_1" parent="Enemies" instance=ExtResource("6_golem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 3, 0)
+min_x = 48.0
+max_x = 62.0
+speed = 5.2
+max_health = 5
+
+[node name="Enemy_2" parent="Enemies" instance=ExtResource("8_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56, 7.5, 0)
+max_health = 5
+
+[node name="Enemy_3" parent="Enemies" instance=ExtResource("7_scout")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72, 6.5, 0)
+min_x = 68.0
+max_x = 79.0
+speed = 6.8
+max_health = 5
+
+[node name="Enemy_4" parent="Enemies" instance=ExtResource("6_golem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 104, 14, 0)
+min_x = 100.0
+max_x = 114.0
+speed = 5.6
+max_health = 5
+
+[node name="Enemy_5" parent="Enemies" instance=ExtResource("8_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 113, 14, 0)
+max_health = 5
