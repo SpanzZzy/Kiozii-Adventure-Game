@@ -1,15 +1,22 @@
 extends Area3D
 
 # RESOLVE CRYSTAL COLLECTIBLE
+@export var crystal_id: int = 0
 var is_collected: bool = false
 var start_y: float = 0.0
 
 @onready var mesh: MeshInstance3D = $Visuals/CrystalMesh
+@onready var light: OmniLight3D = $Visuals/OmniLight3D
 
 func _ready() -> void:
+	collision_layer = 0
+	collision_mask = 2 # Detect Player CharacterBody3D on Layer 2
+	monitoring = true
+	monitorable = false
+
 	connect("body_entered", Callable(self, "_on_body_entered"))
 	start_y = global_position.y
-	GameManager.crystals_total_level += 1
+	GameManager.register_crystal(self, crystal_id)
 
 func _physics_process(delta: float) -> void:
 	if is_collected:
@@ -24,8 +31,11 @@ func _on_body_entered(body: Node3D) -> void:
 		collect()
 
 func collect() -> void:
+	if is_collected:
+		return
 	is_collected = true
-	GameManager.on_crystal_collected()
+	monitoring = false
+	GameManager.on_crystal_collected(crystal_id)
 	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector3(0.1, 0.1, 0.1), 0.15)
+	tween.tween_property(self, "scale", Vector3(0.01, 0.01, 0.01), 0.15)
 	tween.tween_callback(queue_free)

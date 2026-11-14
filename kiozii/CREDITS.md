@@ -36,4 +36,4 @@
 ---
 
 ## Hackathon Submission Notice
-All assets used in this project are CC0, MIT, or custom-authored open-source assets suitable for distribution, web export, and hackathon evaluation.
+All assets used in this project are CC0, MIT, or custom-authored open-source assets suitable for distribution.

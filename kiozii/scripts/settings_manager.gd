@@ -1,20 +1,22 @@
 extends Node
 
-# SETTINGS DATA MODEL
+# SETTINGS DATA MODEL - DEFAULT LOW PRESET
 var master_volume: float = 1.0
 var music_volume: float = 0.8
 var sfx_volume: float = 1.0
 
 var fullscreen: bool = false
-var vsync: bool = true
+var vsync: bool = false
 var window_mode: int = 0
-var resolution_idx: int = 1
+var resolution_idx: int = 2 # 1280x720 Windowed Default
 
-var graphics_preset: int = 1
-var shadow_quality: int = 1
-var fog_enabled: bool = true
-var bloom_enabled: bool = true
-var msaa_quality: int = 1
+# GRAPHICS CONFIG (DEFAULT LOW PRESET)
+var graphics_preset: int = 0 # 0=LOW, 1=MEDIUM, 2=HIGH
+var shadow_quality: int = 0 # 0=OFF, 1=LOW, 2=HIGH
+var fog_enabled: bool = false
+var bloom_enabled: bool = false
+var msaa_quality: int = 0 # 0=DISABLED, 1=2X, 2=4X
+var fps_cap: int = 120
 
 # REBINDABLE ACTIONS AND DEFAULTS
 const ACTIONS = ["move_left", "move_right", "jump", "shoot", "pause", "toggle_camera"]
@@ -30,8 +32,6 @@ const ACTION_NAMES = {
 }
 
 # DEFAULT BINDING CODES
-# Key codes: A=65, D=68, Space=32, J=74, Esc=4194305, C=67
-# Mouse: -1 for none, 1 for LMB
 const DEFAULT_KEY_BINDINGS = {
 	"move_left": {"type": "key", "code": 65, "second": 4194319},
 	"move_right": {"type": "key", "code": 68, "second": 4194321},
@@ -60,6 +60,7 @@ func apply_audio_settings() -> void:
 		AudioManager.set_volumes(master_volume, music_volume, sfx_volume)
 
 func apply_display_settings() -> void:
+	Engine.max_fps = fps_cap
 	if fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -90,25 +91,36 @@ func apply_graphics_settings() -> void:
 	else:
 		vp.msaa_3d = Viewport.MSAA_4X
 
-	RenderingServer.directional_shadow_atlas_set_size(2048 if shadow_quality == 2 else (1024 if shadow_quality == 1 else 512), true)
+	if shadow_quality == 0:
+		RenderingServer.directional_shadow_atlas_set_size(512, false)
+	elif shadow_quality == 1:
+		RenderingServer.directional_shadow_atlas_set_size(1024, true)
+	else:
+		RenderingServer.directional_shadow_atlas_set_size(2048, true)
 
 func apply_preset(preset_idx: int) -> void:
 	graphics_preset = preset_idx
-	if preset_idx == 0:
+	if preset_idx == 0: # LOW (DEFAULT)
 		shadow_quality = 0
 		fog_enabled = false
 		bloom_enabled = false
 		msaa_quality = 0
-	elif preset_idx == 1:
+		vsync = false
+		fps_cap = 120
+	elif preset_idx == 1: # MEDIUM
 		shadow_quality = 1
 		fog_enabled = true
 		bloom_enabled = true
 		msaa_quality = 1
-	elif preset_idx == 2:
+		vsync = true
+		fps_cap = 60
+	elif preset_idx == 2: # HIGH
 		shadow_quality = 2
 		fog_enabled = true
 		bloom_enabled = true
 		msaa_quality = 2
+		vsync = true
+		fps_cap = 0
 	apply_graphics_settings()
 	save_settings()
 
@@ -136,16 +148,13 @@ func get_action_event_string(action: String) -> String:
 	return " / ".join(names) if names.size() > 0 else "Unbound"
 
 func rebind_action(action: String, new_event: InputEvent) -> String:
-	# CHECK CONFLICT
 	var conflict_action = find_event_conflict(new_event, action)
 	if not conflict_action.is_empty():
 		return "Conflict: Already used by %s!" % ACTION_NAMES.get(conflict_action, conflict_action)
 
-	# CLEAR AND ADD
 	InputMap.action_erase_events(action)
 	InputMap.action_add_event(action, new_event)
 
-	# PRESERVE SECONDARY BINDINGS WHERE APPLICABLE
 	if action == "move_left":
 		var arrow = InputEventKey.new()
 		arrow.keycode = KEY_LEFT
@@ -217,7 +226,6 @@ func apply_custom_bindings() -> void:
 		if ev:
 			InputMap.action_erase_events(action)
 			InputMap.action_add_event(action, ev)
-			# RESTORE SECONDARY
 			if action == "move_left":
 				var arrow = InputEventKey.new()
 				arrow.keycode = KEY_LEFT
@@ -269,6 +277,7 @@ func save_settings() -> void:
 	cfg.set_value("display", "fullscreen", fullscreen)
 	cfg.set_value("display", "vsync", vsync)
 	cfg.set_value("display", "resolution_idx", resolution_idx)
+	cfg.set_value("display", "fps_cap", fps_cap)
 	cfg.set_value("graphics", "preset", graphics_preset)
 	cfg.set_value("graphics", "shadow", shadow_quality)
 	cfg.set_value("graphics", "fog", fog_enabled)
@@ -284,23 +293,29 @@ func load_settings() -> void:
 		music_volume = cfg.get_value("audio", "music", 0.8)
 		sfx_volume = cfg.get_value("audio", "sfx", 1.0)
 		fullscreen = cfg.get_value("display", "fullscreen", false)
-		vsync = cfg.get_value("display", "vsync", true)
-		resolution_idx = cfg.get_value("display", "resolution_idx", 1)
-		graphics_preset = cfg.get_value("graphics", "preset", 1)
-		shadow_quality = cfg.get_value("graphics", "shadow", 1)
-		fog_enabled = cfg.get_value("graphics", "fog", true)
-		bloom_enabled = cfg.get_value("graphics", "bloom", true)
-		msaa_quality = cfg.get_value("graphics", "msaa", 1)
+		vsync = cfg.get_value("display", "vsync", false) # DEFAULT FALSE
+		resolution_idx = cfg.get_value("display", "resolution_idx", 2) # DEFAULT 1280x720
+		fps_cap = cfg.get_value("display", "fps_cap", 120)
+		graphics_preset = cfg.get_value("graphics", "preset", 0) # DEFAULT LOW
+		shadow_quality = cfg.get_value("graphics", "shadow", 0)
+		fog_enabled = cfg.get_value("graphics", "fog", false)
+		bloom_enabled = cfg.get_value("graphics", "bloom", false)
+		msaa_quality = cfg.get_value("graphics", "msaa", 0)
 		custom_bindings = cfg.get_value("controls", "bindings", {})
+	else:
+		# FIRST LAUNCH DEFAULTS TO LOW PRESET
+		apply_preset(0)
+		save_settings()
 
 func reset_to_defaults() -> void:
 	master_volume = 1.0
 	music_volume = 0.8
 	sfx_volume = 1.0
 	fullscreen = false
-	vsync = true
-	resolution_idx = 1
-	apply_preset(1)
+	vsync = false
+	resolution_idx = 2 # 1280x720 Windowed
+	fps_cap = 120
+	apply_preset(0) # RESTORE LOW PRESET
 	apply_all_settings()
 	restore_default_controls()
 	save_settings()

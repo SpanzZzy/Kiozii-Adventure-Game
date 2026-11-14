@@ -37,6 +37,10 @@ var damage_taken_this_level: int = 0
 var crystals_collected_level: int = 0
 var crystals_total_level: int = 0
 
+# CRYSTAL PERSISTENCE PER LEVEL: Array of bools [c0, c1, c2]
+var saved_crystals: Dictionary = {}
+var active_crystals_registered: Array = []
+
 # ACTIVE CHECKPOINT POSITION
 var current_checkpoint_pos: Vector3 = Vector3.ZERO
 var has_custom_checkpoint: bool = false
@@ -86,8 +90,9 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 	portal_is_open = (enemy_count == 0 and not is_boss)
 	has_respawned_this_level = false
 	damage_taken_this_level = 0
-	crystals_collected_level = 0
 	crystals_total_level = 0
+	crystals_collected_level = 0
+	active_crystals_registered.clear()
 	has_custom_checkpoint = false
 	current_checkpoint_pos = Vector3.ZERO
 	
@@ -96,18 +101,34 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 	if portal_is_open:
 		emit_signal("portal_unlocked")
 
+func register_crystal(crystal_node: Node3D, c_id: int) -> void:
+	crystals_total_level += 1
+	var lvl_key = str(current_level_idx + 1)
+	var lvl_saved = saved_crystals.get(lvl_key, [false, false, false])
+	if c_id >= 0 and c_id < lvl_saved.size() and lvl_saved[c_id] == true:
+		crystals_collected_level += 1
+		crystal_node.queue_free()
+	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+
+func on_crystal_collected(c_id: int) -> void:
+	crystals_collected_level += 1
+	var lvl_key = str(current_level_idx + 1)
+	if not saved_crystals.has(lvl_key):
+		saved_crystals[lvl_key] = [false, false, false]
+	if c_id >= 0 and c_id < saved_crystals[lvl_key].size():
+		saved_crystals[lvl_key][c_id] = true
+	save_progress()
+
+	if AudioManager:
+		AudioManager.play_crystal()
+	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+
 func set_checkpoint(pos: Vector3, checkpoint_name: String = "Summit Altar") -> void:
 	current_checkpoint_pos = pos
 	has_custom_checkpoint = true
 	if AudioManager:
 		AudioManager.play_checkpoint()
 	emit_signal("checkpoint_reached", checkpoint_name)
-
-func on_crystal_collected() -> void:
-	crystals_collected_level += 1
-	if AudioManager:
-		AudioManager.play_crystal()
-	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
 
 func trigger_second_wind() -> void:
 	has_respawned_this_level = true
@@ -203,6 +224,7 @@ func save_progress() -> void:
 	cfg.set_value("progression", "unlocked_level", unlocked_level)
 	cfg.set_value("progression", "completed_levels", completed_levels)
 	cfg.set_value("progression", "achievements", unlocked_achievements)
+	cfg.set_value("progression", "saved_crystals", saved_crystals)
 	cfg.save(SAVE_PATH)
 
 func load_progress() -> void:
@@ -211,3 +233,4 @@ func load_progress() -> void:
 		unlocked_level = cfg.get_value("progression", "unlocked_level", 1)
 		completed_levels = cfg.get_value("progression", "completed_levels", [])
 		unlocked_achievements = cfg.get_value("progression", "achievements", {})
+		saved_crystals = cfg.get_value("progression", "saved_crystals", {})

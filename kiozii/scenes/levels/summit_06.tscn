@@ -471,9 +471,12 @@ checkpoint_name = "Ember Ridge Altar"
 
 [node name="ResolveCrystal_0" parent="." instance=ExtResource("93_crystal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.0, 2.0, 0.0)
+crystal_id = 0
 
 [node name="ResolveCrystal_1" parent="." instance=ExtResource("93_crystal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.5, 3.5, 0.0)
+crystal_id = 1
 
 [node name="ResolveCrystal_2" parent="." instance=ExtResource("93_crystal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.0, 4.0, 0.0)
+crystal_id = 2
