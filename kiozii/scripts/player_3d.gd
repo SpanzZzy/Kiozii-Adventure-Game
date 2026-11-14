@@ -142,10 +142,13 @@ func _physics_process(delta: float) -> void:
 			shoot_2d()
 
 	# hazard fall reset - bounce back checkpoint recovery
-	var fall_threshold = -15.0 if is_open_world else -7.0
+	var fall_threshold = -7.0
+	if is_open_world:
+		var checkpoint_y = GameManager.current_checkpoint_pos.y if GameManager.has_custom_checkpoint else spawn_position.y
+		fall_threshold = minf(checkpoint_y - 20.0, -15.0)
 	if global_position.y < fall_threshold:
 		var target_spawn = GameManager.current_checkpoint_pos if GameManager.has_custom_checkpoint else spawn_position
-		global_position = target_spawn
+		global_position = target_spawn + Vector3(0.0, 1.2, 0.0)
 		velocity = Vector3.ZERO
 		take_damage(1, 0.0, "You fell into a deep mountain chasm!")
 		apply_second_wind()

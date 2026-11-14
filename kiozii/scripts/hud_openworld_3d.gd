@@ -68,6 +68,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			settings_modal.hide()
 		else:
 			toggle_pause()
+	elif event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R:
+		if not pause_menu.visible and not game_over_menu.visible and not settings_modal.visible:
+			_on_respawn_at_shrine_pressed()
 
 func update_compass() -> void:
 	if not is_inside_tree():
@@ -147,7 +150,7 @@ func _on_crystal_collected(_cur: int, _total: int) -> void:
 
 func _on_crystal_pickup_notified(uid: String, _reg_count: int, _total: int) -> void:
 	update_crystal_display()
-	show_toast("+1 RESOLVE CRYSTAL! [%s]" % uid.to_upper(), Color(0.96, 0.95, 0.90, 1.0))
+	show_toast("+1 RESOLVE CRYSTAL! (+1 EXTRA HEART ♥) [%s]" % uid.to_upper(), Color(0.2, 0.95, 0.55, 1.0))
 
 func show_toast(msg: String, color: Color = Color(0.2, 0.9, 0.5, 1.0)) -> void:
 	toast_text.text = msg
@@ -192,6 +195,15 @@ func toggle_pause() -> void:
 func _on_resume_pressed() -> void:
 	toggle_pause()
 
+func _on_respawn_at_shrine_pressed() -> void:
+	game_over_menu.visible = false
+	pause_menu.visible = false
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	var world = get_tree().current_scene
+	if world and world.has_method("respawn_player_at_shrine"):
+		world.respawn_player_at_shrine()
+
 func _on_settings_pressed() -> void:
 	settings_modal.show()
 	settings_modal.sync_from_manager()
@@ -205,5 +217,5 @@ func _on_game_over(reason: String) -> void:
 	game_over_menu.visible = true
 	var reason_lbl = game_over_menu.find_child("ReasonLabel", true, false)
 	if reason_lbl:
-		reason_lbl.text = reason
+		reason_lbl.text = reason + "\nFall. Learn. Rise. Return to your shrine!"
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

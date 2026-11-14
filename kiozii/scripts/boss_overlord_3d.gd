@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 # final boss overlord controller (supports 2.5d and open-world 3d)
 signal boss_health_changed(current_health: int, max_health: int)
+signal boss_defeated_in_world
 
 @export var is_open_world: bool = false
 @export var max_health: int = 65
@@ -388,5 +389,8 @@ func take_damage(amount: int) -> void:
 
 func die() -> void:
 	is_dead = true
-	GameManager.boss_defeated()
+	if is_open_world:
+		emit_signal("boss_defeated_in_world")
+	else:
+		GameManager.boss_defeated()
 	queue_free()

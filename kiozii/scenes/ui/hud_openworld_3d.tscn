@@ -62,6 +62,17 @@ theme_override_colors/font_color = Color(0.2, 0.95, 0.55, 1)
 text = "REGION 01: GREEN HIGHLANDS"
 horizontal_alignment = 1
 
+[node name="ExperimentalBanner" type="PanelContainer" parent="HUD/MarginTop/Center"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ExperimentalLabel" type="Label" parent="HUD/MarginTop/Center/ExperimentalBanner"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 0.95)
+theme_override_font_sizes/font_size = 11
+text = "⚠ EXPERIMENTAL (Aimed for future scope.) ⚠"
+horizontal_alignment = 1
+
 [node name="HBoxRight" type="HBoxContainer" parent="HUD/MarginTop"]
 layout_mode = 2
 size_flags_horizontal = 8
@@ -79,6 +90,13 @@ horizontal_alignment = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.65, 0.85, 1, 1)
 text = "★ MOUNTAIN: 0/21"
+horizontal_alignment = 2
+
+[node name="ShrineHint" type="Label" parent="HUD/MarginTop/HBoxRight/BoxCrystals"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.95, 0.75)
+theme_override_font_sizes/font_size = 10
+text = "[R] RETURN TO SHRINE"
 horizontal_alignment = 2
 
 [node name="BossHUD" type="Control" parent="HUD/MarginTop"]
@@ -287,6 +305,10 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "RESUME EXPEDITION"
 
+[node name="ReturnShrineBtn" type="Button" parent="PauseMenu/Box/VBox"]
+layout_mode = 2
+text = "RETURN TO ACTIVE SHRINE"
+
 [node name="SettingsBtn" type="Button" parent="PauseMenu/Box/VBox"]
 layout_mode = 2
 text = "SETTINGS"
@@ -355,7 +377,8 @@ layout_mode = 2
 text = "MAIN MENU"
 
 [connection signal="pressed" from="PauseMenu/Box/VBox/ResumeBtn" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/Box/VBox/ReturnShrineBtn" to="." method="_on_respawn_at_shrine_pressed"]
 [connection signal="pressed" from="PauseMenu/Box/VBox/SettingsBtn" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="PauseMenu/Box/VBox/MainMenuBtn" to="." method="_on_main_menu_pressed"]
-[connection signal="pressed" from="GameOverMenu/Box/VBox/RespawnBtn" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="GameOverMenu/Box/VBox/RespawnBtn" to="." method="_on_respawn_at_shrine_pressed"]
 [connection signal="pressed" from="GameOverMenu/Box/VBox/ReturnMenuBtn" to="." method="_on_main_menu_pressed"]

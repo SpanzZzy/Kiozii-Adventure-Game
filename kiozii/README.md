@@ -96,19 +96,20 @@ All controls are fully rebindable in the in-game **Settings** menu.
 
 ### 3. Collectibles & Checkpoints
 - **21 Resolve Crystals**: Exactly 3 collectible crystals per region, modeled after traditional kaju katli rhombus diamonds.
-- **Atomic Registration**: Instant one-time collection with persistent unique ID tracking (`summit_01_crystal_01` to `summit_07_crystal_03`).
-- **4 Mountain Altars**: Distinct checkpoint shrines completely separated from crystal progression.
+- **Extra Heart Bonus**: Every crystal collected awards **+1 Extra Heart container** and heals the player, empowering Kiozii to tackle higher mountain tiers!
+- **4 Mountain Altars**: Distinct checkpoint shrines with full health restoration upon resting. Press `[R]` or pause to instantly return to your active shrine.
+- **Runic Boss Gate**: The Summit Gate to the final dais is sealed by an ancient runic barrier that only dissolves once the Summit Overlord is defeated in combat.
 
 ### 4. Enemies & Boss Overlord
 - **Ridge Scout**: Ground patrol unit with leaping melee attacks.
 - **Ridge Sniper**: Long-range elevation marksman firing aimed energy bolts.
 - **Armored Golem**: Heavy high-durability mountain sentinel with defensive plating.
 - **3D Billboard Health Bars**: Lightweight, dynamic color-coded health indicators (green $\to$ yellow $\to$ red) facing the camera with zero SubViewport overhead.
-* **Summit Overlord (Final Boss)**: 3-pattern combat system (bullet spreads, high leap ground slams, and sub-25% enrage phase), immune to unwanted physics knockback.
+- **Summit Overlord (Final Boss)**: Aggressive, multi-pattern combat system (accurate chest-level energy fans, rapid twin-laser gatling bursts, lethal meteor ground slams with arena-wide floor shockwaves, and a 50% HP frenzy enrage mode).
 
 ### 5. Dual Game Modes
-- **3D Open World**: Explorable continuous 600m mountain climb from foothills to peak.
-- **Classic 2.5D Summits**: 7 staged arcade challenges with completion grading, par times, and kill stats.
+- **Classic 2.5D Summits [Complete & Verified]**: 7 fully polished, staged arcade challenges with completion grading, par times, and kill stats.
+- **3D Open World [Experimental — Aimed for Future Scope]**: Explorable continuous 600m mountain climb from foothills to peak with free 3D camera controls and seamless biomes.
 
 ### 6. Settings & Accessibility
 - Volume controls for Master, Music, and SFX.

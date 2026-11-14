@@ -86,7 +86,14 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.95, 0.55, 1)
-text = "🏔 EXPLORE 3D OPEN WORLD"
+text = "🏔 EXPLORE 3D OPEN WORLD [EXPERIMENTAL]"
+
+[node name="ExperimentalNote" type="Label" parent="CenterBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 0.9)
+theme_override_font_sizes/font_size = 11
+text = "★ 3D Mode is Experimental (Aimed for future scope.) — 2D Classic Summits is Complete! ★"
+horizontal_alignment = 1
 
 [node name="HBoxRow1" type="HBoxContainer" parent="CenterBox/VBox" unique_id=299393040]
 layout_mode = 2

@@ -88,7 +88,7 @@ func _on_crystal_collected(current: int, total: int) -> void:
 
 func _on_crystal_pickup_notified(_uid: String, current: int, total: int) -> void:
 	update_crystal_display(current, total)
-	show_toast("+1 RESOLVE CRYSTAL! (%d/%d)" % [current, total], Color(0.96, 0.95, 0.90, 1.0))
+	show_toast("+1 RESOLVE CRYSTAL! (+1 EXTRA HEART ♥) (%d/%d)" % [current, total], Color(0.2, 0.95, 0.55, 1.0))
 	prev_crystal_count = current
 
 func _on_achievement_unlocked(_id: String, title: String, desc: String) -> void:

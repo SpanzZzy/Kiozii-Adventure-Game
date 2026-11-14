@@ -83,13 +83,12 @@ func _process(delta: float) -> void:
 		level_time += delta
 
 func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
-	player_current_health = player_max_health
 	enemies_total = enemy_count
 	enemies_remaining = enemy_count
 	level_kills = 0
 	level_time = 0.0
 	is_level_active = true
-	portal_is_open = (enemy_count == 0 and not is_boss)
+	portal_is_open = false
 	has_respawned_this_level = false
 	damage_taken_this_level = 0
 	has_custom_checkpoint = false
@@ -105,11 +104,13 @@ func reset_for_level(enemy_count: int, is_boss: bool = false) -> void:
 			count += 1
 	crystals_collected_level = count
 	
+	# base health is 5 plus extra hearts from collected crystals
+	player_max_health = 5 + count
+	player_current_health = player_max_health
+	
 	emit_signal("health_changed", player_current_health, player_max_health)
 	emit_signal("enemy_count_changed", enemies_remaining, enemies_total)
 	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
-	if portal_is_open:
-		emit_signal("portal_unlocked")
 
 func is_crystal_collected(c_id: int) -> bool:
 	var lvl_key = str(current_level_idx + 1)
@@ -144,6 +145,11 @@ func register_crystal_collected(uid: String, reg_num: int, c_id: int) -> void:
 		if c_id >= 0 and c_id < saved_crystals[lvl_key].size():
 			saved_crystals[lvl_key][c_id] = true
 		crystals_collected_level = mini(crystals_collected_level + 1, crystals_total_level)
+
+	# grant extra heart bonus
+	player_max_health += 1
+	player_current_health = mini(player_current_health + 1, player_max_health)
+	emit_signal("health_changed", player_current_health, player_max_health)
 
 	save_progress()
 	if AudioManager:

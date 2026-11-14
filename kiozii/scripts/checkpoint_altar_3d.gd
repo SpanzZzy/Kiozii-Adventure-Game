@@ -31,5 +31,8 @@ func activate_checkpoint() -> void:
 		flame_mesh.scale = Vector3(1.2, 1.6, 1.2)
 	if light:
 		light.light_energy = 2.5
-	var respawn_pos = Vector3(global_position.x, global_position.y + 1.2, 0.0)
+	var respawn_pos = Vector3(global_position.x, global_position.y + 1.2, global_position.z)
 	GameManager.set_checkpoint(respawn_pos, checkpoint_name)
+	# restore player health upon resting at a shrine
+	GameManager.player_current_health = GameManager.player_max_health
+	GameManager.emit_signal("health_changed", GameManager.player_current_health, GameManager.player_max_health)
