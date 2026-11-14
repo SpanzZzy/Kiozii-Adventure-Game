@@ -82,18 +82,24 @@ text = "Scale seven mountain peaks, gather glowing Resolve Crystals, ignite moun
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="OpenWorldBtn" type="Button" parent="CenterBox/VBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.95, 0.55, 1)
+text = "🏔 EXPLORE 3D OPEN WORLD"
+
 [node name="HBoxRow1" type="HBoxContainer" parent="CenterBox/VBox" unique_id=299393040]
 layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="PlayBtn" type="Button" parent="CenterBox/VBox/HBoxRow1" unique_id=2109875094]
-custom_minimum_size = Vector2(0, 42)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "▶ PLAY / CONTINUE"
+text = "▶ CLASSIC SUMMITS"
 
 [node name="LevelsBtn" type="Button" parent="CenterBox/VBox/HBoxRow1" unique_id=1416300135]
-custom_minimum_size = Vector2(0, 42)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "⛰ LEVEL SELECT"
@@ -184,6 +190,7 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
+[connection signal="pressed" from="CenterBox/VBox/OpenWorldBtn" to="." method="_on_open_world_pressed"]
 [connection signal="pressed" from="CenterBox/VBox/HBoxRow1/PlayBtn" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="CenterBox/VBox/HBoxRow1/LevelsBtn" to="." method="_on_levels_pressed"]
 [connection signal="pressed" from="CenterBox/VBox/HBoxRow2/SettingsBtn" to="." method="_on_settings_pressed"]

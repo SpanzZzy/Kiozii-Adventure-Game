@@ -38,4 +38,3 @@ func _on_portal_unlocked() -> void:
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player") and is_unlocked:
 		GameManager.complete_level()
-

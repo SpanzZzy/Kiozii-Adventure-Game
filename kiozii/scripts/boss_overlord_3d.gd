@@ -1,6 +1,8 @@
 extends CharacterBody3D
 
 # FINAL BOSS OVERLORD CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
+signal boss_health_changed(current_health: int, max_health: int)
+
 @export var is_open_world: bool = false
 @export var max_health: int = 65
 @export var arena_center_3d: Vector3 = Vector3(600.0, 150.0, 0.0)
@@ -32,6 +34,12 @@ func _ready() -> void:
 	add_to_group("enemies")
 	current_health = max_health
 	spawn_pos = global_position
+	boss_health_changed.emit(current_health, max_health)
+	GameManager.emit_signal("boss_health_changed", current_health, max_health)
+	call_deferred("_emit_initial_health")
+
+func _emit_initial_health() -> void:
+	boss_health_changed.emit(current_health, max_health)
 	GameManager.emit_signal("boss_health_changed", current_health, max_health)
 
 func _physics_process(delta: float) -> void:
@@ -214,6 +222,7 @@ func take_damage(amount: int) -> void:
 		is_enraged = true
 		AudioManager.play_boss_slam()
 
+	boss_health_changed.emit(current_health, max_health)
 	GameManager.emit_signal("boss_health_changed", current_health, max_health)
 	if current_health <= 0:
 		die()

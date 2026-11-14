@@ -39,6 +39,11 @@ func _ready() -> void:
 	if victory_portal:
 		victory_portal.connect("body_entered", Callable(self, "_on_victory_portal_entered"))
 
+	var boss = get_boss()
+	if boss and boss.has_signal("boss_health_changed") and hud:
+		if not boss.boss_health_changed.is_connected(hud._on_boss_health_changed):
+			boss.boss_health_changed.connect(hud._on_boss_health_changed)
+
 func _physics_process(_delta: float) -> void:
 	if not player:
 		return
