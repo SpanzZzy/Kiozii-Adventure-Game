@@ -6,6 +6,12 @@ extends Control
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
+func _on_open_world_pressed() -> void:
+	if AudioManager:
+		AudioManager.play_jump()
+	GameManager.total_kills_session = 0
+	get_tree().change_scene_to_file("res://scenes/world/open_world_mountain.tscn")
+
 func _on_play_pressed() -> void:
 	if AudioManager:
 		AudioManager.play_jump()

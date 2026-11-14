@@ -21,26 +21,45 @@ var bloom_enabled: bool = false
 var msaa_quality: int = 0 # 0=DISABLED, 1=2X, 2=4X
 var fps_cap: int = 60
 
-# REBINDABLE ACTIONS AND DEFAULTS
-const ACTIONS = ["move_left", "move_right", "jump", "shoot", "pause", "toggle_camera"]
+# REBINDABLE ACTIONS AND DEFAULTS FOR FULL 3D MOVEMENT
+const ACTIONS = [
+	"move_forward",
+	"move_backward",
+	"move_left",
+	"move_right",
+	"jump",
+	"sprint",
+	"shoot",
+	"pause",
+	"open_map",
+	"toggle_camera"
+]
 
 # ACTION DISPLAY METADATA
 const ACTION_NAMES = {
+	"move_forward": "Move Forward",
+	"move_backward": "Move Backward",
 	"move_left": "Move Left",
 	"move_right": "Move Right",
 	"jump": "Jump",
+	"sprint": "Sprint",
 	"shoot": "Shoot",
 	"pause": "Pause",
+	"open_map": "World Map",
 	"toggle_camera": "Toggle Camera"
 }
 
 # DEFAULT BINDING CODES
 const DEFAULT_KEY_BINDINGS = {
+	"move_forward": {"type": "key", "code": 87, "second": 4194320},
+	"move_backward": {"type": "key", "code": 83, "second": 4194322},
 	"move_left": {"type": "key", "code": 65, "second": 4194319},
 	"move_right": {"type": "key", "code": 68, "second": 4194321},
-	"jump": {"type": "key", "code": 32, "second": 87},
+	"jump": {"type": "key", "code": 32, "second": 0},
+	"sprint": {"type": "key", "code": 4194325, "second": 0},
 	"shoot": {"type": "mouse", "code": 1, "second": 74},
 	"pause": {"type": "key", "code": 4194305, "second": 0},
+	"open_map": {"type": "key", "code": 77, "second": 0},
 	"toggle_camera": {"type": "key", "code": 67, "second": 0}
 }
 
@@ -159,7 +178,17 @@ func rebind_action(action: String, new_event: InputEvent) -> String:
 	InputMap.action_erase_events(action)
 	InputMap.action_add_event(action, new_event)
 
-	if action == "move_left":
+	if action == "move_forward":
+		var arrow = InputEventKey.new()
+		arrow.keycode = KEY_UP
+		if not is_event_matching(new_event, arrow):
+			InputMap.action_add_event(action, arrow)
+	elif action == "move_backward":
+		var arrow = InputEventKey.new()
+		arrow.keycode = KEY_DOWN
+		if not is_event_matching(new_event, arrow):
+			InputMap.action_add_event(action, arrow)
+	elif action == "move_left":
 		var arrow = InputEventKey.new()
 		arrow.keycode = KEY_LEFT
 		if not is_event_matching(new_event, arrow):
@@ -169,11 +198,6 @@ func rebind_action(action: String, new_event: InputEvent) -> String:
 		arrow.keycode = KEY_RIGHT
 		if not is_event_matching(new_event, arrow):
 			InputMap.action_add_event(action, arrow)
-	elif action == "jump":
-		var w_key = InputEventKey.new()
-		w_key.keycode = KEY_W
-		if not is_event_matching(new_event, w_key):
-			InputMap.action_add_event(action, w_key)
 	elif action == "shoot":
 		var j_key = InputEventKey.new()
 		j_key.keycode = KEY_J
@@ -230,7 +254,17 @@ func apply_custom_bindings() -> void:
 		if ev:
 			InputMap.action_erase_events(action)
 			InputMap.action_add_event(action, ev)
-			if action == "move_left":
+			if action == "move_forward":
+				var arrow = InputEventKey.new()
+				arrow.keycode = KEY_UP
+				if not is_event_matching(ev, arrow):
+					InputMap.action_add_event(action, arrow)
+			elif action == "move_backward":
+				var arrow = InputEventKey.new()
+				arrow.keycode = KEY_DOWN
+				if not is_event_matching(ev, arrow):
+					InputMap.action_add_event(action, arrow)
+			elif action == "move_left":
 				var arrow = InputEventKey.new()
 				arrow.keycode = KEY_LEFT
 				if not is_event_matching(ev, arrow):
@@ -240,11 +274,6 @@ func apply_custom_bindings() -> void:
 				arrow.keycode = KEY_RIGHT
 				if not is_event_matching(ev, arrow):
 					InputMap.action_add_event(action, arrow)
-			elif action == "jump":
-				var w_key = InputEventKey.new()
-				w_key.keycode = KEY_W
-				if not is_event_matching(ev, w_key):
-					InputMap.action_add_event(action, w_key)
 			elif action == "shoot":
 				var j_key = InputEventKey.new()
 				j_key.keycode = KEY_J

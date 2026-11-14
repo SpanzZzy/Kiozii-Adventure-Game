@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://c0soms7rxqjjq"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
-[ext_resource type="Texture2D" path="res://textures/menu_backdrop.png" id="2_backdrop"]
+[ext_resource type="Script" uid="uid://s0xgb2mtvuht" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://8kxwh0edu5yl" path="res://textures/menu_backdrop.png" id="2_backdrop"]
 [ext_resource type="PackedScene" path="res://scenes/ui/settings_menu.tscn" id="3_settings"]
 [ext_resource type="PackedScene" path="res://scenes/ui/credits_modal.tscn" id="4_credits"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=1680133936]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Backdrop" type="TextureRect" parent="."]
+[node name="Backdrop" type="TextureRect" parent="." unique_id=1064116376]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ texture = ExtResource("2_backdrop")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Tint" type="ColorRect" parent="."]
+[node name="Tint" type="ColorRect" parent="." unique_id=1891533001]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.04, 0.06, 0.12, 0.6)
 
-[node name="CenterBox" type="PanelContainer" parent="."]
+[node name="CenterBox" type="PanelContainer" parent="." unique_id=851456082]
 custom_minimum_size = Vector2(480, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -49,32 +49,32 @@ offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="CenterBox"]
+[node name="VBox" type="VBoxContainer" parent="CenterBox" unique_id=150504619]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Badge" type="Label" parent="CenterBox/VBox"]
+[node name="Badge" type="Label" parent="CenterBox/VBox" unique_id=542145872]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
 theme_override_font_sizes/font_size = 11
 text = "BOUNCE BACK — FALL. LEARN. RISE."
 horizontal_alignment = 1
 
-[node name="Title" type="Label" parent="CenterBox/VBox"]
+[node name="Title" type="Label" parent="CenterBox/VBox" unique_id=110656792]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 46
 text = "KOizi"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CenterBox/VBox"]
+[node name="Subtitle" type="Label" parent="CenterBox/VBox" unique_id=618737889]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
 theme_override_font_sizes/font_size = 14
 text = "— SEVEN SUMMITS: BOUNCE BACK —"
 horizontal_alignment = 1
 
-[node name="Desc" type="Label" parent="CenterBox/VBox"]
+[node name="Desc" type="Label" parent="CenterBox/VBox" unique_id=179247361]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
 theme_override_font_sizes/font_size = 12
@@ -82,105 +82,105 @@ text = "Scale seven mountain peaks, gather glowing Resolve Crystals, ignite moun
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="HBoxRow1" type="HBoxContainer" parent="CenterBox/VBox"]
+[node name="HBoxRow1" type="HBoxContainer" parent="CenterBox/VBox" unique_id=299393040]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="PlayBtn" type="Button" parent="CenterBox/VBox/HBoxRow1"]
+[node name="PlayBtn" type="Button" parent="CenterBox/VBox/HBoxRow1" unique_id=2109875094]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "▶ PLAY / CONTINUE"
 
-[node name="LevelsBtn" type="Button" parent="CenterBox/VBox/HBoxRow1"]
+[node name="LevelsBtn" type="Button" parent="CenterBox/VBox/HBoxRow1" unique_id=1416300135]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "⛰ LEVEL SELECT"
 
-[node name="HBoxRow2" type="HBoxContainer" parent="CenterBox/VBox"]
+[node name="HBoxRow2" type="HBoxContainer" parent="CenterBox/VBox" unique_id=76982797]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SettingsBtn" type="Button" parent="CenterBox/VBox/HBoxRow2"]
+[node name="SettingsBtn" type="Button" parent="CenterBox/VBox/HBoxRow2" unique_id=279293187]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "⚙ SETTINGS"
 
-[node name="CreditsBtn" type="Button" parent="CenterBox/VBox/HBoxRow2"]
+[node name="CreditsBtn" type="Button" parent="CenterBox/VBox/HBoxRow2" unique_id=1730368864]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "★ CREDITS"
 
-[node name="QuitBtn" type="Button" parent="CenterBox/VBox/HBoxRow2"]
+[node name="QuitBtn" type="Button" parent="CenterBox/VBox/HBoxRow2" unique_id=1668684775]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "✖ QUIT"
 
-[node name="ControlsPanel" type="PanelContainer" parent="CenterBox/VBox"]
+[node name="ControlsPanel" type="PanelContainer" parent="CenterBox/VBox" unique_id=495162647]
 layout_mode = 2
 
-[node name="Grid" type="GridContainer" parent="CenterBox/VBox/ControlsPanel"]
+[node name="Grid" type="GridContainer" parent="CenterBox/VBox/ControlsPanel" unique_id=551063804]
 layout_mode = 2
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 4
 columns = 4
 
-[node name="M1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="M1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=233265051]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
 theme_override_font_sizes/font_size = 10
 text = "MOVE"
 
-[node name="J1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="J1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=179925645]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
 theme_override_font_sizes/font_size = 10
 text = "JUMP"
 
-[node name="S1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="S1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=739244406]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
 theme_override_font_sizes/font_size = 10
 text = "SHOOT"
 
-[node name="P1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="P1" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=531675080]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
 theme_override_font_sizes/font_size = 10
 text = "PAUSE / CAM"
 
-[node name="M2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="M2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=1609208187]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "A / D or ◀ ▶"
 
-[node name="J2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="J2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=1956576263]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_font_sizes/font_size = 11
 text = "SPACE / W"
 
-[node name="S2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="S2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=1383533103]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.75, 0.2, 1)
 theme_override_font_sizes/font_size = 11
 text = "J / CLICK"
 
-[node name="P2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid"]
+[node name="P2" type="Label" parent="CenterBox/VBox/ControlsPanel/Grid" unique_id=1447986883]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 11
 text = "ESC / C"
 
-[node name="SettingsModal" parent="." instance=ExtResource("3_settings")]
+[node name="SettingsModal" parent="." unique_id=565790134 instance=ExtResource("3_settings")]
 visible = false
 layout_mode = 1
 
-[node name="CreditsModal" parent="." instance=ExtResource("4_credits")]
+[node name="CreditsModal" parent="." unique_id=1883284884 instance=ExtResource("4_credits")]
 visible = false
 layout_mode = 1
 

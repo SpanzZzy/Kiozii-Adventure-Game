@@ -1,43 +1,47 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/player_3d.gd" id="1_player"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_player"]
-size = Vector3(0.9, 1.65, 1.0)
+size = Vector3(0.9, 1.65, 1)
 
 [sub_resource type="StandardMaterial3D" id="Mat_Suit"]
-albedo_color = Color(0.0078, 0.5176, 0.7804, 1.0)
+albedo_color = Color(0.0078, 0.5176, 0.7804, 1)
 roughness = 0.4
 
+[sub_resource type="StandardMaterial3D" id="Mat_Boots"]
+albedo_color = Color(0.1176, 0.1608, 0.2314, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_Scarf"]
+albedo_color = Color(0.9569, 0.2471, 0.3686, 1)
+roughness = 0.5
+
 [sub_resource type="StandardMaterial3D" id="Mat_Skin"]
-albedo_color = Color(0.9922, 0.902, 0.5412, 1.0)
+albedo_color = Color(0.9922, 0.902, 0.5412, 1)
 roughness = 0.5
 
 [sub_resource type="StandardMaterial3D" id="Mat_Hood"]
-albedo_color = Color(0.2196, 0.7412, 0.9725, 1.0)
+albedo_color = Color(0.2196, 0.7412, 0.9725, 1)
 roughness = 0.3
 
-[sub_resource type="StandardMaterial3D" id="Mat_Scarf"]
-albedo_color = Color(0.9569, 0.2471, 0.3686, 1.0)
-roughness = 0.5
-
-[sub_resource type="StandardMaterial3D" id="Mat_Boots"]
-albedo_color = Color(0.1176, 0.1608, 0.2314, 1.0)
-roughness = 0.7
-
 [sub_resource type="StandardMaterial3D" id="Mat_Gun"]
-albedo_color = Color(0.8863, 0.9098, 0.9412, 1.0)
+albedo_color = Color(0.8863, 0.9098, 0.9412, 1)
 metallic = 0.6
 roughness = 0.25
 
 [sub_resource type="StandardMaterial3D" id="Mat_Flash"]
-albedo_color = Color(0.9961, 0.9412, 0.5412, 1.0)
+albedo_color = Color(0.9961, 0.9412, 0.5412, 1)
 emission_enabled = true
-emission = Color(0.9961, 0.9412, 0.5412, 1.0)
+emission = Color(0.9961, 0.9412, 0.5412, 1)
+
+[sub_resource type="SphereShape3D" id="Shape_Cam"]
+radius = 0.25
 
 [node name="Player3D" type="CharacterBody3D" groups=["player"]]
 collision_layer = 2
 collision_mask = 1
+floor_snap_length = 0.4
 script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -94,3 +98,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, -0.2)
 size = Vector3(0.32, 0.55, 0.36)
 material = SubResource("Mat_Boots")
 
+[node name="CameraArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.35, 0)
+collision_mask = 1
+shape = SubResource("Shape_Cam")
+spring_length = 5.2
+margin = 0.2
+
+[node name="ThirdPersonCamera" type="Camera3D" parent="CameraArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.2)

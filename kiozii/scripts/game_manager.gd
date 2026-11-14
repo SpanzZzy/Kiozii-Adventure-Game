@@ -39,6 +39,7 @@ var crystals_total_level: int = 3
 
 # CRYSTAL PERSISTENCE PER LEVEL: Array of bools [c0, c1, c2]
 var saved_crystals: Dictionary = {}
+var saved_open_world_crystals: Dictionary = {}
 
 # ACTIVE CHECKPOINT POSITION
 var current_checkpoint_pos: Vector3 = Vector3.ZERO
@@ -115,6 +116,57 @@ func is_crystal_collected(c_id: int) -> bool:
 		return lvl_saved[c_id] == true
 	return false
 
+# OPEN WORLD REGION CRYSTAL RESOLUTION & TRACKING
+func is_region_crystal_collected(reg_num: int, c_id: int) -> bool:
+	var lvl_key = str(reg_num)
+	var lvl_saved = saved_open_world_crystals.get(lvl_key, [false, false, false])
+	if c_id >= 0 and c_id < lvl_saved.size():
+		return lvl_saved[c_id] == true
+	return false
+
+func on_region_crystal_collected(reg_num: int, c_id: int) -> void:
+	var lvl_key = str(reg_num)
+	if not saved_open_world_crystals.has(lvl_key):
+		saved_open_world_crystals[lvl_key] = [false, false, false]
+	if c_id >= 0 and c_id < saved_open_world_crystals[lvl_key].size():
+		if saved_open_world_crystals[lvl_key][c_id] == true:
+			return
+		saved_open_world_crystals[lvl_key][c_id] = true
+	save_progress()
+	if AudioManager:
+		AudioManager.play_crystal()
+	emit_signal("crystal_collected", get_region_crystal_count(reg_num), 3)
+
+func get_region_crystal_count(reg_num: int) -> int:
+	var list = saved_open_world_crystals.get(str(reg_num), [false, false, false])
+	var count = 0
+	for c in list:
+		if c == true:
+			count += 1
+	return count
+
+# OPEN WORLD REGION SWITCH AND TOTAL STATS
+func get_total_crystals_collected() -> int:
+	var total = 0
+	for lvl in range(1, 8):
+		var list = saved_open_world_crystals.get(str(lvl), [false, false, false])
+		for c in list:
+			if c == true:
+				total += 1
+	return total
+
+func set_current_region(region_num: int) -> void:
+	current_level_idx = clampi(region_num - 1, 0, 6)
+	crystals_total_level = 3
+	var lvl_key = str(current_level_idx + 1)
+	var lvl_saved = saved_open_world_crystals.get(lvl_key, [false, false, false])
+	var count = 0
+	for c in lvl_saved:
+		if c == true:
+			count += 1
+	crystals_collected_level = count
+	emit_signal("crystal_collected", crystals_collected_level, crystals_total_level)
+
 func on_crystal_collected(c_id: int) -> void:
 	var lvl_key = str(current_level_idx + 1)
 	if not saved_crystals.has(lvl_key):
@@ -137,6 +189,12 @@ func set_checkpoint(pos: Vector3, checkpoint_name: String = "Summit Altar") -> v
 	if AudioManager:
 		AudioManager.play_checkpoint()
 	emit_signal("checkpoint_reached", checkpoint_name)
+
+func has_active_checkpoint() -> bool:
+	return has_custom_checkpoint
+
+func get_checkpoint_position() -> Vector3:
+	return current_checkpoint_pos
 
 func trigger_second_wind() -> void:
 	has_respawned_this_level = true
@@ -233,6 +291,7 @@ func save_progress() -> void:
 	cfg.set_value("progression", "completed_levels", completed_levels)
 	cfg.set_value("progression", "achievements", unlocked_achievements)
 	cfg.set_value("progression", "saved_crystals", saved_crystals)
+	cfg.set_value("progression", "saved_open_world_crystals", saved_open_world_crystals)
 	cfg.save(SAVE_PATH)
 
 func load_progress() -> void:
@@ -242,3 +301,4 @@ func load_progress() -> void:
 		completed_levels = cfg.get_value("progression", "completed_levels", [])
 		unlocked_achievements = cfg.get_value("progression", "achievements", {})
 		saved_crystals = cfg.get_value("progression", "saved_crystals", {})
+		saved_open_world_crystals = cfg.get_value("progression", "saved_open_world_crystals", {})

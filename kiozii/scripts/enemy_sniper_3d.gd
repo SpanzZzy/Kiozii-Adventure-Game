@@ -1,10 +1,11 @@
 extends CharacterBody3D
 
-# RIDGE SNIPER CONTROLLER
+# RIDGE SNIPER CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
+@export var is_open_world: bool = false
 @export var max_health: int = 3
 @export var attack_range: float = 24.0
 @export var fire_interval: float = 2.1
-@export var bullet_speed: float = 12.0
+@export var bullet_speed: float = 14.0
 
 var current_health: int
 var shoot_timer: float = 1.3
@@ -39,9 +40,6 @@ func apply_level_scaling() -> void:
 		bullet_speed = 17.0
 
 func _physics_process(delta: float) -> void:
-	global_position.z = 0.0
-	velocity.z = 0.0
-
 	if not is_on_floor():
 		velocity.y -= 30.0 * delta
 	move_and_slide()
@@ -58,6 +56,25 @@ func _physics_process(delta: float) -> void:
 			player_node = players[0]
 		return
 
+	if is_open_world:
+		process_3d_sniping(delta)
+	else:
+		process_2d_sniping(delta)
+
+func process_3d_sniping(delta: float) -> void:
+	var dist = global_position.distance_to(player_node.global_position)
+	var to_player = player_node.global_position - global_position
+	visual_root.rotation.y = atan2(-to_player.x, -to_player.z)
+
+	if dist <= attack_range:
+		shoot_timer -= delta
+		if shoot_timer <= 0.0:
+			shoot_timer = fire_interval
+			fire_at_player_3d()
+
+func process_2d_sniping(delta: float) -> void:
+	global_position.z = 0.0
+	velocity.z = 0.0
 	var dist_x = absf(player_node.global_position.x - global_position.x)
 	var dir_to_player = signf(player_node.global_position.x - global_position.x)
 	visual_root.rotation.y = 0.0 if dir_to_player > 0 else PI
@@ -66,13 +83,23 @@ func _physics_process(delta: float) -> void:
 		shoot_timer -= delta
 		if shoot_timer <= 0.0:
 			shoot_timer = fire_interval
-			fire_at_player(dir_to_player)
+			fire_at_player_2d(dir_to_player)
 
-func fire_at_player(dir: float) -> void:
+func fire_at_player_2d(dir: float) -> void:
 	if bullet_scene:
 		var bullet = bullet_scene.instantiate()
 		bullet.global_position = muzzle.global_position
-		bullet.set_velocity_3d(Vector3(dir * bullet_speed, 0, 0))
+		bullet.set_velocity_3d(Vector3(dir * bullet_speed, 0, 0), false)
+		AudioManager.play_shoot()
+		get_parent().add_child(bullet)
+
+func fire_at_player_3d() -> void:
+	if bullet_scene:
+		var bullet = bullet_scene.instantiate()
+		var target = player_node.global_position + Vector3(0, 0.8, 0)
+		var dir_3d = (target - muzzle.global_position).normalized()
+		bullet.global_position = muzzle.global_position
+		bullet.set_velocity_3d(dir_3d * bullet_speed, true)
 		AudioManager.play_shoot()
 		get_parent().add_child(bullet)
 

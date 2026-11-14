@@ -1,0 +1,467 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://scripts/open_world_mountain.gd" id="1_world"]
+[ext_resource type="PackedScene" path="res://scenes/player/player_3d.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud_openworld_3d.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/levels/level_ambience_3d.tscn" id="4_amb"]
+[ext_resource type="PackedScene" path="res://scenes/levels/resolve_crystal_3d.tscn" id="5_crystal"]
+[ext_resource type="PackedScene" path="res://scenes/levels/checkpoint_altar_3d.tscn" id="6_altar"]
+[ext_resource type="PackedScene" path="res://scenes/levels/summit_portal_3d.tscn" id="7_portal"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_scout_3d.tscn" id="8_scout"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_sniper_3d.tscn" id="9_sniper"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_golem_3d.tscn" id="10_golem"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/boss_overlord_3d.tscn" id="11_boss"]
+
+[ext_resource type="Texture2D" path="res://textures/pixel_grass.png" id="20_grass_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_rock.png" id="21_rock_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_autumn.png" id="22_autumn_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_canyon.png" id="23_canyon_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_snow.png" id="24_snow_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_crystal.png" id="25_crystal_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_ember.png" id="26_ember_tex"]
+[ext_resource type="Texture2D" path="res://textures/pixel_summit.png" id="27_summit_tex"]
+
+[sub_resource type="Environment" id="Env_OpenWorld"]
+background_mode = 1
+background_color = Color(0.35, 0.65, 0.95, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.45, 0.65, 0.9, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.5
+glow_bloom = 0.15
+fog_enabled = true
+fog_light_color = Color(0.65, 0.78, 0.92, 1)
+fog_density = 0.0018
+fog_sky_affect = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_Grass"]
+albedo_texture = ExtResource("20_grass_tex")
+uv1_scale = Vector3(12, 12, 12)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Autumn"]
+albedo_texture = ExtResource("22_autumn_tex")
+uv1_scale = Vector3(12, 12, 12)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Canyon"]
+albedo_texture = ExtResource("23_canyon_tex")
+uv1_scale = Vector3(12, 12, 12)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Snow"]
+albedo_texture = ExtResource("24_snow_tex")
+uv1_scale = Vector3(12, 12, 12)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Crystal"]
+albedo_texture = ExtResource("25_crystal_tex")
+uv1_scale = Vector3(12, 12, 12)
+emission_enabled = true
+emission = Color(0.2, 0.6, 0.9, 1)
+emission_energy_multiplier = 0.5
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ember"]
+albedo_texture = ExtResource("26_ember_tex")
+uv1_scale = Vector3(12, 12, 12)
+emission_enabled = true
+emission = Color(0.8, 0.3, 0.1, 1)
+emission_energy_multiplier = 0.6
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Summit"]
+albedo_texture = ExtResource("27_summit_tex")
+uv1_scale = Vector3(12, 12, 12)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Water"]
+albedo_color = Color(0.15, 0.55, 0.85, 0.75)
+roughness = 0.1
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wood"]
+albedo_color = Color(0.45, 0.3, 0.18, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_GlowingCrystal"]
+albedo_color = Color(0.3, 0.85, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 1, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Lava"]
+albedo_color = Color(1, 0.35, 0.05, 1)
+emission_enabled = true
+emission = Color(1, 0.3, 0.05, 1)
+emission_energy_multiplier = 3.0
+
+[node name="OpenWorldMountain" type="Node3D"]
+script = ExtResource("1_world")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_OpenWorld")
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 200, 0)
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 1.15
+shadow_enabled = true
+
+[node name="HUDOpenWorld3D" parent="." instance=ExtResource("3_hud")]
+
+[node name="LevelAmbience3D" parent="." instance=ExtResource("4_amb")]
+
+[node name="Player3D" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+is_open_world = true
+
+[node name="VictoryPortal" parent="." instance=ExtResource("7_portal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 638, 145, 0)
+
+; ========================================================
+; REGION 01 — GREEN HIGHLANDS (X: -50 TO 40)
+; ========================================================
+[node name="Region01_Highlands" type="Node3D" parent="."]
+
+[node name="GroundMain" type="CSGBox3D" parent="Region01_Highlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+use_collision = true
+size = Vector3(90, 4, 70)
+material = SubResource("Mat_Grass")
+
+[node name="River" type="CSGBox3D" parent="Region01_Highlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.2, 0)
+size = Vector3(8, 0.5, 68)
+material = SubResource("Mat_Water")
+
+[node name="Bridge" type="CSGBox3D" parent="Region01_Highlands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.35, 0)
+use_collision = true
+size = Vector3(10, 0.7, 6)
+material = SubResource("Mat_Wood")
+
+[node name="AscentSlope" type="CSGBox3D" parent="Region01_Highlands"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 35, 7, 0)
+use_collision = true
+size = Vector3(32, 4, 40)
+material = SubResource("Mat_Grass")
+
+[node name="AltarRegion01" parent="Region01_Highlands" instance=ExtResource("6_altar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.5, 0)
+
+[node name="Scout_01" parent="Region01_Highlands" instance=ExtResource("8_scout")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1, 8)
+is_open_world = true
+
+[node name="Scout_02" parent="Region01_Highlands" instance=ExtResource("8_scout")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1, -14)
+is_open_world = true
+
+[node name="Crystal_01_0" parent="Region01_Highlands" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2.5, 12)
+region_id = 1
+crystal_id = 0
+
+[node name="Crystal_01_1" parent="Region01_Highlands" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2.8, -14)
+region_id = 1
+crystal_id = 1
+
+[node name="Crystal_01_2" parent="Region01_Highlands" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 12.0, 6)
+region_id = 1
+crystal_id = 2
+
+; ========================================================
+; REGION 02 — AUTUMN PEAKS (X: 40 TO 140)
+; ========================================================
+[node name="Region02_Autumn" type="Node3D" parent="."]
+
+[node name="GroundMain" type="CSGBox3D" parent="Region02_Autumn"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 16, 0)
+use_collision = true
+size = Vector3(95, 4, 65)
+material = SubResource("Mat_Autumn")
+
+[node name="AscentSlope" type="CSGBox3D" parent="Region02_Autumn"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 136, 26, 0)
+use_collision = true
+size = Vector3(32, 4, 38)
+material = SubResource("Mat_Autumn")
+
+[node name="Sniper_01" parent="Region02_Autumn" instance=ExtResource("9_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 19, -12)
+is_open_world = true
+
+[node name="Sniper_02" parent="Region02_Autumn" instance=ExtResource("9_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 19, 14)
+is_open_world = true
+
+[node name="Crystal_02_0" parent="Region02_Autumn" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62, 20.5, -10)
+region_id = 2
+crystal_id = 0
+
+[node name="Crystal_02_1" parent="Region02_Autumn" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95, 21.0, 14)
+region_id = 2
+crystal_id = 1
+
+[node name="Crystal_02_2" parent="Region02_Autumn" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 130, 31.0, -8)
+region_id = 2
+crystal_id = 2
+
+; ========================================================
+; REGION 03 — ROCKY CANYON (X: 140 TO 240)
+; ========================================================
+[node name="Region03_Canyon" type="Node3D" parent="."]
+
+[node name="GroundMain" type="CSGBox3D" parent="Region03_Canyon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 190, 36, 0)
+use_collision = true
+size = Vector3(95, 4, 45)
+material = SubResource("Mat_Canyon")
+
+[node name="CanyonWallNorth" type="CSGBox3D" parent="Region03_Canyon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 190, 48, 25)
+use_collision = true
+size = Vector3(95, 20, 8)
+material = SubResource("Mat_Canyon")
+
+[node name="CanyonWallSouth" type="CSGBox3D" parent="Region03_Canyon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 190, 48, -25)
+use_collision = true
+size = Vector3(95, 20, 8)
+material = SubResource("Mat_Canyon")
+
+[node name="AscentSlope" type="CSGBox3D" parent="Region03_Canyon"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 236, 48, 0)
+use_collision = true
+size = Vector3(32, 4, 38)
+material = SubResource("Mat_Canyon")
+
+[node name="Golem_01" parent="Region03_Canyon" instance=ExtResource("10_golem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 175, 39, 4)
+is_open_world = true
+
+[node name="Sniper_03" parent="Region03_Canyon" instance=ExtResource("9_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 210, 39, -10)
+is_open_world = true
+
+[node name="Crystal_03_0" parent="Region03_Canyon" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 168, 40.5, 8)
+region_id = 3
+crystal_id = 0
+
+[node name="Crystal_03_1" parent="Region03_Canyon" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 196, 41.0, -8)
+region_id = 3
+crystal_id = 1
+
+[node name="Crystal_03_2" parent="Region03_Canyon" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 230, 56.5, 6)
+region_id = 3
+crystal_id = 2
+
+; ========================================================
+; REGION 04 — FROZEN RIDGE (X: 240 TO 340)
+; ========================================================
+[node name="Region04_Frozen" type="Node3D" parent="."]
+
+[node name="GroundMain" type="CSGBox3D" parent="Region04_Frozen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 290, 62, 0)
+use_collision = true
+size = Vector3(95, 4, 55)
+material = SubResource("Mat_Snow")
+
+[node name="AscentSlope" type="CSGBox3D" parent="Region04_Frozen"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 336, 74, 0)
+use_collision = true
+size = Vector3(32, 4, 38)
+material = SubResource("Mat_Snow")
+
+[node name="Scout_03" parent="Region04_Frozen" instance=ExtResource("8_scout")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 275, 65, -8)
+is_open_world = true
+
+[node name="Sniper_04" parent="Region04_Frozen" instance=ExtResource("9_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 312, 65, 12)
+is_open_world = true
+
+[node name="Crystal_04_0" parent="Region04_Frozen" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 265, 66.5, -12)
+region_id = 4
+crystal_id = 0
+
+[node name="Crystal_04_1" parent="Region04_Frozen" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 295, 67.0, 12)
+region_id = 4
+crystal_id = 1
+
+[node name="Crystal_04_2" parent="Region04_Frozen" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 330, 81.5, -6)
+region_id = 4
+crystal_id = 2
+
+; ========================================================
+; REGION 05 — CRYSTAL MOUNTAINS (X: 340 TO 440)
+; ========================================================
+[node name="Region05_Crystals" type="Node3D" parent="."]
+
+[node name="GroundMain" type="CSGBox3D" parent="Region05_Crystals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 390, 88, 0)
+use_collision = true
+size = Vector3(95, 4, 55)
+material = SubResource("Mat_Crystal")
+
+[node name="CavernArch" type="CSGBox3D" parent="Region05_Crystals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 390, 102, 0)
+use_collision = true
+size = Vector3(40, 6, 45)
+material = SubResource("Mat_Crystal")
+
+[node name="GiantCrystal01" type="CSGBox3D" parent="Region05_Crystals"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 375, 96, 16)
+size = Vector3(4, 14, 4)
+material = SubResource("Mat_GlowingCrystal")
+
+[node name="GiantCrystal02" type="CSGBox3D" parent="Region05_Crystals"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 405, 96, -16)
+size = Vector3(4, 14, 4)
+material = SubResource("Mat_GlowingCrystal")
+
+[node name="AscentSlope" type="CSGBox3D" parent="Region05_Crystals"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 436, 102, 0)
+use_collision = true
+size = Vector3(32, 4, 38)
+material = SubResource("Mat_Crystal")
+
+[node name="AltarRegion05" parent="Region05_Crystals" instance=ExtResource("6_altar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 362, 90, 0)
+checkpoint_name = "Crystal Cavern Altar"
+
+[node name="Golem_02" parent="Region05_Crystals" instance=ExtResource("10_golem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 395, 91, 5)
+is_open_world = true
+
+[node name="Crystal_05_0" parent="Region05_Crystals" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 362, 92.5, -12)
+region_id = 5
+crystal_id = 0
+
+[node name="Crystal_05_1" parent="Region05_Crystals" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 392, 93.0, 12)
+region_id = 5
+crystal_id = 1
+
+[node name="Crystal_05_2" parent="Region05_Crystals" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 428, 108.5, -6)
+region_id = 5
+crystal_id = 2
+
+; ========================================================
+; REGION 06 — EMBER SUMMIT (X: 440 TO 540)
+; ========================================================
+[node name="Region06_Ember" type="Node3D" parent="."]
+
+[node name="GroundMain" type="CSGBox3D" parent="Region06_Ember"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 490, 116, 0)
+use_collision = true
+size = Vector3(95, 4, 55)
+material = SubResource("Mat_Ember")
+
+[node name="LavaRiver" type="CSGBox3D" parent="Region06_Ember"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 485, 117.8, 0)
+size = Vector3(8, 0.4, 54)
+material = SubResource("Mat_Lava")
+
+[node name="AscentSlope" type="CSGBox3D" parent="Region06_Ember"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 536, 128, 0)
+use_collision = true
+size = Vector3(32, 4, 38)
+material = SubResource("Mat_Ember")
+
+[node name="AltarRegion06" parent="Region06_Ember" instance=ExtResource("6_altar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 462, 118, 0)
+checkpoint_name = "Volcanic Altar"
+
+[node name="Golem_03" parent="Region06_Ember" instance=ExtResource("10_golem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 495, 119, 6)
+is_open_world = true
+
+[node name="Sniper_05" parent="Region06_Ember" instance=ExtResource("9_sniper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 515, 119, -12)
+is_open_world = true
+
+[node name="Crystal_06_0" parent="Region06_Ember" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 460, 120.5, 12)
+region_id = 6
+crystal_id = 0
+
+[node name="Crystal_06_1" parent="Region06_Ember" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 495, 121.0, -12)
+region_id = 6
+crystal_id = 1
+
+[node name="Crystal_06_2" parent="Region06_Ember" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 532, 134.5, 8)
+region_id = 6
+crystal_id = 2
+
+; ========================================================
+; REGION 07 — THE FINAL SUMMIT (X: 540 TO 650)
+; ========================================================
+[node name="Region07_Summit" type="Node3D" parent="."]
+
+[node name="AltarRegion07" parent="Region07_Summit" instance=ExtResource("6_altar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 555, 142, 0)
+checkpoint_name = "Summit Gate Altar"
+
+[node name="BossArenaPlatform" type="CSGBox3D" parent="Region07_Summit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, 140, 0)
+use_collision = true
+size = Vector3(80, 4, 70)
+material = SubResource("Mat_Summit")
+
+[node name="ArenaWallNorth" type="CSGBox3D" parent="Region07_Summit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, 146, 34)
+use_collision = true
+size = Vector3(80, 8, 4)
+material = SubResource("Mat_Summit")
+
+[node name="ArenaWallSouth" type="CSGBox3D" parent="Region07_Summit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, 146, -34)
+use_collision = true
+size = Vector3(80, 8, 4)
+material = SubResource("Mat_Summit")
+
+[node name="ArenaWallEast" type="CSGBox3D" parent="Region07_Summit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 642, 148, 0)
+use_collision = true
+size = Vector3(4, 12, 70)
+material = SubResource("Mat_Summit")
+
+[node name="BossOverlord3D" parent="Region07_Summit" instance=ExtResource("11_boss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 608, 142, 0)
+is_open_world = true
+arena_center_3d = Vector3(600, 142, 0)
+arena_radius_3d = 32.0
+
+[node name="Crystal_07_0" parent="Region07_Summit" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 578, 145.5, -18)
+region_id = 7
+crystal_id = 0
+
+[node name="Crystal_07_1" parent="Region07_Summit" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, 147.5, 22)
+region_id = 7
+crystal_id = 1
+
+[node name="Crystal_07_2" parent="Region07_Summit" instance=ExtResource("5_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 626, 145.5, -18)
+region_id = 7
+crystal_id = 2

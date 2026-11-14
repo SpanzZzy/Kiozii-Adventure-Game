@@ -1,0 +1,361 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/hud_openworld_3d.gd" id="1_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_menu.tscn" id="2_settings"]
+
+[node name="HUDOpenWorld3D" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hud")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginTop" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+
+[node name="HBoxLeft" type="HBoxContainer" parent="HUD/MarginTop"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="BoxHP" type="PanelContainer" parent="HUD/MarginTop/HBoxLeft"]
+layout_mode = 2
+
+[node name="HeartsContainer" type="HBoxContainer" parent="HUD/MarginTop/HBoxLeft/BoxHP"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Center" type="VBoxContainer" parent="HUD/MarginTop"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 4
+
+[node name="CompassBox" type="PanelContainer" parent="HUD/MarginTop/Center"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="CompassLabel" type="Label" parent="HUD/MarginTop/Center/CompassBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+text = "[ N ]  0°  ▲ SUMMIT EAST"
+horizontal_alignment = 1
+
+[node name="RegionBanner" type="PanelContainer" parent="HUD/MarginTop/Center"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RegionTitle" type="Label" parent="HUD/MarginTop/Center/RegionBanner"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.95, 0.55, 1)
+text = "REGION 01: GREEN HIGHLANDS"
+horizontal_alignment = 1
+
+[node name="HBoxRight" type="HBoxContainer" parent="HUD/MarginTop"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BoxCrystals" type="VBoxContainer" parent="HUD/MarginTop/HBoxRight"]
+layout_mode = 2
+
+[node name="CrystalLabel" type="Label" parent="HUD/MarginTop/HBoxRight/BoxCrystals"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.94, 0.88, 1)
+text = "◆ CRYSTALS: 0/3"
+horizontal_alignment = 2
+
+[node name="TotalLabel" type="Label" parent="HUD/MarginTop/HBoxRight/BoxCrystals"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.85, 1, 1)
+text = "★ MOUNTAIN: 0/21"
+horizontal_alignment = 2
+
+[node name="BossHUD" type="Control" parent="HUD/MarginTop"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="VBox" type="VBoxContainer" parent="HUD/MarginTop/BossHUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = 45.0
+offset_right = 160.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="HUD/MarginTop/BossHUD/VBox"]
+layout_mode = 2
+
+[node name="BossTitle" type="Label" parent="HUD/MarginTop/BossHUD/VBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.35, 0.45, 1)
+text = "SUMMIT OVERLORD"
+
+[node name="BossHpText" type="Label" parent="HUD/MarginTop/BossHUD/VBox/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.35, 0.45, 1)
+text = "65/65"
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/MarginTop/BossHUD/VBox"]
+custom_minimum_size = Vector2(320, 10)
+layout_mode = 2
+max_value = 65.0
+value = 65.0
+show_percentage = false
+
+[node name="Crosshair" type="CenterContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dot" type="Label" parent="HUD/Crosshair"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+text = "•"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlsTip" type="Label" parent="HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -32.0
+offset_right = 360.0
+offset_bottom = -8.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 0.6)
+text = "[W/A/S/D] MOVE  [SHIFT] SPRINT  [SPACE] JUMP  [LMB] SHOOT  [M] MAP"
+
+[node name="ToastBanner" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -140.0
+offset_right = 220.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Box" type="PanelContainer" parent="ToastBanner"]
+layout_mode = 2
+
+[node name="ToastText" type="Label" parent="ToastBanner/Box"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WorldMap" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="WorldMap"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.06, 0.1, 0.88)
+
+[node name="Panel" type="PanelContainer" parent="WorldMap"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -220.0
+offset_right = 300.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="WorldMap/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="WorldMap/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 0.5, 1)
+text = "THE SEVEN SUMMITS — CONTINUOUS MOUNTAIN MAP"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="WorldMap/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.75, 0.9, 1)
+text = "ASCEND FROM THE HIGHLANDS (WEST) TO THE FINAL SUMMIT (EAST)"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="WorldMap/Panel/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="WorldMap/Panel/VBox"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RegionList" type="VBoxContainer" parent="WorldMap/Panel/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="ClosePrompt" type="Label" parent="WorldMap/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "PRESS [M] OR [ESC] TO CLOSE MAP"
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.8)
+
+[node name="Box" type="PanelContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -140.0
+offset_right = 160.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PauseMenu/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Label" type="Label" parent="PauseMenu/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 0.55, 1)
+text = "EXPEDITION PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="PauseMenu/Box/VBox"]
+layout_mode = 2
+text = "RESUME EXPEDITION"
+
+[node name="SettingsBtn" type="Button" parent="PauseMenu/Box/VBox"]
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="MainMenuBtn" type="Button" parent="PauseMenu/Box/VBox"]
+layout_mode = 2
+text = "RETURN TO BASE"
+
+[node name="SettingsModal" parent="." instance=ExtResource("2_settings")]
+visible = false
+
+[node name="GameOverMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.02, 0.04, 0.85)
+
+[node name="Box" type="PanelContainer" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -110.0
+offset_right = 180.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="GameOverMenu/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="GameOverMenu/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.25, 0.35, 1)
+text = "FALLEN ON THE RIDGE"
+horizontal_alignment = 1
+
+[node name="ReasonLabel" type="Label" parent="GameOverMenu/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.9, 1)
+text = "Rise again. The summit awaits."
+horizontal_alignment = 1
+
+[node name="RespawnBtn" type="Button" parent="GameOverMenu/Box/VBox"]
+layout_mode = 2
+text = "BOUNCE BACK (RESPAWN AT SHRINE)"
+
+[node name="ReturnMenuBtn" type="Button" parent="GameOverMenu/Box/VBox"]
+layout_mode = 2
+text = "MAIN MENU"
+
+[connection signal="pressed" from="PauseMenu/Box/VBox/ResumeBtn" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/Box/VBox/SettingsBtn" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="PauseMenu/Box/VBox/MainMenuBtn" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="GameOverMenu/Box/VBox/RespawnBtn" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="GameOverMenu/Box/VBox/ReturnMenuBtn" to="." method="_on_main_menu_pressed"]
