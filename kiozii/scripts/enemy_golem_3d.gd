@@ -40,7 +40,7 @@ func apply_level_scaling() -> void:
 	speed = base_speed
 
 func _physics_process(delta: float) -> void:
-	if is_dead or not is_inside_tree():
+	if not is_inside_tree():
 		return
 	if not is_on_floor():
 		velocity.y -= 35.0 * delta

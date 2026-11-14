@@ -36,7 +36,7 @@ func _ready() -> void:
 		queue_free()
 
 func _physics_process(delta: float) -> void:
-	if collected:
+	if collected or not is_inside_tree():
 		return
 	# smooth slow rotation
 	rotation.y += delta * 1.6
