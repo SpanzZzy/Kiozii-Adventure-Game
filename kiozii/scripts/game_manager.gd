@@ -261,7 +261,7 @@ func complete_level() -> void:
 	if AudioManager:
 		AudioManager.play_portal_unlock()
 	emit_signal("level_completed", level_time, level_kills, enemies_total, crystals_collected_level, crystals_total_level)
-	get_tree().change_scene_to_file("res://scenes/ui/level_completed.tscn")
+	get_tree().change_scene_to_file.call_deferred("res://scenes/ui/level_completed.tscn")
 
 func boss_defeated() -> void:
 	is_level_active = false
@@ -272,7 +272,7 @@ func boss_defeated() -> void:
 	save_progress()
 	if AudioManager:
 		AudioManager.play_victory()
-	get_tree().change_scene_to_file("res://scenes/ui/victory_screen.tscn")
+	get_tree().change_scene_to_file.call_deferred("res://scenes/ui/victory_screen.tscn")
 
 func unlock_achievement(ach_id: String) -> void:
 	if not unlocked_achievements.has(ach_id) and ACHIEVEMENTS_DATA.has(ach_id):
@@ -284,7 +284,7 @@ func unlock_achievement(ach_id: String) -> void:
 func start_level(index: int) -> void:
 	current_level_idx = index
 	var level_scene_path = "res://scenes/levels/summit_%02d.tscn" % (index + 1)
-	get_tree().change_scene_to_file(level_scene_path)
+	get_tree().change_scene_to_file.call_deferred(level_scene_path)
 
 func restart_current_level() -> void:
 	start_level(current_level_idx)
@@ -293,7 +293,7 @@ func next_level() -> void:
 	if current_level_idx + 1 < total_levels:
 		start_level(current_level_idx + 1)
 	else:
-		get_tree().change_scene_to_file("res://scenes/ui/victory_screen.tscn")
+		get_tree().change_scene_to_file.call_deferred("res://scenes/ui/victory_screen.tscn")
 
 func unlock_all_levels() -> void:
 	unlocked_level = 7

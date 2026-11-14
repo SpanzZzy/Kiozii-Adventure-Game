@@ -40,6 +40,8 @@ func apply_level_scaling() -> void:
 	speed = base_speed
 
 func _physics_process(delta: float) -> void:
+	if is_dead or not is_inside_tree():
+		return
 	if not is_on_floor():
 		velocity.y -= 35.0 * delta
 
@@ -63,12 +65,14 @@ func _physics_process(delta: float) -> void:
 			collider.take_damage(1, dir, "Crushed by an armored ridge golem!")
 
 func process_3d_golem(_delta: float) -> void:
+	if not is_inside_tree():
+		return
 	var player_node: Node3D = null
 	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
+	if players.size() > 0 and players[0].is_inside_tree():
 		player_node = players[0]
 
-	if player_node:
+	if player_node and player_node.is_inside_tree():
 		var dist = global_position.distance_to(player_node.global_position)
 		if dist <= detection_range:
 			var to_player = (player_node.global_position - global_position)

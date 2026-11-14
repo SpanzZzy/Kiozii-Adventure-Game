@@ -24,11 +24,14 @@ func toggle_mode() -> void:
 	is_3d_mode = not is_3d_mode
 
 func _physics_process(delta: float) -> void:
-	if not target_node:
-		var players = get_tree().get_nodes_in_group("player")
-		if players.size() > 0:
-			target_node = players[0]
+	if not is_inside_tree():
 		return
+	if not target_node or not is_instance_valid(target_node) or not target_node.is_inside_tree():
+		var players = get_tree().get_nodes_in_group("player")
+		if players.size() > 0 and players[0].is_inside_tree():
+			target_node = players[0]
+		else:
+			return
 
 	var target_x: float
 	var target_y: float

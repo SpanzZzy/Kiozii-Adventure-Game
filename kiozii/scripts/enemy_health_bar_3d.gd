@@ -23,8 +23,13 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	# always face active camera
-	var cam = get_viewport().get_camera_3d()
-	if cam:
+	if not is_inside_tree():
+		return
+	var vp = get_viewport()
+	if not vp:
+		return
+	var cam = vp.get_camera_3d()
+	if cam and cam.is_inside_tree():
 		global_transform.basis = cam.global_transform.basis
 
 func set_health(current: int, max_hp: int) -> void:

@@ -94,8 +94,13 @@ func setup_theme(lvl: int) -> void:
 
 func _physics_process(_delta: float) -> void:
 	# track active camera to immerse viewport
-	var cam = get_viewport().get_camera_3d()
-	if cam:
+	if not is_inside_tree():
+		return
+	var vp = get_viewport()
+	if not vp:
+		return
+	var cam = vp.get_camera_3d()
+	if cam and cam.is_inside_tree():
 		global_position.x = cam.global_position.x
 		global_position.y = cam.global_position.y
 		global_position.z = 0.0

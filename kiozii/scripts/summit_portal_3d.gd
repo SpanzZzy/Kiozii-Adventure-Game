@@ -4,6 +4,7 @@ extends Area3D
 @onready var status_label: Label3D = $Visuals/StatusLabel
 
 var is_unlocked: bool = false
+var is_portal_entered: bool = false
 
 func _ready() -> void:
 	connect("body_entered", Callable(self, "_on_body_entered"))
@@ -36,5 +37,9 @@ func _on_portal_unlocked() -> void:
 	update_state(true)
 
 func _on_body_entered(body: Node3D) -> void:
+	if is_portal_entered:
+		return
 	if body.is_in_group("player") and is_unlocked:
+		is_portal_entered = true
+		set_deferred("monitoring", false)
 		GameManager.complete_level()

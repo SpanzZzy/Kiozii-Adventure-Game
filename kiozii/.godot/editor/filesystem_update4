@@ -18,3 +18,14 @@ res://scripts/hud_openworld_3d.gd
 res://scripts/summit_07.gd
 res://scripts/summit_portal_3d.gd
 res://scenes/weapons/enemy_bullet_3d.tscn
+res://scripts/audio_manager.gd
+res://scripts/camera_3d_controller.gd
+res://scripts/checkpoint_altar_3d.gd
+res://scripts/enemy_health_bar_3d.gd
+res://scripts/level_ambience_3d.gd
+res://scripts/settings_menu.gd
+res://scripts/summit_01.gd
+res://scripts/summit_02.gd
+res://scripts/summit_05.gd
+res://tests/test_open_world_traversal.gd
+res://tests/test_qa_suite.gd

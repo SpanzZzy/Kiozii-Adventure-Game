@@ -40,6 +40,8 @@ func apply_level_scaling() -> void:
 		bullet_speed = 17.0
 
 func _physics_process(delta: float) -> void:
+	if is_dead or not is_inside_tree():
+		return
 	if not is_on_floor():
 		velocity.y -= 30.0 * delta
 	move_and_slide()
@@ -50,11 +52,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		visual_root.scale = Vector3.ONE
 
-	if not player_node:
+	if not player_node or not is_instance_valid(player_node) or not player_node.is_inside_tree():
 		var players = get_tree().get_nodes_in_group("player")
-		if players.size() > 0:
+		if players.size() > 0 and players[0].is_inside_tree():
 			player_node = players[0]
-		return
+		else:
+			return
 
 	if is_open_world:
 		process_3d_sniping(delta)

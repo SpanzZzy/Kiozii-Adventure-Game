@@ -70,8 +70,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			toggle_pause()
 
 func update_compass() -> void:
-	var cam = get_viewport().get_camera_3d()
-	if not cam:
+	if not is_inside_tree():
+		return
+	var vp = get_viewport()
+	if not vp:
+		return
+	var cam = vp.get_camera_3d()
+	if not cam or not cam.is_inside_tree():
 		return
 	var forward = -cam.global_transform.basis.z
 	var angle_deg = rad_to_deg(atan2(forward.x, forward.z))

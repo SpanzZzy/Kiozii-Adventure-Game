@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# final boss overlord controller (supports 2.5d and open-world 3d)
+# FINAL BOSS OVERLORD CONTROLLER (SUPPORTS 2.5D AND OPEN-WORLD 3D)
 signal boss_health_changed(current_health: int, max_health: int)
 
 @export var is_open_world: bool = false
@@ -16,7 +16,7 @@ var facing: float = -1.0
 var is_dead: bool = false
 var is_enraged: bool = false
 
-# 2.5d arena safety boundaries
+# 2.5D ARENA SAFETY BOUNDARIES
 const ARENA_MIN_X: float = 4.5
 const ARENA_MAX_X: float = 41.5
 const ARENA_FLOOR_Y: float = 0.0
@@ -43,10 +43,10 @@ func _emit_initial_health() -> void:
 	GameManager.emit_signal("boss_health_changed", current_health, max_health)
 
 func _physics_process(delta: float) -> void:
-	if is_dead:
+	if is_dead or not is_inside_tree():
 		return
 
-	# immunity to external physical knockback
+	# IMMUNITY TO EXTERNAL PHYSICAL KNOCKBACK
 	if is_on_floor():
 		velocity.x = 0.0
 		if is_open_world:
@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		process_2d_boss(delta)
 
-	# enrage check and visual feedback
+	# ENRAGE CHECK AND VISUAL FEEDBACK
 	if is_enraged:
 		var enrage_pulse = 1.0 + absf(sin(Time.get_ticks_msec() * 0.008)) * 0.08
 		visual_root.scale = Vector3(enrage_pulse, enrage_pulse, enrage_pulse)
@@ -72,11 +72,12 @@ func _physics_process(delta: float) -> void:
 		visual_root.scale = Vector3.ONE
 
 	# player tracking
-	if not player_node:
+	if not player_node or not is_instance_valid(player_node) or not player_node.is_inside_tree():
 		var players = get_tree().get_nodes_in_group("player")
-		if players.size() > 0:
+		if players.size() > 0 and players[0].is_inside_tree():
 			player_node = players[0]
-		return
+		else:
+			return
 
 	if is_open_world:
 		var to_player = player_node.global_position - global_position
@@ -85,7 +86,7 @@ func _physics_process(delta: float) -> void:
 		facing = -1.0 if player_node.global_position.x < global_position.x else 1.0
 		visual_root.rotation.y = 0.0 if facing > 0 else PI
 
-	# state machine attack timer
+	# STATE MACHINE ATTACK TIMER
 	state_timer -= delta
 	if state_timer <= 0.0 and is_on_floor():
 		if is_open_world:
@@ -94,13 +95,13 @@ func _physics_process(delta: float) -> void:
 			execute_boss_attack_2d()
 
 func process_3d_boss(_delta: float) -> void:
-	# void recovery preserving health
+	# VOID RECOVERY PRESERVING HEALTH
 	if global_position.y < arena_center_3d.y - 12.0:
 		global_position = spawn_pos
 		velocity = Vector3.ZERO
 		state_timer = 1.5
 
-	# circular arena horizontal clamp
+	# CIRCULAR ARENA HORIZONTAL CLAMP
 	var flat_offset = Vector2(global_position.x - arena_center_3d.x, global_position.z - arena_center_3d.z)
 	if flat_offset.length() > arena_radius_3d:
 		var clamped = flat_offset.normalized() * arena_radius_3d
@@ -111,13 +112,13 @@ func process_2d_boss(_delta: float) -> void:
 	global_position.z = 0.0
 	velocity.z = 0.0
 
-	# void recovery safety
+	# VOID RECOVERY SAFETY
 	if global_position.y < VOID_Y_THRESHOLD:
 		global_position = spawn_pos
 		velocity = Vector3.ZERO
 		state_timer = 1.5
 
-	# arena horizontal clamp
+	# ARENA HORIZONTAL CLAMP
 	if global_position.x < ARENA_MIN_X:
 		global_position.x = ARENA_MIN_X
 		if velocity.x < 0.0:
@@ -167,7 +168,7 @@ func execute_boss_attack_3d() -> void:
 	if attack_index == 0:
 		state_timer = 2.2 * timer_mult
 		AudioManager.play_shoot()
-		# tri-shot spread in 3d
+		# TRI-SHOT SPREAD IN 3D
 		var base_yaw = visual_root.rotation.y
 		for deg in [-18.0, 0.0, 18.0]:
 			var dir_3d = Vector3(-sin(base_yaw + deg_to_rad(deg)), to_player.y * 0.4, -cos(base_yaw + deg_to_rad(deg))).normalized()
@@ -181,7 +182,7 @@ func execute_boss_attack_3d() -> void:
 		velocity.x = leap_vel.x
 		velocity.z = leap_vel.z
 		AudioManager.play_boss_slam()
-		# ground shockwave spread
+		# GROUND SHOCKWAVE SPREAD
 		for i in range(4):
 			var a = i * (PI * 0.5)
 			spawn_bullet_3d(Vector3(cos(a), 0, sin(a)) * 13.0 * speed_mult)
@@ -219,7 +220,7 @@ func take_damage(amount: int) -> void:
 	hit_flash = 0.1
 	AudioManager.play_enemy_hit()
 
-	# enrage trigger under 25% (<= 16 hp)
+	# ENRAGE TRIGGER UNDER 25% (<= 16 HP)
 	if not is_enraged and current_health <= 16 and current_health > 0:
 		is_enraged = true
 		AudioManager.play_boss_slam()

@@ -17,6 +17,7 @@ const REGION_NAMES = {
 }
 
 var current_region: int = 1
+var is_victory_triggered: bool = false
 
 func _ready() -> void:
 	# initialize player in open-world 3d mode
@@ -45,7 +46,9 @@ func _ready() -> void:
 			boss.boss_health_changed.connect(hud._on_boss_health_changed)
 
 func _physics_process(_delta: float) -> void:
-	if not player:
+	if not is_inside_tree() or is_victory_triggered:
+		return
+	if not player or not player.is_inside_tree():
 		return
 		
 	var detected_reg = get_region_at_position(player.global_position)
@@ -124,8 +127,13 @@ func get_boss() -> Node:
 	return null
 
 func _on_victory_portal_entered(body: Node3D) -> void:
+	if is_victory_triggered:
+		return
 	if body.is_in_group("player"):
+		is_victory_triggered = true
+		if victory_portal:
+			victory_portal.set_deferred("monitoring", false)
 		if AudioManager:
 			AudioManager.play_victory()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		get_tree().change_scene_to_file("res://scenes/ui/victory_screen.tscn")
+		get_tree().change_scene_to_file.call_deferred("res://scenes/ui/victory_screen.tscn")

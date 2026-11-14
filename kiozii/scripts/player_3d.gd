@@ -80,6 +80,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta: float) -> void:
+	if not is_inside_tree():
+		return
 	# timers update
 	if invuln_timer > 0.0:
 		invuln_timer -= delta
